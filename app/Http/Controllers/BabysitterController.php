@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,14 @@ class BabysitterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = request()->validate([
+            'babysitter_id' => 'required',
+            'post' => 'required'
+        ]);
+
+        Post::create($validated);
+
+        return redirect()->route('babysitter.index')->with('message', 'Your post has been published!');
     }
 
     /**
