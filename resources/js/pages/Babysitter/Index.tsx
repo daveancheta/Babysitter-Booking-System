@@ -17,9 +17,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone } from 'lucide-react';
+import { CircleAlert, Megaphone, History } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
-
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInitials } from '@/hooks/use-initials';
+import  moment from 'moment';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,19 +31,26 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Posts {
+    id: number;
+    name: string;
+    post: string;
+    created_at: string;
+}
 
 interface PageProps extends InertiaPageProps {
     flash: {
         message?: string;
     }
+    posts: Posts[];
 }
 
 export default function Index() {
-    const { flash } = usePage<PageProps>().props;
+    const { posts, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
-        babysitter_id: '1',
+        babysitter_id: auth.user?.id,
         post: '',
     });
 
@@ -48,6 +58,7 @@ export default function Index() {
         e.preventDefault();
         post(route('babysitter.store'));
     }
+    const getInitials = useInitials();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -57,9 +68,9 @@ export default function Index() {
                     <Dialog>
                         <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
                             <UserDisplay />
-                        <DialogTrigger asChild>
-                            <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
-                        </DialogTrigger>
+                            <DialogTrigger asChild>
+                                <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
+                            </DialogTrigger>
                         </div>
                         <DialogContent className="sm:max-w-[425px]">
                             <form onSubmit={submitPost} action="">
@@ -76,26 +87,27 @@ export default function Index() {
                                         </AlertDescription>
                                     </Alert>}
                                     <div className='mb-4'>
-                                    {Object.keys(errors).length > 0 && (
-                                        <div className='mt-2'>
-                                            <Alert>
-                                                <CircleAlert />
-                                                <AlertTitle>Errors!</AlertTitle>
-                                                <AlertDescription>
-                                                    <ul>
-                                                        {Object.entries(errors).map(([key, message]) => (
-                                                            <li key={key}>{message as string}</li>
-                                                        ))}
-                                                    </ul>
-                                                </AlertDescription>
-                                            </Alert>
-                                        </div>
-                                    )}
+                                        {Object.keys(errors).length > 0 && (
+                                            <div className='mt-2'>
+                                                <Alert>
+                                                    <CircleAlert />
+                                                    <AlertTitle>Errors!</AlertTitle>
+                                                    <AlertDescription>
+                                                        <ul>
+                                                            {Object.entries(errors).map(([key, message]) => (
+                                                                <li key={key}>{message as string}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </AlertDescription>
+                                                </Alert>
+                                            </div>
+                                        )}
                                     </div>
                                 </DialogHeader>
                                 <div className="grid gap-4">
                                     <div className="grid gap-3 mb-4">
-                                        <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', e.target.value)} value={data.babysitter_id} />
+                                        <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.post} />
+
                                         <Input type='text' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
                                     </div>
                                 </div>
@@ -106,7 +118,35 @@ export default function Index() {
                         </DialogContent>
                     </Dialog>
                 </div>
+                {posts.length > 0 && (
+                    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  md:grid-cols-1 gap-4">
+                        {posts.map((p) => (
+                            <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
+                                <div className='flex flex-row gap-2 items-center'>
+                                    <>
+                                        <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                {getInitials(p.name)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid flex-1 text-left text-sm leading-tight">
+                                            <div className='flex flex-col'>
+                                                <span className="truncate font-medium">{p.name}</span>
+                                                <div className='flex flex-row mt-2 gap-1 items-center'> 
+                                                    <History className='w-3 h-3'/>
+                                                    <span className='text-xs'>{moment(p.created_at).fromNow()}</span>
+                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
+
         </AppLayout>
     );
 }
