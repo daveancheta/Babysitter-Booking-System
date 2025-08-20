@@ -53,8 +53,11 @@ export default function Index() {
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
                 <div className='flex justify-center'>
                     <Dialog>
-                        <form onSubmit={submitPost} action="">
-                            <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
+                        <DialogTrigger asChild>
+                            <Button variant="outline">Tell parents about yourself…</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <form onSubmit={submitPost} action="">
                                 <DialogHeader>
                                     <DialogTitle>Create a Post </DialogTitle>
                                     <DialogDescription>
@@ -67,6 +70,7 @@ export default function Index() {
                                             {flash.message}
                                         </AlertDescription>
                                     </Alert>}
+                                    <div className='mb-4'>
                                     {Object.keys(errors).length > 0 && (
                                         <div className='mt-2'>
                                             <Alert>
@@ -82,18 +86,19 @@ export default function Index() {
                                             </Alert>
                                         </div>
                                     )}
+                                    </div>
                                 </DialogHeader>
                                 <div className="grid gap-4">
-                                    <div className="grid gap-3">
+                                    <div className="grid gap-3 mb-4">
                                         <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', e.target.value)} value={data.babysitter_id} />
-                                        <Input type='text' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} />
+                                        <Input type='text' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
                                     </div>
                                 </div>
                                 <DialogFooter>
-                                    <Button disabled={processing} type='submit' className='cursor-pointer' >Save changes</Button>
+                                    <Button disabled={processing} type='submit' className='cursor-pointer'>Post</Button>
                                 </DialogFooter>
-                            </div>
-                        </form>
+                            </form>
+                        </DialogContent>
                     </Dialog>
                 </div>
             </div>
