@@ -18,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CircleAlert, Megaphone } from 'lucide-react';
+import { UserDisplay } from '@/components/user-display';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -26,6 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/babysitter',
     },
 ];
+
 
 interface PageProps extends InertiaPageProps {
     flash: {
@@ -51,11 +53,14 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-                <div className='flex justify-center'>
+                <div className='flex justify-start'>
                     <Dialog>
+                        <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
+                            <UserDisplay />
                         <DialogTrigger asChild>
-                            <Button variant="outline">Tell parents about yourself…</Button>
+                            <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
                         </DialogTrigger>
+                        </div>
                         <DialogContent className="sm:max-w-[425px]">
                             <form onSubmit={submitPost} action="">
                                 <DialogHeader>

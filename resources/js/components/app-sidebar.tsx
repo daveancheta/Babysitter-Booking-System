@@ -40,7 +40,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-              
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

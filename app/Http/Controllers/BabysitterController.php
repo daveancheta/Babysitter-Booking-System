@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,8 +20,14 @@ class BabysitterController extends Controller
 
         $babySitter = User::where('id', $babySitterId)->first();
 
-        return Inertia::render('Babysitter/Index', compact('babySitter'));
+        $post = DB::table('posts')
+            ->join('users', 'posts.babysitter_id', '=', 'users.id')
+            ->select(
+                'posts*',
+                'user.name')
+            ->get();
 
+        return Inertia::render('Babysitter/Index', compact('babySitter', 'post'));
     }
 
     /**
