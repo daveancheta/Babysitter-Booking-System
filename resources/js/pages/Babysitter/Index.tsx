@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -63,10 +63,10 @@ export default function Index() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                 <div className='flex justify-start'>
                     <Dialog>
-                        <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
+                        <div className='bg-background rounded-lg border p-6 shadow-lg duration-200'>
                             <UserDisplay />
                             <DialogTrigger asChild>
                                 <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
@@ -118,10 +118,13 @@ export default function Index() {
                         </DialogContent>
                     </Dialog>
                 </div>
+                
                 {posts.length > 0 && (
-                    <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  md:grid-cols-1 gap-4">
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+
                         {posts.map((p) => (
-                            <div className='bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 z-50 grid w-full max-w-[calc(100%-2rem)]  gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg'>
+                            <div className='bg-background rounded-lg border p-6 shadow-lg duration-200'>
+                                <div>
                                 <div className='flex flex-row gap-2 items-center'>
                                     <>
                                         <Avatar className="h-8 w-8 overflow-hidden rounded-full">
@@ -132,14 +135,21 @@ export default function Index() {
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <div className='flex flex-col'>
                                                 <span className="truncate font-medium">{p.name}</span>
-                                                <div className='flex flex-row mt-2 gap-1 items-center'> 
-                                                    <History className='w-3 h-3'/>
-                                                    <span className='text-xs'>{moment(p.created_at).fromNow()}</span>
-                                                  
+                                                <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'> 
+                                                    <History className='w-3 h-3 '/>
+                                                    <span className='text-xs capitalize '>{moment(p.created_at).fromNow()}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </>
+                                </div>
+                            </div>
+                            <div className='text-start flex items-start justify-start mt-3'>
+                                <span>{p.post}</span>
+                                </div>
+                                <div className='mt-4 flex flex-row items-center gap-2'>
+                                    <Heart className='w-5 h-5' />
+                                    <MessageCircleMore className='w-5 h-5' />
                                 </div>
                             </div>
                         ))}
