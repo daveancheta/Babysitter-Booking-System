@@ -36,6 +36,7 @@ interface Posts {
     id: number;
     name: string;
     post: string;
+    reactCount: number;
     created_at: string;
 }
 
@@ -87,12 +88,13 @@ export default function Index() {
         })
     }
     })
-}, []);
+
+});
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+            <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                 <div className='flex justify-start'>
                     <Dialog>
                         <div className='bg-background rounded-lg border p-6 shadow-lg duration-20 flex justify-between space-x-6'>
@@ -177,7 +179,7 @@ export default function Index() {
                                 <div className='text-start flex items-start justify-start mt-3'>
                                     <span>{p.post}</span>
                                 </div>
-                                <div className='mt-auto flex flex-row items-center gap-2 justify-end'>
+                                <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
                                     <form onSubmit={submitReact}>
                                         {Object.keys(errors).length > 0 && (
                                             <div className='mt-2'>
@@ -197,16 +199,21 @@ export default function Index() {
                                         <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
                                         <input type="hidden" value={data.post_id} />
                                         <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
+                                        <div className='flex flex-row items-center gap-1'>
                                         <button id={`submit-${p.id}`} type='submit'>
                                             <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
                                         </button>
+                                        <span className='text-sm'>{p.reactCount}</span></div>
                                     </form>
 
 
                                     <Dialog>
                                         <form>
                                             <DialogTrigger asChild>
+                                                 <div className='flex flex-row items-center gap-2'>
                                                 <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' />
+                                                <span>1</span>
+                                                </div>
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[600px]">
                                                 <DialogHeader>

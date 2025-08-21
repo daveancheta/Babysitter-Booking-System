@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Reaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -30,8 +31,6 @@ class BabysitterController extends Controller
                 'users.name'
             )
             ->get();
-
-     
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
     }

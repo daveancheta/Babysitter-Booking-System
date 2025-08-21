@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Reaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ReactController extends Controller
@@ -36,6 +38,14 @@ class ReactController extends Controller
         ]);
 
         Reaction::create($validated);
+
+        $postId = $request->input('post_id');
+        $reactCount = DB::table('posts')
+            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
+            ->where('posts.id', $postId)
+            ->count();
+
+        Post::where('id', $postId)->update(['reactCount' => $reactCount]);
 
         return Inertia::render(route('babysitter.index'));
     }

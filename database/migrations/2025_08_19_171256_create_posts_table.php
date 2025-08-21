@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('babysitter_id');
             $table->text('post');
+            $table->bigInteger('reactCount')->default(0);
             $table->timestamps();
         });
     }
