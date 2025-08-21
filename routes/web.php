@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BabysitterController;
+use App\Http\Controllers\ReactController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
     Route::get('/babysitter', [BabysitterController::class, 'index'])->name('babysitter.index');
     Route::post('/babysitter', [BabysitterController::class, 'store'])->name('babysitter.store');
+    Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
 });
 
 require __DIR__.'/settings.php';

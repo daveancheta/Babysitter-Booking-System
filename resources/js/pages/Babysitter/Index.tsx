@@ -23,7 +23,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import moment from 'moment';
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,18 +53,41 @@ export default function Index() {
 
     const { data, setData, post, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
+        user_id: auth.user?.id,
         post: '',
+        post_id: 0,
+        react: 1,
     });
 
     const submitPost = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('babysitter.store'));
 
-       data.post = '';
+        data.post = '';
     }
+
+    const submitReact = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('react.store'));
+    }
+
     const getInitials = useInitials();
 
+   useEffect(() => {
+    const submitId = document.querySelectorAll("[id^='submit-']")
 
+    submitId.forEach(i => {
+        const id = i.id.split('-')[1];
+
+        const submitPostId = document.getElementById(`submit-${id}`) as HTMLButtonElement;
+
+        if (submitPostId) {
+            submitPostId.addEventListener('click', () => {
+                setData("post_id", parseInt(id));
+        })
+    }
+    })
+}, []);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -155,7 +178,30 @@ export default function Index() {
                                     <span>{p.post}</span>
                                 </div>
                                 <div className='mt-auto flex flex-row items-center gap-2 justify-end'>
-                                    <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                    <form onSubmit={submitReact}>
+                                        {Object.keys(errors).length > 0 && (
+                                            <div className='mt-2'>
+                                                <Alert>
+                                                    <CircleAlert />
+                                                    <AlertTitle>Errors!</AlertTitle>
+                                                    <AlertDescription>
+                                                        <ul>
+                                                            {Object.entries(errors).map(([key, message]) => (
+                                                                <li key={key}>{message as string}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </AlertDescription>
+                                                </Alert>
+                                            </div>
+                                        )}
+                                        <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                        <input type="hidden" value={data.post_id} />
+                                        <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
+                                        <button id={`submit-${p.id}`} type='submit'>
+                                            <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                        </button>
+                                    </form>
+
 
                                     <Dialog>
                                         <form>

@@ -2,40 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\Models\Reaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-use function Laravel\Prompts\select;
-
-class BabysitterController extends Controller
+class ReactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $babySitterId = Auth::id();
-
-        $babySitter = User::where('id', $babySitterId)->first();
-
-        $posts = DB::table('posts')
-            ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
-            ->select(
-                'posts.*',
-                'users.name'
-            )
-            ->get();
-
-     
-
-        return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -51,13 +30,14 @@ class BabysitterController extends Controller
     public function store(Request $request)
     {
         $validated = request()->validate([
-            'babysitter_id' => 'required',
-            'post' => 'required'
+            'user_id' => 'required',
+            'post_id' => 'required',
+            'react' => 'required',
         ]);
 
-        Post::create($validated);
+        Reaction::create($validated);
 
-        return redirect()->route('babysitter.index')->with('message', 'Your post has been published!');
+        return Inertia::render(route('babysitter.index'));
     }
 
     /**
