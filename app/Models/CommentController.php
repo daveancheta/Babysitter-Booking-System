@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class CommentController extends Model
 {
     protected $fillable = [
-        'babysitter_id',
-        'post',
+        'user_id',
+        'post_id',
+        'comment',
     ];
 }

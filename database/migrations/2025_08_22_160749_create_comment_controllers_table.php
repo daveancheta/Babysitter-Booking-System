@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('comment_controllers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('babysitter_id');
-            $table->text('post');
-            $table->bigInteger('reactCount')->default(0);
-            $table->bigInteger('commentCount')->default(0);
+            $table->bigInteger('user_id');
+            $table->bigInteger('post_id');
+            $table->text('comment');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('comment_controllers');
     }
 };
