@@ -24,6 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import moment from 'moment';
 import { useState, useEffect, use } from "react";
+import { parse } from 'path';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,6 +38,7 @@ interface Posts {
     name: string;
     post: string;
     reactCount: number;
+    commentCount: number;
     created_at: string;
 }
 
@@ -50,7 +52,7 @@ interface PageProps extends InertiaPageProps {
 export default function Index() {
     const { posts, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
-    const [comment, setComment] = useState("");
+    const [commentText, setCommentText] = useState('');
 
     const { data, setData, post, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
@@ -58,6 +60,7 @@ export default function Index() {
         post: '',
         post_id: 0,
         react: 1,
+        comment: '',
     });
 
     const submitPost = (e: React.FormEvent) => {
@@ -72,24 +75,46 @@ export default function Index() {
         post(route('react.store'));
     }
 
+    const submitComment = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('comment.store'))
+        data.comment = '';
+    }
+
     const getInitials = useInitials();
 
-   useEffect(() => {
-    const submitId = document.querySelectorAll("[id^='submit-']")
+    useEffect(() => {
+        const submitId = document.querySelectorAll("[id^='submit-']")
 
-    submitId.forEach(i => {
-        const id = i.id.split('-')[1];
+        submitId.forEach(i => {
+            const id = i.id.split('-')[1];
 
-        const submitPostId = document.getElementById(`submit-${id}`) as HTMLButtonElement;
+            const submitPostId = document.getElementById(`submit-${id}`) as HTMLButtonElement;
 
-        if (submitPostId) {
-            submitPostId.addEventListener('click', () => {
-                setData("post_id", parseInt(id));
+            if (submitPostId) {
+                submitPostId.addEventListener('click', () => {
+                    setData("post_id", parseInt(id));
+                })
+            }
         })
-    }
-    })
+    });
 
-});
+    useEffect(() => {
+        const submitId = document.querySelectorAll("[id^='comment-'")
+
+        submitId.forEach((i) => {
+            const id = i.id.split('-')[1];
+
+            const submitPostId = document.getElementById(`comment-${id}`) as HTMLButtonElement;
+
+            if (submitPostId) {
+                submitPostId.addEventListener('click', () => {
+                    setData("post_id", parseInt(id));
+                })
+            }
+        })
+    });
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -137,13 +162,13 @@ export default function Index() {
                                 </DialogHeader>
                                 <div className="grid gap-4">
                                     <div className="grid gap-3 mb-4">
-                                        <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.post} />
+                                        <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.babysitter_id} />
 
                                         <Input id='postInput' type='text' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
                                     </div>
                                 </div>
                                 <DialogFooter>
-                                    <Button disabled={processing} type='submit' className='cursor-pointer' id='postButton'>Post</Button>
+                                    <Button disabled={!data.post.trim()} type='submit' className='cursor-pointer' id='postButton' >Post</Button>
                                 </DialogFooter>
                             </form>
                         </DialogContent>
@@ -181,57 +206,57 @@ export default function Index() {
                                 </div>
                                 <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
                                     <form onSubmit={submitReact}>
-                                        {Object.keys(errors).length > 0 && (
-                                            <div className='mt-2'>
-                                                <Alert>
-                                                    <CircleAlert />
-                                                    <AlertTitle>Errors!</AlertTitle>
-                                                    <AlertDescription>
-                                                        <ul>
-                                                            {Object.entries(errors).map(([key, message]) => (
-                                                                <li key={key}>{message as string}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </AlertDescription>
-                                                </Alert>
-                                            </div>
-                                        )}
                                         <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
                                         <input type="hidden" value={data.post_id} />
                                         <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
                                         <div className='flex flex-row items-center gap-1'>
-                                        <button id={`submit-${p.id}`} type='submit'>
-                                            <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
-                                        </button>
-                                        <span className='text-sm'>{p.reactCount}</span></div>
+                                            <button id={`submit-${p.id}`} type='submit'>
+                                                <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                            </button>
+                                            <span className='text-sm'>{p.reactCount}</span></div>
                                     </form>
 
 
                                     <Dialog>
-                                        <form>
-                                            <DialogTrigger asChild>
-                                                 <div className='flex flex-row items-center gap-2'>
-                                                <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' />
-                                                <span>1</span>
-                                                </div>
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-[600px]">
+                                        <DialogTrigger asChild>
+
+                                            <div className='flex flex-row items-center gap-2'>
+                                                <button id={`comment-${p.id}`}>
+                                                    <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
+                                                <span className='text-sm'>{p.commentCount}</span>
+                                            </div>
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-[600px]">
+                                            <form onSubmit={submitComment}>
                                                 <DialogHeader>
-                                                    <DialogTitle>Comment something...</DialogTitle>
+                                                    <DialogTitle className='mb-2'>Comment something...</DialogTitle>
                                                 </DialogHeader>
 
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3 ">
                                                         <div className='flex justify-between space-x-2'>
-                                                            <Input name="comment" placeholder='Comment something…' value={comment} onChange={(e) => setComment(e.target.value)} />
-
-                                                            <Button className={comment.trim() === "" ? "hidden" : "hover:-translate-y-1 hover:scale-105 cursor-pointer transition delay-50 duration-300"}
-                                                                type="submit"><Send /></Button>
+                                                            <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
+                                                            <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                                            <Input
+                                                                id='inputComment'
+                                                                type='text'
+                                                                placeholder='Comment something…'
+                                                                onChange={(e) => setData('comment', e.target.value)}
+                                                                value={data.comment}
+                                                            />
+                                                            <Button
+                                                                className=''
+                                                                id='commentButton'
+                                                                type="submit"
+                                                                hidden={!data.comment.trim()}
+                                                                disabled={processing}>
+                                                                <Send />
+                                                            </Button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </DialogContent>
-                                        </form>
+                                            </form>
+                                        </DialogContent>
                                     </Dialog>
                                 </div>
                             </div>
@@ -240,6 +265,6 @@ export default function Index() {
                 )}
             </div>
 
-        </AppLayout>
+        </AppLayout >
     );
 }
