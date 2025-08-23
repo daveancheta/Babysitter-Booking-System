@@ -15,7 +15,9 @@ class ParentController extends Controller
     {
         $users = User::where('is_babysitter', 1)->get();
 
-       
+        foreach ($users as $u) {
+        $users->profile = asset('storage/', $u->profile);
+        }
         return Inertia::render('Parents/Index', compact('users'));
     }
 
