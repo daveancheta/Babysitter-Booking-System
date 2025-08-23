@@ -57,9 +57,12 @@ export default function Index() {
                 {users.length > 0 && (
                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                     {users.map((u) => (
-                        <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
-                            <span className=''>{u.name}</span>
-                            <img src={`${window.location.origin}/storage/${u.profile}`}  alt="" />
+                        <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
+                             <img className='object-fill w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`}  alt="" />
+                            <span className='p-6'>{u.name}</span>
+
+                            <Button variant="outline">Book Now</Button>
+                           
                         </div>
                     ))}
                     </div>
