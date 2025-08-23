@@ -14,6 +14,8 @@ class ParentController extends Controller
     public function index()
     {
         $users = User::where('is_babysitter', 1)->get();
+
+       
         return Inertia::render('Parents/Index', compact('users'));
     }
 

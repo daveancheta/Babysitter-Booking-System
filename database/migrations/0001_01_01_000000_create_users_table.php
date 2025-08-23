@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('address')->nullable();
-            $table->bigInteger('contact_number')->nullable();
+            $table->string('contact_number')->nullable();
             $table->string('profile')->nullable();
             $table->decimal('balance', 10, 2)->default(0);
             $table->boolean('is_babysitter')->default(0);

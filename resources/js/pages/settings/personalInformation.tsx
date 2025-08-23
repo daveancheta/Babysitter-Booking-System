@@ -13,6 +13,16 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { UserProfileDisplay } from '@/components/user-profile-display';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CircleAlert } from 'lucide-react';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -29,12 +39,58 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Personal Information" />
 
+
             <SettingsLayout>
                 <div className="space-y-6">
                     <div className='flex justify-between'>
                         <HeadingSmall title="Personal information" description="Update your Personal Information" />
 
-                        <UserProfileDisplay />
+                        <div className='flex flex-col items-center gap-2'>
+                            <UserProfileDisplay />
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline" className='h-8 w-20 text-xs'>Edit Profile</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <Form
+                                        method="post"
+                                        action={route('profilePicture.update')}
+                                        options={{
+                                            preserveScroll: true,
+                                        }}
+                                        className="space-y-6" encType='multipart/form-data'>
+                                        {({ processing, recentlySuccessful, errors }) => (
+                                            <>
+                                                <DialogHeader>
+                                                    <DialogTitle>Edit Profile Picture</DialogTitle>
+                                                    <DialogDescription>
+                                                        Make changes to your profile picture here. Click save when you&apos;re
+                                                        done.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="grid gap-4">
+                                                    <div className="grid gap-3">
+                                                        <input type="hidden" name='name' value={auth.user.name} />
+                                                        <input type="hidden" name='email' value={auth.user.email} />
+                                                        <input type="hidden" name='address' value={auth.user.address} />
+                                                        <input type="hidden" name='contact_number' value={auth.user.contact_number} />
+                                                        <Label htmlFor="picture">Profile Picture</Label>
+                                                        <Input type='file' id="picture" name="profile" accept='image/*' />
+                                                        <InputError className="mt-2" message={errors.profile} />
+                                                    </div>
+                                                </div>
+                                                <DialogFooter>
+                                                    <DialogClose asChild>
+                                                        <Button variant="outline">Cancel</Button>
+                                                    </DialogClose>
+                                                    <Button type="submit">Save changes</Button>
+                                                </DialogFooter>
+                                            </>
+                                        )}
+                                    </Form>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
                     </div>
 
                     <Form
@@ -109,10 +165,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         name="contact_number"
                                         autoComplete="contact_number"
                                         placeholder="Contact number"
-                                    /> 
+                                    />
 
                                     <InputError className="mt-2" message={errors.contact_number} />
                                 </div>
+
 
                                 <div className="flex items-center gap-4">
                                     <Button disabled={processing}>Save</Button>

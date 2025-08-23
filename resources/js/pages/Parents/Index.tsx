@@ -59,10 +59,10 @@ export default function Index() {
                     {users.map((u) => (
                         <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                             <span className=''>{u.name}</span>
+                            
                         </div>
                     ))}
                     </div>
-                    
                 )}
               </div>
         </AppLayout >
