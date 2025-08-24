@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,11 +36,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Users {
     id: number;
-    name: string; 
+    name: string;
     email: string;
     address: string;
     contact_number: string;
     profile: string;
+    rate: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -55,19 +56,29 @@ export default function Index() {
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
 
                 {users.length > 0 && (
-                   <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                    {users.map((u) => (
-                        <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
-                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`}  alt="" />
-                            <span className='p-6'>{u.name}</span>
-
-                            <Button variant="outline">Book Now</Button>
-                           
-                        </div>
-                    ))}
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                        {users.map((u) => (
+                            <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
+                                <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                <div className='flex flex-col p-6'>
+                                    <div className='flex justify-between items-center'>
+                                        <h1 className='font-bold'>{u.name}</h1>
+                                        <div className='flex flex-row gap-1 item-center'>
+                                            <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                            <span>5/10</span>
+                                        </div>
+                                    </div>
+                                    <div className=''>
+                                        <span className='font-bold'>Hourly Rate:</span>
+                                        <span className='text-green-700 font-bold dark:text-green-500'> ${u.rate}</span>
+                                    </div>
+                                </div>
+                                <Button className='m-6' variant="outline">Book Now</Button>
+                            </div>
+                        ))}
                     </div>
                 )}
-              </div>
+            </div>
         </AppLayout >
     );
 }
