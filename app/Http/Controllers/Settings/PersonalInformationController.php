@@ -70,10 +70,6 @@ class PersonalInformationController extends Controller
 
     public function updateProfilePicture(Request $request) {
         $validated = request()->validate([
-            'name' => 'nullable',
-            'email' => 'nullable',
-            'address' => 'nullable',
-            'contact_number' => 'nullable',
             'profile' => 'nullable|image',
         ]);
 
@@ -84,10 +80,6 @@ class PersonalInformationController extends Controller
         $userId = Auth::id();
 
         User::where('id', $userId)->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'address' => $request->input('address'),
-            'contact_number' => $request->input('contact_number'),
             'profile' => $validated['profile'],
         ]);
 

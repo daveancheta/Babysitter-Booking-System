@@ -70,10 +70,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                 </DialogHeader>
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3">
-                                                        <input type="hidden" name='name' value={auth.user.name} />
-                                                        <input type="hidden" name='email' value={auth.user.email} />
-                                                        <input type="hidden" name='address' value={auth.user.address} />
-                                                        <input type="hidden" name='contact_number' value={auth.user.contact_number} />
                                                         <Label htmlFor="picture">Profile Picture</Label>
                                                         <Input type='file' id="picture" name="profile" accept='image/*' 
                                                         required/>
