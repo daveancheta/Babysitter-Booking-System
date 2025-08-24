@@ -193,7 +193,7 @@ export default function Index() {
                                                     <span className="truncate font-medium">{p.name}</span>
                                                     <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'>
                                                         <History className='w-3 h-3 ' />
-                                                        <span className='text-xs capitalize '>{moment(p.created_at).fromNow()}</span>
+                                                        <span className='text-xs'>{p.created_at}</span>
                                                     </div>
                                                 </div>
                                             </div>

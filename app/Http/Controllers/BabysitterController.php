@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\select;
+use function Pest\Laravel\post;
 
 class BabysitterController extends Controller
 {
@@ -31,6 +32,10 @@ class BabysitterController extends Controller
                 'users.name'
             )
             ->get();
+
+        foreach ($posts as $p) {
+            $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
+        }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
     }
