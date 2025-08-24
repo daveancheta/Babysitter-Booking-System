@@ -9,6 +9,9 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'babysitter_id',
-        'status'
+        'status',
+        'payment_method',
+        'start_date',
+        'end_date',
     ];
 }
