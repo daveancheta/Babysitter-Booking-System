@@ -60,7 +60,11 @@ export default function Index() {
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {users.map((u) => (
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
-                                <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                <div className='relative'>
+                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                     <Badge variant='available'>Available</Badge>
+                                </div>
+                               
                                 <div className='flex flex-col p-6'>
                                     <Badge className='mb-5'>Babysitter</Badge>
                                     <div className='flex justify-between items-center'>

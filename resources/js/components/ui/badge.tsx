@@ -17,6 +17,12 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        available:
+        "absolute top-3 right-3 bg-green-100 text-green-800",
+        booked:
+        "absolute top-3 right-3 bg-red-100 text-red-800",
+        dayOff:
+        "absolute top-3 right-3 bg-yellow-100 text-yellow-800",
       },
     },
     defaultVariants: {
