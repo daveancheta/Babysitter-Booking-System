@@ -58,14 +58,16 @@ interface PageProps extends InertiaPageProps {
 }
 
 export default function Index() {
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [openStart, setOpenStart] = React.useState(false)
+    const [dateStart, setDateStart] = React.useState<Date | undefined>(undefined)
+
+    const [openEnd, setOpenEnd] = React.useState(false)
+    const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
     const { users } = usePage<PageProps>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-
                 {users.length > 0 && (
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {users.map((u) => (
@@ -116,32 +118,67 @@ export default function Index() {
                                                                     <SelectItem value="hour">Per Hour</SelectItem>
                                                                     <SelectItem value="week">Per Week</SelectItem>
                                                                     <SelectItem value="month">Per Month</SelectItem>
-                                                                    <SelectItem value="year">Per Year</SelectItem>
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
                                                     <div className="grid gap-3">
-                                                        <Label htmlFor="username-1">Date</Label>
-                                                        <Popover open={open} onOpenChange={setOpen}>
+                                                        <Label htmlFor="username-1">Start Date</Label>
+                                                        <Popover open={openStart} onOpenChange={setOpenStart}>
                                                             <PopoverTrigger asChild>
                                                                 <Button
                                                                     variant="outline"
                                                                     id="date"
                                                                     className="w-full justify-between font-normal"
                                                                 >
-                                                                    {date ? date.toLocaleDateString() : "Select date"}
+                                                                    {dateStart ? dateStart.toLocaleDateString() : "Select date"}
                                                                     <ChevronDownIcon />
                                                                 </Button>
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                                                                 <Calendar
                                                                     mode="single"
-                                                                    selected={date}
+                                                                    selected={dateStart}
                                                                     captionLayout="dropdown"
                                                                     onSelect={(date) => {
-                                                                        setDate(date)
-                                                                        setOpen(false)
+                                                                        setDateStart(date)
+                                                                        setOpenStart(false)
+                                                                    }}
+
+                                                                    disabled={{
+                                                                        before: new Date(moment().format('lll')),
+                                                                        after: new Date(moment().add(1, 'month').calendar()),
+                                                                    }}
+                                                                />
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    </div>
+                                                     <div className="grid gap-3">
+                                                        <Label htmlFor="username-1">End Date</Label>
+                                                        <Popover open={openEnd} onOpenChange={setOpenEnd}>
+                                                            <PopoverTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    id="date"
+                                                                    className="w-full justify-between font-normal"
+                                                                >
+                                                                    {dateEnd ? dateEnd.toLocaleDateString() : "Select date"}
+                                                                    <ChevronDownIcon />
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                                                                <Calendar
+                                                                    mode="single"
+                                                                    selected={dateEnd}
+                                                                    captionLayout="dropdown"
+                                                                    onSelect={(date) => {
+                                                                        setDateEnd(dateEnd)
+                                                                        setOpenEnd(false)
+                                                                    }}
+
+                                                                    disabled={{
+                                                                        before: new Date(moment().format('lll')),
+                                                                        after: new Date(moment().add(1, 'month').calendar()),
                                                                     }}
                                                                 />
                                                             </PopoverContent>
