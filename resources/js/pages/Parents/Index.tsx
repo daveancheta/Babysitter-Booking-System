@@ -26,6 +26,7 @@ import moment from 'moment';
 import { useState, useEffect, use } from "react";
 import { parse } from 'path';
 import { StringToBoolean } from 'class-variance-authority/types';
+import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -60,9 +61,11 @@ export default function Index() {
                         {users.map((u) => (
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                                 <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                 
                                 <div className='flex flex-col p-6'>
+                                    <Badge className='mb-5'>Babysitter</Badge>
                                     <div className='flex justify-between items-center'>
-                                        <h1 className='font-bold'>{u.name}</h1>
+                                        <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
                                         <div className='flex flex-row gap-1 item-center'>
                                             <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
                                             <span>5/10</span>
