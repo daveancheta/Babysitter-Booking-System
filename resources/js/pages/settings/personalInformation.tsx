@@ -75,7 +75,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                         <input type="hidden" name='address' value={auth.user.address} />
                                                         <input type="hidden" name='contact_number' value={auth.user.contact_number} />
                                                         <Label htmlFor="picture">Profile Picture</Label>
-                                                        <Input type='file' id="picture" name="profile" accept='image/*' />
+                                                        <Input type='file' id="picture" name="profile" accept='image/*' 
+                                                        required/>
                                                         <InputError className="mt-2" message={errors.profile} />
                                                     </div>
                                                 </div>
@@ -168,6 +169,22 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     />
 
                                     <InputError className="mt-2" message={errors.contact_number} />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor="rate">Hourly rate</Label>
+
+                                    <Input
+                                        id="rate"
+                                        type="text"
+                                        className="mt-1 block w-full"
+                                        defaultValue={auth.user.rate}
+                                        name="rate"
+                                        autoComplete="rate"
+                                        placeholder="Hourly rate number"
+                                    />
+
+                                    <InputError className="mt-2" message={errors.rate} />
                                 </div>
 
 

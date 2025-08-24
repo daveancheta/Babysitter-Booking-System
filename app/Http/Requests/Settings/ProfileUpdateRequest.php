@@ -21,6 +21,7 @@ class ProfileUpdateRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:255'],
             'contact_number' => ['nullable', 'string', 'max:15'],
             'profile' => ['nullable', 'string', 'max:255'],
+            'rate' => ['nullable', 'string', 'max:15'],
 
             'email' => [
                 'required',
@@ -31,10 +32,5 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
         ];
-
-        if ($request->hasFile('profile')) {
-            $validated['profile'] = $request->profile->store('profile', 'public');
-        }
-
     }
 }
