@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->string('profile')->nullable();
             $table->decimal('balance', 10, 2)->default(0);
+            $table->decimal('rate', 10, 2)->default(0);
             $table->boolean('is_babysitter')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
