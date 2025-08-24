@@ -116,6 +116,20 @@ export default function Index() {
         })
     });
 
+    useEffect(() => {
+        let postInput = document.getElementById('postInput') as HTMLInputElement;
+
+
+        if (postInput) {
+            postInput.addEventListener('input', () => {
+                let lengthContainer = document.getElementById("lengthContainer") as HTMLDivElement;
+                let postValue = postInput.value;
+                let postLength = postValue.length;
+                lengthContainer.textContent = `${postLength}`;
+            });
+        }
+    });
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -165,8 +179,11 @@ export default function Index() {
                                     <div className="grid gap-3 mb-4">
                                         <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.babysitter_id} />
 
-                                        <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
-                                        
+                                        <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' maxLength={100} />
+
+
+                                        <div><span id='lengthContainer'>0</span>/100</div>
+
                                     </div>
                                 </div>
                                 <DialogFooter>
