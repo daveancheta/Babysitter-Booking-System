@@ -256,11 +256,12 @@ export default function Index() {
                                                         <div className='flex justify-between space-x-2'>
                                                             <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
                                                             <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
-                                                            <Textarea
+                                                            <Input
                                                                 id='inputComment'
                                                                 placeholder='Comment something…'
                                                                 onChange={(e) => setData('comment', e.target.value)}
                                                                 value={data.comment}
+                                                             
                                                             />
                                                             <Button
                                                                 className=''
