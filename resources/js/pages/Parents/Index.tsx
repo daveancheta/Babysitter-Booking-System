@@ -203,7 +203,7 @@ export default function Index() {
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
                                                     <Button type="submit">
-                                                        Book Now
+                                                        Confirm Booking
                                                     </Button>
                                                 </DialogFooter>
                                             </DialogContent>
