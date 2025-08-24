@@ -179,10 +179,10 @@ export default function Index() {
                                     <div className="grid gap-3 mb-4">
                                         <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.babysitter_id} />
 
-                                        <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' maxLength={100} />
+                                        <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' maxLength={500} />
 
 
-                                        <div><span id='lengthContainer'>0</span>/100</div>
+                                        <div><span id='lengthContainer'>0</span>/500</div>
 
                                     </div>
                                 </div>
