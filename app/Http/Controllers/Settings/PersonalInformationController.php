@@ -83,7 +83,7 @@ class PersonalInformationController extends Controller
             'profile' => $validated['profile'],
         ]);
 
-        return redirect()->route('personalInformation.index');
+        return redirect()->route('personalInformation.index')->with('message', 'Profile picture updated successfully!');
 
     }
 

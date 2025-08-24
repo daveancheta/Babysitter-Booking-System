@@ -12,7 +12,7 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { UserProfileDisplay } from '@/components/user-profile-display';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert } from 'lucide-react';
+import { CircleAlert, Megaphone } from 'lucide-react';
 import {
     Dialog,
     DialogClose,
@@ -23,6 +23,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { PageProps as InertiaPageProps } from '@inertiajs/core'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,8 +32,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface PageProps extends InertiaPageProps {
+    flash: {
+        message: string;
+    }
+}
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+    const { flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     return (
@@ -68,11 +75,18 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                         done.
                                                     </DialogDescription>
                                                 </DialogHeader>
+                                                {flash.message && <Alert>
+                                                    <Megaphone />
+                                                    <AlertTitle>Notification!</AlertTitle>
+                                                    <AlertDescription>
+                                                        {flash.message}
+                                                    </AlertDescription>
+                                                </Alert>}
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3">
                                                         <Label htmlFor="picture">Profile Picture</Label>
-                                                        <Input type='file' id="picture" name="profile" accept='image/*' 
-                                                        required/>
+                                                        <Input type='file' id="picture" name="profile" accept='image/*'
+                                                            required />
                                                         <InputError className="mt-2" message={errors.profile} />
                                                     </div>
                                                 </div>
