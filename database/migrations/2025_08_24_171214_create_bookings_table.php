@@ -16,6 +16,9 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('babysitter_id');
             $table->string('status');
+            $table->string('payment_method');
+            $table->string('start_date');
+            $table->string('end_date');
             $table->timestamps();
         });
     }
