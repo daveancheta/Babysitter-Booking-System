@@ -25,6 +25,7 @@ import { useInitials } from '@/hooks/use-initials';
 import moment from 'moment';
 import { useState, useEffect, use } from "react";
 import { parse } from 'path';
+import { Textarea } from '@/components/ui/textarea';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -164,7 +165,8 @@ export default function Index() {
                                     <div className="grid gap-3 mb-4">
                                         <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.babysitter_id} />
 
-                                        <Input id='postInput' type='text' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
+                                        <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' />
+                                        
                                     </div>
                                 </div>
                                 <DialogFooter>

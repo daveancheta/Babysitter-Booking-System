@@ -51,7 +51,7 @@ export default function Index() {
     const { users } = usePage<PageProps>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="Book Now" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
 
                 {users.length > 0 && (
