@@ -35,6 +35,11 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -75,6 +80,14 @@ export default function Index() {
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                     <Badge variant='available'>Available</Badge>
+                                    <div className='absolute top-2 left-2'>
+                                    <Tooltip>
+                                        <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>You can book a babysitter for up to one month.</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                    </div>
                                 </div>
 
                                 <div className='flex flex-col p-6'>
@@ -93,10 +106,10 @@ export default function Index() {
                                 </div>
                                 <div className='m-6'>
                                     <Dialog>
+
                                         <form>
                                             <DialogTrigger asChild>
                                                 <Button className='mt-auto w-full' variant="outline">Book Now</Button>
-
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[425px]">
                                                 <DialogHeader>
@@ -153,7 +166,7 @@ export default function Index() {
                                                             </PopoverContent>
                                                         </Popover>
                                                     </div>
-                                                     <div className="grid gap-3">
+                                                    <div className="grid gap-3">
                                                         <Label htmlFor="username-1">End Date</Label>
                                                         <Popover open={openEnd} onOpenChange={setOpenEnd}>
                                                             <PopoverTrigger asChild>
@@ -172,7 +185,7 @@ export default function Index() {
                                                                     selected={dateEnd}
                                                                     captionLayout="dropdown"
                                                                     onSelect={(date) => {
-                                                                        setDateEnd(dateEnd)
+                                                                        setDateEnd(date)
                                                                         setOpenEnd(false)
                                                                     }}
 
