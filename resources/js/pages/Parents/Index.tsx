@@ -88,22 +88,6 @@ export default function Index() {
         post(route('booking.store'));
     }
 
-    useEffect(() => {
-        const submitId = document.querySelectorAll("[id^='submitButton-']");
-
-        submitId.forEach((i) => {
-            const id = i.id.split('-')[1];
-
-            const submitButton = document.getElementById(`submitButton-${id}`) as HTMLButtonElement;
-
-            if (submitButton) {
-                submitButton.addEventListener("click", () => {
-                    setData('babysitter_id', parseInt(id));
-                });
-            }
-        });
-    });
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
@@ -265,7 +249,7 @@ export default function Index() {
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
-                                                    <Button id={`submitButton-${u.id}`} type="submit">
+                                                    <Button onClick={() => setData('babysitter_id', u.id)} type="submit">
                                                         Confirm Booking
                                                     </Button>
                                                 </DialogFooter>
