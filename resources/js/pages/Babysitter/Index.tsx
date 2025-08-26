@@ -85,38 +85,6 @@ export default function Index() {
     const getInitials = useInitials();
 
     useEffect(() => {
-        const submitId = document.querySelectorAll("[id^='submit-']")
-
-        submitId.forEach(i => {
-            const id = i.id.split('-')[1];
-
-            const submitPostId = document.getElementById(`submit-${id}`) as HTMLButtonElement;
-
-            if (submitPostId) {
-                submitPostId.addEventListener('click', () => {
-                    setData("post_id", parseInt(id));
-                })
-            }
-        })
-    });
-
-    useEffect(() => {
-        const submitId = document.querySelectorAll("[id^='comment-'")
-
-        submitId.forEach((i) => {
-            const id = i.id.split('-')[1];
-
-            const submitPostId = document.getElementById(`comment-${id}`) as HTMLButtonElement;
-
-            if (submitPostId) {
-                submitPostId.addEventListener('click', () => {
-                    setData("post_id", parseInt(id));
-                })
-            }
-        })
-    });
-
-    useEffect(() => {
         let postInput = document.getElementById('postInput') as HTMLInputElement;
 
 
@@ -229,7 +197,7 @@ export default function Index() {
                                         <input type="hidden" value={data.post_id} />
                                         <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
                                         <div className='flex flex-row items-center gap-1'>
-                                            <button id={`submit-${p.id}`} type='submit'>
+                                            <button onClick={() => setData('post_id', p.id)} type='submit'>
                                                 <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
                                             </button>
                                             <span className='text-sm'>{p.reactCount}</span></div>
@@ -240,7 +208,7 @@ export default function Index() {
                                         <DialogTrigger asChild>
 
                                             <div className='flex flex-row items-center gap-2'>
-                                                <button id={`comment-${p.id}`}>
+                                                <button onClick={() => setData('post_id', p.id)}>
                                                     <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
                                                 <span className='text-sm'>{p.commentCount}</span>
                                             </div>
