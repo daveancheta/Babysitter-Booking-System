@@ -48,27 +48,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Users {
-    id: number;
-    name: string;
-    email: string;
-    address: string;
-    contact_number: string;
-    profile: string;
-    rate: number;
-}
-
-interface PageProps extends InertiaPageProps {
-    users: Users[];
-}
-
 export default function Index() {
-    const [openStart, setOpenStart] = React.useState(false)
-    const [dateStart, setDateStart] = React.useState<Date | undefined>(undefined)
-
-    const [openEnd, setOpenEnd] = React.useState(false)
-    const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
-    const { users } = usePage<PageProps>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
