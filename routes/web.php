@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BabysitterController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ReactController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
+
+    // Main
+    Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
 });
 
 require __DIR__ . '/settings.php';
