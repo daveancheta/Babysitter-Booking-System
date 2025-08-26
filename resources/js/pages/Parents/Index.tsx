@@ -57,13 +57,16 @@ interface Users {
     profile: string;
     rate: number;
     status: string;
+    user_id: number;
 }
+
 
 interface PageProps extends InertiaPageProps {
     flash: {
         message?: string;
     }
     users: Users[];
+    usersBook: number;
 }
 
 export default function Index() {
@@ -72,7 +75,7 @@ export default function Index() {
 
     const [openEnd, setOpenEnd] = React.useState(false)
     const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
-    const { users, flash } = usePage<PageProps>().props;
+    const { users, flash, usersBook } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
@@ -127,7 +130,16 @@ export default function Index() {
                                 <div className='m-6'>
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button className='mt-auto w-full' variant="outline">Book Now</Button>
+                                            {u.status === "pending" || u.status === "approved" ? (
+                                                <Button className='mt-auto w-full pointer-events-none' variant="outline">Already Booked</Button>
+                                            ) : (usersBook > 0 ? (
+                                                <Button className='mt-auto w-full pointer-events-none' variant="outline">You have a pending booking
+                                                </Button>
+                                            ) : (
+                                                <Button className='mt-auto w-full' variant="outline">Book Now</Button>
+                                            )
+                                            )}
+
                                         </DialogTrigger>
                                         <DialogContent className="sm:max-w-[425px]">
                                             <DialogHeader>
@@ -250,9 +262,12 @@ export default function Index() {
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
-                                                    <Button onClick={() => setData('babysitter_id', u.id)} type="submit">
-                                                        Confirm Booking
-                                                    </Button>
+                                                    {u.status === "pending" ? (
+                                                        <Button className='pointer-events-none' disabled>Already Booked</Button>
+                                                    ) : (
+                                                        <Button type='submit' onClick={(e) => setData('babysitter_id', u.id)} disabled={processing}>Confirm Booking</Button>
+                                                    )}
+
                                                 </DialogFooter>
                                             </form>
                                         </DialogContent>
