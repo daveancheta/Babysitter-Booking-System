@@ -25,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
+    Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
+
 
     // Main
     Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');

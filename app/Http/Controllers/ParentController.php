@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -34,7 +35,18 @@ class ParentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = request()->validate([
+        'user_id' => 'required',
+        'babysitter_id' => 'required',
+        'status' => 'required',
+        'payment_method' => 'required',
+        'start_date' => 'required',
+        'end_date' => 'required',
+        ]);
+
+        Booking::create($validated);
+        
+        return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
 
     /**

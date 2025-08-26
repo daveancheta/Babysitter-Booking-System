@@ -59,6 +59,9 @@ interface Users {
 }
 
 interface PageProps extends InertiaPageProps {
+    flash: {
+        message: string;
+    }
     users: Users[];
 }
 
@@ -69,12 +72,15 @@ export default function Index() {
     const [openEnd, setOpenEnd] = React.useState(false)
     const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
     const { users } = usePage<PageProps>().props;
-     const { auth } = usePage<SharedData>().props;
+    const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         user_id: auth.user.id,
         babysitter_id: 0,
-        status: '', 
+        status: 'pending',
+        payment_method: '',
+        start_date: '',
+        end_date: '',
     });
 
     const submitBooking = (e: React.FormEvent) => {
@@ -129,11 +135,25 @@ export default function Index() {
                                                     {u.name} is available for babysitting right now.
                                                 </DialogDescription>
                                             </DialogHeader>
-                                            <Form onSubmit={submitBooking}>
+                                            <form onSubmit={submitBooking}>
+                                                {Object.keys(errors).length > 0 && (
+                                                    <Alert>
+                                                        <CircleAlert />
+                                                        <AlertTitle>Errors!</AlertTitle>
+                                                        <AlertDescription>
+                                                            <ul>
+                                                                {Object.entries(errors).map(([key, message]) => (
+                                                                    <li key={key}>{message as string}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                )}
+                                                <input type="hidden" onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={u.id} />
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3">
                                                         <Label>How would you like to pay the babysitter? <br></br><br></br>(Select one option below)</Label>
-                                                        <Select>
+                                                        <Select onValueChange={(value) => setData('payment_method', value)} value={data.payment_method}>
                                                             <SelectTrigger className="w-full">
                                                                 <SelectValue placeholder="Select Method" />
                                                             </SelectTrigger>
@@ -166,8 +186,11 @@ export default function Index() {
                                                                     selected={dateStart}
                                                                     captionLayout="dropdown"
                                                                     onSelect={(date) => {
-                                                                        setDateStart(date)
-                                                                        setOpenStart(false)
+                                                                        if (date) {
+                                                                            setDateStart(date)
+                                                                            setData("start_date", date.toISOString())
+                                                                            setOpenStart(false)
+                                                                        }
                                                                     }}
 
                                                                     disabled={{
@@ -197,8 +220,11 @@ export default function Index() {
                                                                     selected={dateEnd}
                                                                     captionLayout="dropdown"
                                                                     onSelect={(date) => {
-                                                                        setDateEnd(date)
-                                                                        setOpenEnd(false)
+                                                                        if (date) {
+                                                                            setDateEnd(date)
+                                                                            setData("end_date", date.toISOString())
+                                                                            setOpenEnd(false)
+                                                                        }
                                                                     }}
 
                                                                     disabled={{
@@ -218,7 +244,7 @@ export default function Index() {
                                                         Confirm Booking
                                                     </Button>
                                                 </DialogFooter>
-                                            </Form>
+                                            </form>
                                         </DialogContent>
                                     </Dialog>
                                 </div>
