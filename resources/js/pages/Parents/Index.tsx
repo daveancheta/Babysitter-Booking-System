@@ -60,7 +60,7 @@ interface Users {
 
 interface PageProps extends InertiaPageProps {
     flash: {
-        message: string;
+        message?: string;
     }
     users: Users[];
 }
@@ -71,7 +71,7 @@ export default function Index() {
 
     const [openEnd, setOpenEnd] = React.useState(false)
     const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
-    const { users } = usePage<PageProps>().props;
+    const { users, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
@@ -87,6 +87,22 @@ export default function Index() {
         e.preventDefault();
         post(route('booking.store'));
     }
+
+    useEffect(() => {
+        const submitId = document.querySelectorAll("[id^='submitButton-']");
+
+        submitId.forEach((i) => {
+            const id = i.id.split('-')[1];
+
+            const submitButton = document.getElementById(`submitButton-${id}`) as HTMLButtonElement;
+
+            if (submitButton) {
+                submitButton.addEventListener("click", () => {
+                    setData('babysitter_id', parseInt(id));
+                });
+            }
+        });
+    });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -136,20 +152,29 @@ export default function Index() {
                                                 </DialogDescription>
                                             </DialogHeader>
                                             <form onSubmit={submitBooking}>
-                                                {Object.keys(errors).length > 0 && (
-                                                    <Alert>
-                                                        <CircleAlert />
-                                                        <AlertTitle>Errors!</AlertTitle>
+                                                <div className='mb-4'>
+                                                    {Object.keys(errors).length > 0 && (
+                                                        <Alert>
+                                                            <CircleAlert />
+                                                            <AlertTitle>Errors!</AlertTitle>
+                                                            <AlertDescription>
+                                                                <ul>
+                                                                    {Object.entries(errors).map(([key, message]) => (
+                                                                        <li key={key}>{message as string}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            </AlertDescription>
+                                                        </Alert>
+                                                    )}
+
+                                                    {flash.message && <Alert>
+                                                        <Megaphone />
+                                                        <AlertTitle>Notification</AlertTitle>
                                                         <AlertDescription>
-                                                            <ul>
-                                                                {Object.entries(errors).map(([key, message]) => (
-                                                                    <li key={key}>{message as string}</li>
-                                                                ))}
-                                                            </ul>
+                                                            {flash.message}
                                                         </AlertDescription>
-                                                    </Alert>
-                                                )}
-                                                <input type="hidden" onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={u.id} />
+                                                    </Alert>}
+                                                </div>
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3">
                                                         <Label>How would you like to pay the babysitter? <br></br><br></br>(Select one option below)</Label>
@@ -240,7 +265,7 @@ export default function Index() {
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
-                                                    <Button type="submit">
+                                                    <Button id={`submitButton-${u.id}`} type="submit">
                                                         Confirm Booking
                                                     </Button>
                                                 </DialogFooter>
