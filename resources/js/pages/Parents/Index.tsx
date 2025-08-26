@@ -56,6 +56,7 @@ interface Users {
     contact_number: string;
     profile: string;
     rate: number;
+    status: string;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -98,7 +99,7 @@ export default function Index() {
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
-                                    <Badge variant='available'>Available</Badge>
+                                    <Badge variant={u.status === 'pending' ? 'booked' : (u.status === 'approved' ? 'booked' : 'available')}>{u.status === 'pending' ? 'BOOKED' : (u.status === 'approved' ? 'BOOKED' : 'AVAILABLE')}</Badge>
                                     <div className='absolute top-2 left-2'>
                                         <Tooltip>
                                             <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>

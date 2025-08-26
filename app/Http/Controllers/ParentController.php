@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ParentController extends Controller
@@ -14,11 +15,15 @@ class ParentController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_babysitter', 1)->get();
+        $users = DB::table('users')
+        ->leftJoin('bookings', 'users.id', '=', 'bookings.babysitter_id')
+        ->select(
+            'users.*',
+            'status',
+        )
+        ->where('is_babysitter', 1)
+        ->get();
 
-        foreach ($users as $u) {
-        $users->profile = asset('storage/', $u->profile);
-        }
         return Inertia::render('Parents/Index', compact('users'));
     }
 
@@ -45,7 +50,7 @@ class ParentController extends Controller
         ]);
 
         Booking::create($validated);
-        
+
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
 
