@@ -198,7 +198,7 @@ export default function Index() {
                                                                     onSelect={(date) => {
                                                                         if (date) {
                                                                             setDateStart(date)
-                                                                            setData("start_date", date.toISOString())
+                                                                            setData("start_date", date.toISOString().split("T")[0]);
                                                                             setOpenStart(false)
                                                                         }
                                                                     }}
@@ -232,14 +232,14 @@ export default function Index() {
                                                                     onSelect={(date) => {
                                                                         if (date) {
                                                                             setDateEnd(date)
-                                                                            setData("end_date", date.toISOString())
+                                                                            setData("end_date", date.toISOString().split("T")[0]);
                                                                             setOpenEnd(false)
                                                                         }
                                                                     }}
 
                                                                     disabled={{
-                                                                        before: new Date(moment().format('lll')),
-                                                                        after: new Date(moment().add(1, 'month').calendar()),
+                                                                        before: new Date(moment().add(1, "days").toDate()),
+                                                                        after: new Date(moment().add(1, 'month').toDate()),
                                                                     }}
                                                                 />
                                                             </PopoverContent>
