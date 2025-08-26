@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Form, Head, useForm, usePage } from '@inertiajs/react';
 import {
     Dialog,
     DialogClose,
@@ -69,6 +69,19 @@ export default function Index() {
     const [openEnd, setOpenEnd] = React.useState(false)
     const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
     const { users } = usePage<PageProps>().props;
+     const { auth } = usePage<SharedData>().props;
+
+    const { data, setData, post, processing, errors } = useForm({
+        user_id: auth.user.id,
+        babysitter_id: 0,
+        status: '', 
+    });
+
+    const submitBooking = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('booking.store'));
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
@@ -81,12 +94,12 @@ export default function Index() {
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                     <Badge variant='available'>Available</Badge>
                                     <div className='absolute top-2 left-2'>
-                                    <Tooltip>
-                                        <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>You can book a babysitter for up to one month.</p>
-                                        </TooltipContent>
-                                    </Tooltip>
+                                        <Tooltip>
+                                            <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>You can book a babysitter for up to one month.</p>
+                                            </TooltipContent>
+                                        </Tooltip>
                                     </div>
                                 </div>
 
@@ -106,18 +119,17 @@ export default function Index() {
                                 </div>
                                 <div className='m-6'>
                                     <Dialog>
-
-                                        <form>
-                                            <DialogTrigger asChild>
-                                                <Button className='mt-auto w-full' variant="outline">Book Now</Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-[425px]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Book {u.name}</DialogTitle>
-                                                    <DialogDescription>
-                                                        {u.name} is available for babysitting right now.
-                                                    </DialogDescription>
-                                                </DialogHeader>
+                                        <DialogTrigger asChild>
+                                            <Button className='mt-auto w-full' variant="outline">Book Now</Button>
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-[425px]">
+                                            <DialogHeader>
+                                                <DialogTitle>Book {u.name}</DialogTitle>
+                                                <DialogDescription>
+                                                    {u.name} is available for babysitting right now.
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                            <Form onSubmit={submitBooking}>
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3">
                                                         <Label>How would you like to pay the babysitter? <br></br><br></br>(Select one option below)</Label>
@@ -166,7 +178,7 @@ export default function Index() {
                                                             </PopoverContent>
                                                         </Popover>
                                                     </div>
-                                                    <div className="grid gap-3">
+                                                    <div className="grid gap-3 mb-6">
                                                         <Label htmlFor="username-1">End Date</Label>
                                                         <Popover open={openEnd} onOpenChange={setOpenEnd}>
                                                             <PopoverTrigger asChild>
@@ -206,8 +218,8 @@ export default function Index() {
                                                         Confirm Booking
                                                     </Button>
                                                 </DialogFooter>
-                                            </DialogContent>
-                                        </form>
+                                            </Form>
+                                        </DialogContent>
                                     </Dialog>
                                 </div>
                             </div>
