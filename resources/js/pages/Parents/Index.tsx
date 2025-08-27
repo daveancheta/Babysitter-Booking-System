@@ -131,9 +131,9 @@ export default function Index() {
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             {u.status === "pending" || u.status === "approved" ? (
-                                                <Button className='mt-auto w-full pointer-events-none' variant="outline">Already Booked</Button>
+                                                <Button className='mt-auto w-full pointer-events-none select-none' variant="outline">Already Booked</Button>
                                             ) : (usersBook > 0 ? (
-                                                <Button className='mt-auto w-full pointer-events-none' variant="outline">You have a pending booking
+                                                <Button className='mt-auto w-full pointer-events-none select-none' variant="outline">You have a pending booking
                                                 </Button>
                                             ) : (
                                                 <Button className='mt-auto w-full' variant="outline">Book Now</Button>
