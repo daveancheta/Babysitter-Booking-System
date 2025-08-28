@@ -26,6 +26,21 @@ import moment from 'moment';
 import { useState, useEffect, use } from "react";
 import { parse } from 'path';
 import { Textarea } from '@/components/ui/textarea';
+import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuLabel,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
+    ContextMenuSub,
+    ContextMenuSubContent,
+    ContextMenuSubTrigger,
+    ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -186,7 +201,51 @@ export default function Index() {
                                             </div>
                                         </>
                                     </div>
-                                    <EllipsisVertical />
+
+                                    <ContextMenu>
+                                        <ContextMenuTrigger>
+                                            <EllipsisVertical />
+                                        </ContextMenuTrigger>
+                                        <ContextMenuContent className="w-52">
+                                            <ContextMenuItem inset>
+                                                Back
+                                                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuItem inset disabled>
+                                                Forward
+                                                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuItem inset>
+                                                Reload
+                                                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuSub>
+                                                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+                                                <ContextMenuSubContent className="w-44">
+                                                    <ContextMenuItem>Save Page...</ContextMenuItem>
+                                                    <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                                                    <ContextMenuItem>Name Window...</ContextMenuItem>
+                                                    <ContextMenuSeparator />
+                                                    <ContextMenuItem>Developer Tools</ContextMenuItem>
+                                                    <ContextMenuSeparator />
+                                                    <ContextMenuItem>Delete</ContextMenuItem>
+                                                </ContextMenuSubContent>
+                                            </ContextMenuSub>
+                                            <ContextMenuSeparator />
+                                            <ContextMenuCheckboxItem checked>
+                                                Show Bookmarks
+                                            </ContextMenuCheckboxItem>
+                                            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+                                            <ContextMenuSeparator />
+                                            <ContextMenuRadioGroup value="pedro">
+                                                <ContextMenuLabel inset>People</ContextMenuLabel>
+                                                <ContextMenuRadioItem value="pedro">
+                                                    Pedro Duarte
+                                                </ContextMenuRadioItem>
+                                                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+                                            </ContextMenuRadioGroup>
+                                        </ContextMenuContent>
+                                    </ContextMenu>
                                 </div>
                                 <div className='text-start flex items-start justify-start mt-3'>
                                     <span>{p.post}</span>
@@ -229,7 +288,7 @@ export default function Index() {
                                                                 placeholder='Comment something…'
                                                                 onChange={(e) => setData('comment', e.target.value)}
                                                                 value={data.comment}
-                                                             
+
                                                             />
                                                             <Button
                                                                 className=''
