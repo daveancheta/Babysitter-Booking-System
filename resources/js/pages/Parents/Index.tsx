@@ -263,7 +263,7 @@ export default function Index() {
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
                                                     {u.status === "pending" ? (
-                                                        <Button className='pointer-events-none' disabled>Already Booked</Button>
+                                                        <Button className='pointer-events-none select-none' disabled>Already Booked</Button>
                                                     ) : (
                                                         <Button type='submit' onClick={(e) => setData('babysitter_id', u.id)} disabled={processing}>Confirm Booking</Button>
                                                     )}
