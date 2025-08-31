@@ -32,7 +32,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder="email@example.com"
+                                    placeholder="email@gmail.com"
+                                    pattern='.+@gmail.com'
                                 />
                                 <InputError message={errors.email} />
                             </div>
