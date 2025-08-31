@@ -76,7 +76,7 @@ export default function Notification() {
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                    <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'booked' : 'available')}>{b.status === 'pending' ? 'BOOKED' : (b.status === 'approved' ? 'BOOKED' : 'AVAILABLE')}</Badge>
+                                    <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'available')}>{b.status === 'pending' ? 'PENDING' : (b.status === 'approved' ? 'APPROVED' : '')}</Badge>
                                     <div className='absolute top-2 left-2'>
                                         <Tooltip>
                                             <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
@@ -98,6 +98,9 @@ export default function Notification() {
                                     <div className=''>
                                         <span className='font-bold'>Hourly Rate:</span>
                                         <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                    </div>
+                                    <div>
+                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
                                     </div>
                                 </div>
                                 <div className='m-6 flex flex-row gap-2'>
