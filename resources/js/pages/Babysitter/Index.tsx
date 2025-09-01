@@ -81,6 +81,7 @@ export default function Index() {
     const { posts, useCountSession, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [commentText, setCommentText] = useState('');
+    const userId = auth.user.id;
 
     const { data, setData, post, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
@@ -113,7 +114,6 @@ export default function Index() {
 
     useEffect(() => {
         let postInput = document.getElementById('postInput') as HTMLInputElement;
-
 
         if (postInput) {
             postInput.addEventListener('input', () => {
@@ -175,7 +175,6 @@ export default function Index() {
                                         <Input type='hidden' name="babysitter_id" placeholder='Tell parents about yourself…' onChange={(e) => setData('babysitter_id', parseInt(e.target.value))} value={data.babysitter_id} />
 
                                         <Textarea id='postInput' name="post" placeholder='Tell parents about yourself…' onChange={(e) => setData('post', e.target.value)} value={data.post} autoComplete='post' maxLength={500} />
-
 
                                         <div><span id='lengthContainer'>0</span>/500</div>
 
@@ -296,8 +295,8 @@ export default function Index() {
                                                             <div className='flex flex-col w-full gap-4'>
                                                             <div className="comments-section">
                                                                 {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
-                                                                    <div key={c.id} className="comment">
-                                                                        <span>{c.comment}</span>
+                                                                    <div key={c.id} className={userId === c.user_id ? "m-5 text-end mb-10" : "m-5 text-start"}>
+                                                                        <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c.comment}</span>
                                                                     </div>
                                                                 ))}
                                                             </div>
