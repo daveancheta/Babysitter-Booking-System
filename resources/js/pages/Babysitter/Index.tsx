@@ -49,12 +49,22 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface Comment {
+    id: number;
+    user_id: number;
+    post_id: number;
+    comment: string;
+    created_at: string;
+    updated_at: string;
+}
+
 interface Posts {
     id: number;
     name: string;
     post: string;
     reactCount: number;
     useCountSession: number;
+    comments: string;
     commentCount: number;
     created_at: string;
 }
@@ -251,6 +261,7 @@ export default function Index() {
                                 </div>
                                 <div className='text-start flex items-start justify-start mt-3'>
                                     <span>{p.post}</span>
+
                                 </div>
                                 <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
                                     <form onSubmit={submitReact}>
@@ -282,6 +293,13 @@ export default function Index() {
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3 ">
                                                         <div className='flex justify-between space-x-2'>
+                                                            <div className="comments-section">
+                                                                {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
+                                                                    <div key={c.id} className="comment">
+                                                                        <span>{c.comment}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                             <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
                                                             <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
                                                             <Input

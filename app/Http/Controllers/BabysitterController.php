@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Reaction;
 use App\Models\User;
@@ -29,13 +30,14 @@ class BabysitterController extends Controller
             ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
             ->select(
                 'posts.*',
-                'users.name'
+                'users.name',
             )
-            ->get();
+            ->orderBy('created_at', 'desc')->get();
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
             $p->useCountSession = Reaction::where('user_id', $babySitterId)->where('post_id', $p->id)->count();
+            $p->comments = Comment::where('post_id', $p->id)->get();
         }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
