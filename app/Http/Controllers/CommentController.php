@@ -47,7 +47,7 @@ class CommentController extends Controller
 
         Post::where('id', $postId)->update(['commentCount' => $commentCount]);
         
-        return Inertia::render(route('babysitter.index'));
+        return redirect()->route('babysitter.index');
     }
 
     /**

@@ -47,7 +47,7 @@ class ReactController extends Controller
 
         Post::where('id', $postId)->update(['reactCount' => $reactCount]);
 
-        return Inertia::render(route('babysitter.index'));
+        return redirect()->route('babysitter.index');
     }
 
     /**
