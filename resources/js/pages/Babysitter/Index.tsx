@@ -257,7 +257,7 @@ export default function Index() {
                                         <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
                                         <div className='flex flex-row items-center gap-1'>
                                             <button onClick={() => setData('post_id', p.id)} type='submit'>
-                                                <Heart className={p.react} />
+                                                <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
                                             </button>
                                             <span className='text-sm'>{p.reactCount}</span></div>
                                     </form>
@@ -265,6 +265,7 @@ export default function Index() {
 
                                     <Dialog>
                                         <DialogTrigger asChild>
+
                                             <div className='flex flex-row items-center gap-2'>
                                                 <button onClick={() => setData('post_id', p.id)}>
                                                     <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
