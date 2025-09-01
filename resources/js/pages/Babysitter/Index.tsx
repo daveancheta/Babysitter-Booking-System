@@ -54,6 +54,7 @@ interface Posts {
     name: string;
     post: string;
     reactCount: number;
+    useCountSession: number;
     commentCount: number;
     created_at: string;
 }
@@ -63,10 +64,11 @@ interface PageProps extends InertiaPageProps {
         message?: string;
     }
     posts: Posts[];
+    useCountSession: [];
 }
 
 export default function Index() {
-    const { posts, flash } = usePage<PageProps>().props;
+    const { posts, useCountSession, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [commentText, setCommentText] = useState('');
 
@@ -256,16 +258,15 @@ export default function Index() {
                                         <input type="hidden" value={data.post_id} />
                                         <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
                                         <div className='flex flex-row items-center gap-1'>
-                                            <button onClick={() => setData('post_id', p.id)} type='submit'>
-                                                <Heart className='w-5 h-5 hover:text-red-700 dark:hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                            <span>{useCountSession}</span>
+                                            <button className={p.useCountSession ? 'pointer-events-none' : ''} onClick={() => setData('post_id', p.id)} type='submit'>
+                                                <Heart className={p.useCountSession ? 'w-5 h-5 fill-red-400 text-red-400 cursor-pointer' : 'w-5 h-5 hover:text-red-400  transition delay-50 duration-300 cursor-pointer'} />
                                             </button>
                                             <span className='text-sm'>{p.reactCount}</span></div>
                                     </form>
 
-
                                     <Dialog>
                                         <DialogTrigger asChild>
-
                                             <div className='flex flex-row items-center gap-2'>
                                                 <button onClick={() => setData('post_id', p.id)}>
                                                     <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
@@ -288,7 +289,6 @@ export default function Index() {
                                                                 placeholder='Comment something…'
                                                                 onChange={(e) => setData('comment', e.target.value)}
                                                                 value={data.comment}
-
                                                             />
                                                             <Button
                                                                 className=''

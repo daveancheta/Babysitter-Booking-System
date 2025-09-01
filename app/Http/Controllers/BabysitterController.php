@@ -35,6 +35,7 @@ class BabysitterController extends Controller
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
+            $p->useCountSession = Reaction::where('user_id', $babySitterId)->where('post_id', $p->id)->count();
         }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
