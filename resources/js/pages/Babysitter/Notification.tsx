@@ -92,14 +92,6 @@ export default function Notification() {
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                     <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'booked')}><span className='uppercase'>{b.status}</span></Badge>
-                                    <div className='absolute top-2 left-2'>
-                                        <Tooltip>
-                                            <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>You can book a babysitter for up to one month.</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </div>
                                 </div>
 
                                 <div className='flex flex-col p-6'>
