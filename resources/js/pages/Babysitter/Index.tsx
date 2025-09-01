@@ -293,6 +293,7 @@ export default function Index() {
                                                 <div className="grid gap-4">
                                                     <div className="grid gap-3 ">
                                                         <div className='flex justify-between space-x-2'>
+                                                            <div className='flex flex-col w-full gap-4'>
                                                             <div className="comments-section">
                                                                 {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
                                                                     <div key={c.id} className="comment">
@@ -300,6 +301,7 @@ export default function Index() {
                                                                     </div>
                                                                 ))}
                                                             </div>
+                                                            <div className='flex flex-row gap-2'>
                                                             <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
                                                             <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
                                                             <Input
@@ -316,6 +318,8 @@ export default function Index() {
                                                                 disabled={processing}>
                                                                 <Send />
                                                             </Button>
+                                                            </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
