@@ -38,6 +38,9 @@ export interface User {
     address: string;
     contact_number: number;
     profile: string;
+    balance: number;
+    rate: number;
+    is_babysitter: boolean;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;

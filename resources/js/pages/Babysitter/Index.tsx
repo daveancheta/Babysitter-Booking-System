@@ -120,7 +120,7 @@ export default function Index() {
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                 <div className='flex justify-start'>
                     <Dialog>
-                        <div className='bg-background rounded-lg border p-6 shadow-lg duration-20 flex justify-between space-x-6'>
+                        <div className={auth.user.is_babysitter ? "bg-background rounded-lg border p-6 shadow-lg duration-20 flex justify-between space-x-6" : "hidden"}>
                             <UserDisplay />
                             <DialogTrigger asChild>
                                 <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
