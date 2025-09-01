@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class NotificationController extends Controller
         )
         ->where('babysitter_id', $babysitterId)
         ->get();
-        return Inertia::render('Main/Notification', compact('bookings'));
+        return Inertia::render('Babysitter/Notification', compact('bookings'));
     }
 
     /**
@@ -40,7 +41,16 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'booking_id' => 'nullable',
+            'action' => 'nullable'
+        ]);
+
+        $bookingId = $request->input('booking_id');
+        Booking::where('id', $bookingId)
+        ->update(['status' => $request->input('action')]);
+
+        return redirect()->route('notification.index');
     }
 
     /**

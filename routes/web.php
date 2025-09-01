@@ -22,14 +22,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/babysitter', [BabysitterController::class, 'store'])->name('babysitter.store');
     Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
     Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
 
 
-    // Main
-    Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
 });
 
 require __DIR__ . '/settings.php';

@@ -65,6 +65,21 @@ interface PageProps extends InertiaPageProps {
 export default function Notification() {
     const { bookings } = usePage<PageProps>().props;
 
+    const { data, setData, post, processing, errors } = useForm({
+        booking_id: 0,
+        action: ''
+    });
+
+    const acceptAction = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('action.store'));
+    }
+
+    const declineAction = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('action.store'));    
+    }
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -76,7 +91,7 @@ export default function Notification() {
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                    <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'available')}>{b.status === 'pending' ? 'PENDING' : (b.status === 'approved' ? 'APPROVED' : '')}</Badge>
+                                    <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'booked')}><span className='uppercase'>{b.status}</span></Badge>
                                     <div className='absolute top-2 left-2'>
                                         <Tooltip>
                                             <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
@@ -104,13 +119,23 @@ export default function Notification() {
                                     </div>
                                 </div>
                                 <div className='m-6 flex flex-row gap-2'>
-                                    <Button className="mt-auto w-full bg-green-600 hover:bg-green-700 text-white dark:bg-green-700 dark:hover:bg-green-800">
-                                        Accept
-                                    </Button>
+                                    <form onSubmit={acceptAction} className='w-full'>
+                                        <Button type='submit' onClick={() => {
+                                            setData('action', 'approved');
+                                            setData('booking_id', b.id)
+                                        }} className="mt-auto w-full bg-green-600 hover:bg-green-700 text-white dark:bg-green-700 dark:hover:bg-green-800">
+                                            Accept
+                                        </Button>
+                                    </form>
 
-                                    <Button className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700">
-                                        Decline
-                                    </Button>
+                                    <form onSubmit={declineAction} className='w-full'>
+                                        <Button type='submit' onClick={() => {
+                                            setData('booking_id', b.id);
+                                            setData('action', 'declined');
+                                        }} className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700">
+                                            Decline
+                                        </Button>
+                                    </form>
 
                                     <Button className="mt-auto bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700">
                                         <Trash2 />
