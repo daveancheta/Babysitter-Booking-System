@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/babysitter', [BabysitterController::class, 'index'])->name('babysitter.index');
     Route::post('/babysitter', [BabysitterController::class, 'store'])->name('babysitter.store');
     Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
+    Route::delete('/reaction/{id}{postId}', [ReactController::class, 'destroy'])->name('react.delete');
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');

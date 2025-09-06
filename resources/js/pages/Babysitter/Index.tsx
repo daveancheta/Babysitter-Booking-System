@@ -63,9 +63,10 @@ interface Posts {
     name: string;
     post: string;
     reactCount: number;
-    useCountSession: number;
+    userCountSession: number;
     comments: string;
     commentCount: number;
+    react_id: number
     created_at: string;
 }
 
@@ -92,6 +93,8 @@ export default function Index() {
         comment: '',
     });
 
+    const { delete: destroy, processing: processingDeleteReact} = useForm({});
+
     const submitPost = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('babysitter.store'));
@@ -108,6 +111,10 @@ export default function Index() {
         e.preventDefault();
         post(route('comment.store'))
         data.comment = '';
+    }
+
+    const handleDeleteReact = (id: number, postId: number) => {
+        destroy(route('react.delete', { id, postId }));
     }
 
     const getInitials = useInitials();
@@ -263,17 +270,28 @@ export default function Index() {
 
                                 </div>
                                 <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
-                                    <form onSubmit={submitReact}>
-                                        <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
-                                        <input type="hidden" value={data.post_id} />
-                                        <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
-                                        <div className='flex flex-row items-center gap-1'>
+                                    {p.userCountSession ?
+                                         <div className='flex flex-row items-center gap-1'>
                                             <span>{useCountSession}</span>
-                                            <button className={p.useCountSession ? 'pointer-events-none' : ''} onClick={() => setData('post_id', p.id)} type='submit'>
-                                                <Heart className={p.useCountSession ? 'w-5 h-5 fill-red-400 text-red-400 cursor-pointer' : 'w-5 h-5 hover:text-red-400  transition delay-50 duration-300 cursor-pointer'} />
+                                            <button disabled={processingDeleteReact} onClick={() => handleDeleteReact(p.react_id, p.id)}>
+                                                <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
                                             </button>
-                                            <span className='text-sm'>{p.reactCount}</span></div>
-                                    </form>
+                                            <span className='text-sm'>{p.reactCount}</span>
+                                        </div>
+                                        :
+                                        <form onSubmit={submitReact}>
+                                            <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                            <input type="hidden" value={data.post_id} />
+                                            <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
+                                            <div className='flex flex-row items-center gap-1'>
+                                                <span>{useCountSession}</span>
+                                                <button disabled={processing} onClick={() => setData('post_id', p.id)}>
+                                                    <Heart className='w-5 h-5 hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                                </button>
+                                                <span className='text-sm'>{p.reactCount}</span>
+                                            </div>
+                                        </form>
+                                    }
 
                                     <Dialog>
                                         <DialogTrigger asChild>
@@ -293,31 +311,31 @@ export default function Index() {
                                                     <div className="grid gap-3 ">
                                                         <div className='flex justify-between space-x-2'>
                                                             <div className='flex flex-col w-full gap-4'>
-                                                            <div className="comments-section">
-                                                                {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
-                                                                    <div key={c.id} className={userId === c.user_id ? "m-5 text-end mb-10" : "m-5 text-start"}>
-                                                                        <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c.comment}</span>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                            <div className='flex flex-row gap-2'>
-                                                            <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
-                                                            <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
-                                                            <Input
-                                                                id='inputComment'
-                                                                placeholder='Comment something…'
-                                                                onChange={(e) => setData('comment', e.target.value)}
-                                                                value={data.comment}
-                                                            />
-                                                            <Button
-                                                                className=''
-                                                                id='commentButton'
-                                                                type="submit"
-                                                                hidden={!data.comment.trim()}
-                                                                disabled={processing}>
-                                                                <Send />
-                                                            </Button>
-                                                            </div>
+                                                                <div className="comments-section">
+                                                                    {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
+                                                                        <div key={c.id} className={userId === c.user_id ? "m-5 text-end mb-10" : "m-5 text-start"}>
+                                                                            <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c.comment}</span>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <div className='flex flex-row gap-2'>
+                                                                    <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
+                                                                    <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                                                    <Input
+                                                                        id='inputComment'
+                                                                        placeholder='Comment something…'
+                                                                        onChange={(e) => setData('comment', e.target.value)}
+                                                                        value={data.comment}
+                                                                    />
+                                                                    <Button
+                                                                        className=''
+                                                                        id='commentButton'
+                                                                        type="submit"
+                                                                        hidden={!data.comment.trim()}
+                                                                        disabled={processing}>
+                                                                        <Send />
+                                                                    </Button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

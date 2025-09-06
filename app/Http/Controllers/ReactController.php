@@ -77,8 +77,21 @@ class ReactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Reaction $id, $postId)
     {
-        //
+        
+        $id->delete();
+
+         $reactCount = DB::table('posts')
+            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
+            ->where('posts.id', $id)
+            ->count();
+            
+        Post::where('id', $postId)->update(['reactCount' => 0]);
+
+
+       
+
+        return redirect()->route('babysitter.index');
     }
 }

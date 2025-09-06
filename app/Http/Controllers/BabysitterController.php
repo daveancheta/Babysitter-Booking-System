@@ -28,16 +28,24 @@ class BabysitterController extends Controller
 
         $posts = DB::table('posts')
             ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
+            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
             ->select(
                 'posts.*',
                 'users.name',
+                'reactions.id as react_id'
             )
             ->orderBy('created_at', 'desc')->get();
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
-            $p->useCountSession = Reaction::where('user_id', $babySitterId)->where('post_id', $p->id)->count();
-            $p->comments = Comment::where('post_id', $p->id)->get();
+            $p->userCountSession = Reaction::where('user_id', $babySitterId)->where('post_id', $p->id)->count();
+            $p->comments = DB::table('comments')
+            ->leftJoin('users', 'comments.user_id', '=', 'users.id')
+            ->select(
+                'comments.*',
+                'users.name'
+            )
+            ->get();
         }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
