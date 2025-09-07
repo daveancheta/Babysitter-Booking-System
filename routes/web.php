@@ -23,14 +23,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
     Route::delete('/reaction/{id}{postId}', [ReactController::class, 'destroy'])->name('react.delete');
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
-    Route::get('notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
     Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
-
-
 });
 
 require __DIR__ . '/settings.php';

@@ -32,12 +32,6 @@ const mainNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const { props } = usePage();
-    const { auth } = usePage<SharedData>().props;
-    const is_babysitter = auth.user.is_babysitter || false;
-
-    const filteredNavItems = mainNavItems.filter(item =>
-        item.title !== 'Notification' || is_babysitter
-    );
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -54,7 +48,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={filteredNavItems} />
+                <NavMain items={mainNavItems}/>
             </SidebarContent>
 
             <SidebarFooter>

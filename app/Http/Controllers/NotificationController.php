@@ -15,7 +15,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $babysitterId = Auth::id();
+        $userId = Auth::id();
 
         $bookings = DB::table('bookings')
         ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
@@ -23,9 +23,20 @@ class NotificationController extends Controller
             'users.*',
             'bookings.*',
         )
-        ->where('babysitter_id', $babysitterId)
+        ->where('babysitter_id', $userId)
         ->get();
-        return Inertia::render('Babysitter/Notification', compact('bookings'));
+
+        $books = DB::table('bookings')
+        ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
+        ->select(
+            'users.*',
+            'bookings.*',
+        )
+        ->where('user_id', $userId)
+        ->get();
+
+
+        return Inertia::render('Main/Notification', compact('bookings', 'books'));
     }
 
     /**
