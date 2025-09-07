@@ -38,14 +38,6 @@ class CommentController extends Controller
         ]);
 
         Comment::create($validated);
-
-        $postId = $request->input('post_id');
-        $commentCount = DB::table('posts')
-        ->leftJoin('comments', 'posts.id', '=', 'comments.post_id')
-        ->where('post_id', $postId)
-        ->count();
-
-        Post::where('id', $postId)->update(['commentCount' => $commentCount]);
         
         return redirect()->route('babysitter.index');
     }

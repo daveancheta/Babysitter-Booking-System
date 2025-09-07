@@ -22,30 +22,29 @@ class BabysitterController extends Controller
      */
     public function index()
     {
-        $babySitterId = Auth::id();
+        $userId = Auth::id();
 
-        $babySitter = User::where('id', $babySitterId)->first();
+        $babySitter = User::where('id', $userId)->first();
 
         $posts = DB::table('posts')
             ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
-            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
+            ->leftJoin('reactions', function ($join) use ($userId) {
+                $join->on('posts.id', '=', 'reactions.post_id')
+                    ->where('reactions.user_id', '=', $userId);
+            })
             ->select(
                 'posts.*',
                 'users.name',
-                'reactions.id as react_id'
+                'reactions.id as react_id',
+                DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),
+                DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as commentCount '),
+                DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment')
             )
             ->orderBy('created_at', 'desc')->get();
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
-            $p->userCountSession = Reaction::where('user_id', $babySitterId)->where('post_id', $p->id)->count();
-            $p->comments = DB::table('comments')
-            ->leftJoin('users', 'comments.user_id', '=', 'users.id')
-            ->select(
-                'comments.*',
-                'users.name'
-            )
-            ->get();
+            $p->userCountSession = Reaction::where('user_id', $userId)->where('post_id', $p->id)->count();
         }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));

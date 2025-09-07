@@ -39,14 +39,6 @@ class ReactController extends Controller
 
         Reaction::create($validated);
 
-        $postId = $request->input('post_id');
-        $reactCount = DB::table('posts')
-            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
-            ->where('posts.id', $postId)
-            ->count();
-
-        Post::where('id', $postId)->update(['reactCount' => $reactCount]);
-
         return redirect()->route('babysitter.index');
     }
 
@@ -81,17 +73,7 @@ class ReactController extends Controller
     {
         
         $id->delete();
-
-         $reactCount = DB::table('posts')
-            ->leftJoin('reactions', 'posts.id', '=', 'reactions.post_id')
-            ->where('posts.id', $id)
-            ->count();
-            
-        Post::where('id', $postId)->update(['reactCount' => 0]);
-
-
-       
-
+        
         return redirect()->route('babysitter.index');
     }
 }

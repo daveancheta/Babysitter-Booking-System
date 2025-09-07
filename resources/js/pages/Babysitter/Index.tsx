@@ -49,14 +49,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Comment {
-    id: number;
-    user_id: number;
-    post_id: number;
-    comment: string;
-    created_at: string;
-    updated_at: string;
-}
 
 interface Posts {
     id: number;
@@ -64,7 +56,7 @@ interface Posts {
     post: string;
     reactCount: number;
     userCountSession: number;
-    comments: string;
+    comment: string;
     commentCount: number;
     react_id: number
     created_at: string;
@@ -93,7 +85,7 @@ export default function Index() {
         comment: '',
     });
 
-    const { delete: destroy, processing: processingDeleteReact} = useForm({});
+    const { delete: destroy, processing: processingDeleteReact } = useForm({});
 
     const submitPost = (e: React.FormEvent) => {
         e.preventDefault();
@@ -271,7 +263,7 @@ export default function Index() {
                                 </div>
                                 <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
                                     {p.userCountSession ?
-                                         <div className='flex flex-row items-center gap-1'>
+                                        <div className='flex flex-row items-center gap-1'>
                                             <span>{useCountSession}</span>
                                             <button disabled={processingDeleteReact} onClick={() => handleDeleteReact(p.react_id, p.id)}>
                                                 <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
@@ -311,12 +303,13 @@ export default function Index() {
                                                     <div className="grid gap-3 ">
                                                         <div className='flex justify-between space-x-2'>
                                                             <div className='flex flex-col w-full gap-4'>
-                                                                <div className="comments-section">
-                                                                    {p.comments && Array.isArray(p.comments) && (p.comments as Comment[]).map((c: Comment) => (
-                                                                        <div key={c.id} className={userId === c.user_id ? "m-5 text-end mb-10" : "m-5 text-start"}>
-                                                                            <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c.comment}</span>
+                                                                <div className="comments-section mt-10">
+                                                                    {p.comment && p.comment.split(" || ").map((c) => (
+                                                                        <div className='mb-10'>
+                                                                            <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c}</span>
                                                                         </div>
-                                                                    ))}
+                                                                    ))
+                                                                    }
                                                                 </div>
                                                                 <div className='flex flex-row gap-2'>
                                                                     <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
