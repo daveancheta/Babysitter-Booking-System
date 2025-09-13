@@ -110,7 +110,7 @@ export default function Notification() {
                                 <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                        <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'booked')}><span className='uppercase'>{b.status}</span></Badge>
+                                        <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
                                     </div>
 
                                     <div className='flex flex-col p-6'>
@@ -167,7 +167,7 @@ export default function Notification() {
                                 <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                        <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : 'booked')}><span className='uppercase'>{b.status}</span></Badge>
+                                        <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
                                     </div>
 
                                     <div className='flex flex-col p-6'>
@@ -191,7 +191,7 @@ export default function Notification() {
                                             <Button type='submit' onClick={() => {
                                                 setData('action', 'cancelled');
                                                 setData('booking_id', b.id)
-                                            }} className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'cancel' || b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || processing}>
+                                            }} className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'cancel' || b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
                                                 Cancel  
                                             </Button>
                                         </form>
