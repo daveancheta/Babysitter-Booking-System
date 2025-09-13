@@ -24,6 +24,7 @@ class ParentController extends Controller
                 'user_id'
             )
             ->where('is_babysitter', 1)
+            ->whereIn('status', ['pending', 'approved'])
             ->orderBy('id')
             ->get();
 
