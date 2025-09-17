@@ -52,6 +52,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Posts {
     id: number;
+    user_id: number;
     name: string;
     post: string;
     reactCount: number;
@@ -302,7 +303,7 @@ export default function Index() {
                                         </div>
                                     </div>
                                 </ContextMenuTrigger>
-                                <ContextMenuContent className="w-52">
+                                <ContextMenuContent className={p.user_id === auth.user.id ? 'w-52' : 'hidden'}>
                                     <ContextMenuItem inset>
                                         <button onClick={() => deletePost(p.id)}>
                                             Delete
@@ -310,7 +311,7 @@ export default function Index() {
                                         <ContextMenuShortcut>⌘[</ContextMenuShortcut>
                                     </ContextMenuItem>
                                     <ContextMenuItem inset disabled>
-                                        Forward
+                                        Edit
                                         <ContextMenuShortcut>⌘]</ContextMenuShortcut>
                                     </ContextMenuItem>
                                     <ContextMenuItem inset>

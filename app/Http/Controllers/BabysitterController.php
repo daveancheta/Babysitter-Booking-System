@@ -35,12 +35,15 @@ class BabysitterController extends Controller
             ->select(
                 'posts.*',
                 'users.name',
+                'users.id as user_id',
                 'reactions.id as react_id',
                 DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),
                 DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as commentCount '),
                 DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment')
             )
             ->orderBy('created_at', 'desc')->get();
+
+        
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
