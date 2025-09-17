@@ -101,8 +101,10 @@ class BabysitterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $id)
     {
-        //
+        $id->delete();
+
+        return redirect()->route('babysitter.index');
     }
 }

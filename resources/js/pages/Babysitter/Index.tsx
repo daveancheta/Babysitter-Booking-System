@@ -87,6 +87,8 @@ export default function Index() {
 
     const { delete: destroy, processing: processingDeleteReact } = useForm({});
 
+    const { delete: destroyPost, processing: processingDeletePost } = useForm({})
+
     const submitPost = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('babysitter.store'));
@@ -108,6 +110,10 @@ export default function Index() {
     const handleDeleteReact = (id: number, postId: number) => {
         destroy(route('react.delete', { id, postId }));
     }
+    const deletePost = (id: number) => {
+        destroyPost(route('babysitter.delete', { id }));
+    }
+
 
     const getInitials = useInitials();
 
@@ -190,156 +196,154 @@ export default function Index() {
                 {posts.length > 0 && (
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {posts.map((p) => (
-                                  <ContextMenu key={p.id}>
-                                        <ContextMenuTrigger>
-                            <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={p.id}>
-                                <div className='flex justify-between'>
+                            <ContextMenu key={p.id}>
+                                <ContextMenuTrigger>
+                                    <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={p.id}>
+                                        <div className='flex justify-between'>
 
-                                    <div className='flex flex-row gap-2 items-center'>
-                                        <>
-                                            <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                    {getInitials(p.name)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                                <div className='flex flex-col'>
-                                                    <span className="truncate font-medium">{p.name}</span>
-                                                    <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'>
-                                                        <History className='w-3 h-3 ' />
-                                                        <span className='text-xs'>{p.created_at}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    </div>
-
-                              
-                                          
-                                      
-                                </div>
-                                <div className='text-start flex items-start justify-start mt-3'>
-                                    <span>{p.post}</span>
-
-                                </div>
-                                <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
-                                    {p.userCountSession ?
-                                        <div className='flex flex-row items-center gap-1'>
-                                            <span>{useCountSession}</span>
-                                            <button disabled={processingDeleteReact} onClick={() => handleDeleteReact(p.react_id, p.id)}>
-                                                <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
-                                            </button>
-                                            <span className='text-sm'>{p.reactCount}</span>
-                                        </div>
-                                        :
-                                        <form onSubmit={submitReact}>
-                                            <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
-                                            <input type="hidden" value={data.post_id} />
-                                            <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
-                                            <div className='flex flex-row items-center gap-1'>
-                                                <span>{useCountSession}</span>
-                                                <button disabled={processing} onClick={() => setData('post_id', p.id)}>
-                                                    <Heart className='w-5 h-5 hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
-                                                </button>
-                                                <span className='text-sm'>{p.reactCount}</span>
-                                            </div>
-                                        </form>
-                                    }
-
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <div className='flex flex-row items-center gap-2'>
-                                                <button onClick={() => setData('post_id', p.id)}>
-                                                    <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
-                                                <span className='text-sm'>{p.commentCount}</span>
-                                            </div>
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-[600px]">
-                                            <form onSubmit={submitComment}>
-                                                <DialogHeader>
-                                                    <DialogTitle className='mb-2'>Comment something...</DialogTitle>
-                                                </DialogHeader>
-
-                                                <div className="grid gap-4">
-                                                    <div className="grid gap-3 ">
-                                                        <div className='flex justify-between space-x-2'>
-                                                            <div className='flex flex-col w-full gap-4'>
-                                                                <div className="comments-section mt-10">
-                                                                    {p.comment && p.comment.split(" || ").map((c) => (
-                                                                        <div className='mb-10'>
-                                                                            <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c}</span>
-                                                                        </div>
-                                                                    ))
-                                                                    }
-                                                                </div>
-                                                                <div className='flex flex-row gap-2'>
-                                                                    <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
-                                                                    <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
-                                                                    <Input
-                                                                        id='inputComment'
-                                                                        placeholder='Comment something…'
-                                                                        onChange={(e) => setData('comment', e.target.value)}
-                                                                        value={data.comment}
-                                                                    />
-                                                                    <Button
-                                                                        className=''
-                                                                        id='commentButton'
-                                                                        type="submit"
-                                                                        hidden={!data.comment.trim()}
-                                                                        disabled={processing}>
-                                                                        <Send />
-                                                                    </Button>
-                                                                </div>
+                                            <div className='flex flex-row gap-2 items-center'>
+                                                <>
+                                                    <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                                        <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                            {getInitials(p.name)}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                                        <div className='flex flex-col'>
+                                                            <span className="truncate font-medium">{p.name}</span>
+                                                            <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'>
+                                                                <History className='w-3 h-3 ' />
+                                                                <span className='text-xs'>{p.created_at}</span>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </>
+                                            </div>
+                                        </div>
+                                        <div className='text-start flex items-start justify-start mt-3'>
+                                            <span>{p.post}</span>
+
+                                        </div>
+                                        <div className='mt-auto flex flex-row items-center gap-4 justify-end'>
+                                            {p.userCountSession ?
+                                                <div className='flex flex-row items-center gap-1'>
+                                                    <span>{useCountSession}</span>
+                                                    <button disabled={processingDeleteReact} onClick={() => handleDeleteReact(p.react_id, p.id)}>
+                                                        <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                                    </button>
+                                                    <span className='text-sm'>{p.reactCount}</span>
                                                 </div>
-                                            </form>
-                                        </DialogContent>
-                                    </Dialog>
-                                </div>
-                            </div>
-                              </ContextMenuTrigger>
-                                        <ContextMenuContent className="w-52">
-                                            <ContextMenuItem inset>
-                                                Back
-                                                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuItem inset disabled>
-                                                Forward
-                                                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuItem inset>
-                                                Reload
-                                                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuSub>
-                                                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-                                                <ContextMenuSubContent className="w-44">
-                                                    <ContextMenuItem>Save Page...</ContextMenuItem>
-                                                    <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                                                    <ContextMenuItem>Name Window...</ContextMenuItem>
-                                                    <ContextMenuSeparator />
-                                                    <ContextMenuItem>Developer Tools</ContextMenuItem>
-                                                    <ContextMenuSeparator />
-                                                    <ContextMenuItem>Delete</ContextMenuItem>
-                                                </ContextMenuSubContent>
-                                            </ContextMenuSub>
+                                                :
+                                                <form onSubmit={submitReact}>
+                                                    <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                                    <input type="hidden" value={data.post_id} />
+                                                    <input type="hidden" onChange={(e) => setData('react', parseInt(e.target.value))} value={data.react} />
+                                                    <div className='flex flex-row items-center gap-1'>
+                                                        <span>{useCountSession}</span>
+                                                        <button disabled={processing} onClick={() => setData('post_id', p.id)}>
+                                                            <Heart className='w-5 h-5 hover:text-red-400  transition delay-50 duration-300 cursor-pointer' />
+                                                        </button>
+                                                        <span className='text-sm'>{p.reactCount}</span>
+                                                    </div>
+                                                </form>
+                                            }
+
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <div className='flex flex-row items-center gap-2'>
+                                                        <button onClick={() => setData('post_id', p.id)}>
+                                                            <MessageCircleMore className='w-5 h-5 hover:text-blue-700 dark:hover:text-blue-400 transition delay-50 duration-300 cursor-pointer' /></button>
+                                                        <span className='text-sm'>{p.commentCount}</span>
+                                                    </div>
+                                                </DialogTrigger>
+                                                <DialogContent className="sm:max-w-[600px]">
+                                                    <form onSubmit={submitComment}>
+                                                        <DialogHeader>
+                                                            <DialogTitle className='mb-2'>Comment something...</DialogTitle>
+                                                        </DialogHeader>
+
+                                                        <div className="grid gap-4">
+                                                            <div className="grid gap-3 ">
+                                                                <div className='flex justify-between space-x-2'>
+                                                                    <div className='flex flex-col w-full gap-4'>
+                                                                        <div className="comments-section mt-10">
+                                                                            {p.comment && p.comment.split(" || ").map((c) => (
+                                                                                <div className='mb-10'>
+                                                                                    <span className='border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90 p-3 rounded-md'>{c}</span>
+                                                                                </div>
+                                                                            ))
+                                                                            }
+                                                                        </div>
+                                                                        <div className='flex flex-row gap-2'>
+                                                                            <input type="hidden" onChange={(e) => setData('post_id', parseInt(e.target.value))} value={data.post_id} />
+                                                                            <input type="hidden" onChange={(e) => setData('user_id', parseInt(e.target.value))} value={data.user_id} />
+                                                                            <Input
+                                                                                id='inputComment'
+                                                                                placeholder='Comment something…'
+                                                                                onChange={(e) => setData('comment', e.target.value)}
+                                                                                value={data.comment}
+                                                                            />
+                                                                            <Button
+                                                                                className=''
+                                                                                id='commentButton'
+                                                                                type="submit"
+                                                                                hidden={!data.comment.trim()}
+                                                                                disabled={processing}>
+                                                                                <Send />
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </div>
+                                    </div>
+                                </ContextMenuTrigger>
+                                <ContextMenuContent className="w-52">
+                                    <ContextMenuItem inset>
+                                        <button onClick={() => deletePost(p.id)}>
+                                            Delete
+                                        </button>
+                                        <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+                                    </ContextMenuItem>
+                                    <ContextMenuItem inset disabled>
+                                        Forward
+                                        <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+                                    </ContextMenuItem>
+                                    <ContextMenuItem inset>
+                                        Reload
+                                        <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                                    </ContextMenuItem>
+                                    <ContextMenuSub>
+                                        <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+                                        <ContextMenuSubContent className="w-44">
+                                            <ContextMenuItem>Save Page...</ContextMenuItem>
+                                            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                                            <ContextMenuItem>Name Window...</ContextMenuItem>
                                             <ContextMenuSeparator />
-                                            <ContextMenuCheckboxItem checked>
-                                                Show Bookmarks
-                                            </ContextMenuCheckboxItem>
-                                            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+                                            <ContextMenuItem>Developer Tools</ContextMenuItem>
                                             <ContextMenuSeparator />
-                                            <ContextMenuRadioGroup value="pedro">
-                                                <ContextMenuLabel inset>People</ContextMenuLabel>
-                                                <ContextMenuRadioItem value="pedro">
-                                                    Pedro Duarte
-                                                </ContextMenuRadioItem>
-                                                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-                                            </ContextMenuRadioGroup>
-                                        </ContextMenuContent>
-                                    </ContextMenu>
+                                            <ContextMenuItem>Delete</ContextMenuItem>
+                                        </ContextMenuSubContent>
+                                    </ContextMenuSub>
+                                    <ContextMenuSeparator />
+                                    <ContextMenuCheckboxItem checked>
+                                        Show Bookmarks
+                                    </ContextMenuCheckboxItem>
+                                    <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+                                    <ContextMenuSeparator />
+                                    <ContextMenuRadioGroup value="pedro">
+                                        <ContextMenuLabel inset>People</ContextMenuLabel>
+                                        <ContextMenuRadioItem value="pedro">
+                                            Pedro Duarte
+                                        </ContextMenuRadioItem>
+                                        <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+                                    </ContextMenuRadioGroup>
+                                </ContextMenuContent>
+                            </ContextMenu>
                         ))}
                     </div>
                 )}
