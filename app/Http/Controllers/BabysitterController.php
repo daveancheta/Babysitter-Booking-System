@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Reaction;
@@ -109,5 +110,13 @@ class BabysitterController extends Controller
         $id->delete();
 
         return redirect()->route('babysitter.index');
+    }
+
+    // Delete Bookings
+    public function destroyBook(Booking $id) 
+    {
+        $id->delete();
+
+        return redirect()->route('notification.index');
     }
 }

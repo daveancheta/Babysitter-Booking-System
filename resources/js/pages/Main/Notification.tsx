@@ -83,6 +83,8 @@ export default function Notification() {
         action: ''
     });
 
+    const { delete: destroy, processing: processingDeleteBooking } = useForm({});
+
     const acceptAction = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('action.store'));
@@ -96,6 +98,10 @@ export default function Notification() {
     const cancelAction = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('action.store'));
+    }
+
+    const deleteBooking = (id: number) => {
+        destroy(route('babysitter.deleteBooking', { id }))
     }
 
 
@@ -112,7 +118,6 @@ export default function Notification() {
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                         <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
                                     </div>
-
                                     <div className='flex flex-col p-6'>
                                         <div className='flex justify-between items-center'>
                                             <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
@@ -148,7 +153,7 @@ export default function Notification() {
                                             </Button>
                                         </form>
 
-                                        <Button className="mt-auto bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700 cursor-pointer">
+                                        <Button onClick={() => deleteBooking(b.id)} className="mt-auto bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700 cursor-pointer">
                                             <Trash2 />
                                         </Button>
 

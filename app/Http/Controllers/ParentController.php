@@ -20,11 +20,14 @@ class ParentController extends Controller
             ->leftJoin('bookings', 'users.id', '=', 'bookings.babysitter_id')
             ->select(
                 'users.*',
-                'status',
+                'bookings.status',
                 'user_id'
             )
             ->where('is_babysitter', 1)
-            ->whereIn('status', ['pending', 'approved'])
+            ->where(function ($query) {
+                $query->whereNull('bookings.status')
+                    ->orWhereIn('bookings.status', ['pending', 'approved']); 
+            })   
             ->orderBy('id')
             ->get();
 
