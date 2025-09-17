@@ -190,6 +190,8 @@ export default function Index() {
                 {posts.length > 0 && (
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {posts.map((p) => (
+                                  <ContextMenu key={p.id}>
+                                        <ContextMenuTrigger>
                             <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={p.id}>
                                 <div className='flex justify-between'>
 
@@ -212,50 +214,9 @@ export default function Index() {
                                         </>
                                     </div>
 
-                                    <ContextMenu>
-                                        <ContextMenuTrigger>
-                                            <EllipsisVertical />
-                                        </ContextMenuTrigger>
-                                        <ContextMenuContent className="w-52">
-                                            <ContextMenuItem inset>
-                                                Back
-                                                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuItem inset disabled>
-                                                Forward
-                                                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuItem inset>
-                                                Reload
-                                                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-                                            </ContextMenuItem>
-                                            <ContextMenuSub>
-                                                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-                                                <ContextMenuSubContent className="w-44">
-                                                    <ContextMenuItem>Save Page...</ContextMenuItem>
-                                                    <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                                                    <ContextMenuItem>Name Window...</ContextMenuItem>
-                                                    <ContextMenuSeparator />
-                                                    <ContextMenuItem>Developer Tools</ContextMenuItem>
-                                                    <ContextMenuSeparator />
-                                                    <ContextMenuItem>Delete</ContextMenuItem>
-                                                </ContextMenuSubContent>
-                                            </ContextMenuSub>
-                                            <ContextMenuSeparator />
-                                            <ContextMenuCheckboxItem checked>
-                                                Show Bookmarks
-                                            </ContextMenuCheckboxItem>
-                                            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-                                            <ContextMenuSeparator />
-                                            <ContextMenuRadioGroup value="pedro">
-                                                <ContextMenuLabel inset>People</ContextMenuLabel>
-                                                <ContextMenuRadioItem value="pedro">
-                                                    Pedro Duarte
-                                                </ContextMenuRadioItem>
-                                                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-                                            </ContextMenuRadioGroup>
-                                        </ContextMenuContent>
-                                    </ContextMenu>
+                              
+                                          
+                                      
                                 </div>
                                 <div className='text-start flex items-start justify-start mt-3'>
                                     <span>{p.post}</span>
@@ -338,6 +299,47 @@ export default function Index() {
                                     </Dialog>
                                 </div>
                             </div>
+                              </ContextMenuTrigger>
+                                        <ContextMenuContent className="w-52">
+                                            <ContextMenuItem inset>
+                                                Back
+                                                <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuItem inset disabled>
+                                                Forward
+                                                <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuItem inset>
+                                                Reload
+                                                <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                                            </ContextMenuItem>
+                                            <ContextMenuSub>
+                                                <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+                                                <ContextMenuSubContent className="w-44">
+                                                    <ContextMenuItem>Save Page...</ContextMenuItem>
+                                                    <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                                                    <ContextMenuItem>Name Window...</ContextMenuItem>
+                                                    <ContextMenuSeparator />
+                                                    <ContextMenuItem>Developer Tools</ContextMenuItem>
+                                                    <ContextMenuSeparator />
+                                                    <ContextMenuItem>Delete</ContextMenuItem>
+                                                </ContextMenuSubContent>
+                                            </ContextMenuSub>
+                                            <ContextMenuSeparator />
+                                            <ContextMenuCheckboxItem checked>
+                                                Show Bookmarks
+                                            </ContextMenuCheckboxItem>
+                                            <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+                                            <ContextMenuSeparator />
+                                            <ContextMenuRadioGroup value="pedro">
+                                                <ContextMenuLabel inset>People</ContextMenuLabel>
+                                                <ContextMenuRadioItem value="pedro">
+                                                    Pedro Duarte
+                                                </ContextMenuRadioItem>
+                                                <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+                                            </ContextMenuRadioGroup>
+                                        </ContextMenuContent>
+                                    </ContextMenu>
                         ))}
                     </div>
                 )}
