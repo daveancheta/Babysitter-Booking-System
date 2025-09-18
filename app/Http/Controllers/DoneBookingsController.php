@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
-use App\Models\bookingsDone;
+use App\Models\doneBookings;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
 
-class bookingsDoneController extends Controller
+class DoneBookingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +31,7 @@ class bookingsDoneController extends Controller
             'end_date' => 'required',
         ]);
 
-        bookingsDone::create($validated);
+        doneBookings::create($validated);
 
         $id = $request->input('booking_id');
         $booking = Booking::find($id);

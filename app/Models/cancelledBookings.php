@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class bookingsDone extends Model
+class cancelledBookings extends Model
 {
      protected $fillable = [
         'user_id',
