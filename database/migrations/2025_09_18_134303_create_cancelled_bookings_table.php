@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('cancelled_bookings', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->bigInteger('babysitter_id');
+            $table->string('payment_method');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BabysitterController;
 use App\Http\Controllers\bookingsDoneController;
+use App\Http\Controllers\CancelledBookingsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DoneBookingsController;
 use App\Http\Controllers\NotificationController;
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
     Route::post('/doneBookings', [DoneBookingsController::class, 'create'])->name('done.store');
+    Route::post('/cancelledBookings', [CancelledBookingsController::class, 'create'])->name('cancelled.store');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');

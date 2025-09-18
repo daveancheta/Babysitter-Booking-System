@@ -65,11 +65,15 @@ interface Bookings {
 interface Books {
     id: number;
     name: string;
+    babysitter_id: number;
     contact_number: string;
     profile: string;
     rate: number;
     status: string;
+    payment_method: string;
     user_id: number;
+    start_date: string;
+    end_date: string;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -115,6 +119,11 @@ export default function Notification() {
     const submitDoneBookings = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('done.store'));
+    }
+
+    const submitCancelledBookings = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('cancelled.store'));
     }
 
 
@@ -219,10 +228,16 @@ export default function Notification() {
                                         </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>
-                                        <form onSubmit={cancelAction} className='w-full'>
+   
+                                        <form onSubmit={submitCancelledBookings} className='w-full'>
                                             <Button type='submit' onClick={() => {
-                                                setData('action', 'cancelled');
-                                                setData('booking_id', b.id)
+                                                setData('user_id', b.user_id);
+                                                setData('babysitter_id', b.babysitter_id);
+                                                setData('status', b.status);
+                                                setData('payment_method', b.payment_method);
+                                                setData('start_date', b.start_date);
+                                                setData("end_date", b.end_date)
+                                                setData("booking_id", b.id)
                                             }} className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'cancel' || b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
                                                 Cancel
                                             </Button>
