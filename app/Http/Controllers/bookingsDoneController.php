@@ -26,7 +26,6 @@ class bookingsDoneController extends Controller
             'booking_id' => 'required',
             'user_id' => 'required',
             'babysitter_id' => 'required',
-            'status' => 'required',
             'payment_method' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
