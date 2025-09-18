@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\bookingsDone;
 use Illuminate\Http\Request;
 
 class bookingsDoneController extends Controller
@@ -17,9 +19,22 @@ class bookingsDoneController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Booking $id)
     {
-        //
+         $validated = request()->validate([
+            'user_id' => 'required',
+            'babysitter_id' => 'required',
+            'status' => 'required',
+            'payment_method' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        bookingsDone::create($validated);
+
+        Booking::delete($id);
+
+        return redirect()->route('parent.index');
     }
 
     /**
