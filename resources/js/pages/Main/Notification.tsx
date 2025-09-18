@@ -166,7 +166,7 @@ export default function Notification() {
                 </div>
             ) : (
                 <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                     {books.length > 0 && (
+                    {books.length > 0 && (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {books.map((b) => (
                                 <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
@@ -197,7 +197,7 @@ export default function Notification() {
                                                 setData('action', 'cancelled');
                                                 setData('booking_id', b.id)
                                             }} className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'cancel' || b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
-                                                Cancel  
+                                                Cancel
                                             </Button>
                                         </form>
 
