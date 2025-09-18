@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\bookingsDone;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class bookingsDoneController extends Controller
 {
@@ -19,9 +20,10 @@ class bookingsDoneController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Booking $id)
+    public function create(Request $request)
     {
-         $validated = request()->validate([
+        $validated = request()->validate([
+            'booking_id' => 'required',
             'user_id' => 'required',
             'babysitter_id' => 'required',
             'status' => 'required',
@@ -32,9 +34,14 @@ class bookingsDoneController extends Controller
 
         bookingsDone::create($validated);
 
-        Booking::delete($id);
+        $id = $request->input('booking_id');
+        $booking = Booking::find($id);
 
-        return redirect()->route('parent.index');
+        if ($booking) {
+            $booking->delete();
+        }
+
+        return redirect()->route('notification.index');
     }
 
     /**

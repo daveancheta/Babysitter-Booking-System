@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
-    Route::post('/doneBookings/{id}', [bookingsDoneController::class, 'create'])->name('done.store');
+    Route::post('/doneBookings', [bookingsDoneController::class, 'create'])->name('done.store');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');

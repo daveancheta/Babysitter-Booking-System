@@ -51,12 +51,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Bookings {
     id: number;
     name: string;
+    babysitter_id: number;
     contact_number: string;
     profile: string;
     rate: number;
     status: string;
     payment_method: string;
     user_id: number;
+    start_date: string;
+    end_date: string;
 }
 
 interface Books {
@@ -80,9 +83,14 @@ export default function Notification() {
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,
-        action: ''
+        action: '',
+        user_id: 0,
+        babysitter_id: 0,
+        status: 'pending',
+        payment_method: '',
+        start_date: '',
+        end_date: '',
     });
-
     const { delete: destroy, processing: processingDeleteBooking } = useForm({});
 
     const acceptAction = (e: React.FormEvent) => {
@@ -102,6 +110,11 @@ export default function Notification() {
 
     const deleteBooking = (id: number) => {
         destroy(route('babysitter.deleteBooking', { id }))
+    }
+
+    const submitDoneBookings = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('done.store'));
     }
 
 
@@ -150,6 +163,20 @@ export default function Notification() {
                                                 setData('action', 'declined');
                                             }} className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700 cursor-pointer">
                                                 Decline
+                                            </Button>
+                                        </form>
+
+                                        <form onSubmit={submitDoneBookings} className='w-full'>
+                                            <Button type='submit' onClick={() => {
+                                                setData('user_id', b.user_id);
+                                                setData('babysitter_id', b.babysitter_id);
+                                                setData('status', b.status);
+                                                setData('payment_method', b.payment_method);
+                                                setData('start_date', b.start_date);
+                                                setData("end_date", b.end_date)
+                                                setData("booking_id", b.id)
+                                            }} className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700 cursor-pointer">
+                                                Done
                                             </Button>
                                         </form>
 
