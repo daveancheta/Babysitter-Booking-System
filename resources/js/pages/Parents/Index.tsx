@@ -131,13 +131,15 @@ export default function Index() {
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             {u.status === "pending" || u.status === "approved" ? (
-                                                <Button className='mt-auto w-full pointer-events-none select-none' variant="outline">Already Booked</Button>
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">Already Booked</Button>
                                             ) : (usersBook > 0 ? (
-                                                <Button className='mt-auto w-full pointer-events-none select-none' variant="outline">You have a pending booking
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">You have a pending booking
                                                 </Button>
+                                            ) : (auth.user.balance < u.rate ? (
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">You have insufficient balance</Button>
                                             ) : (
                                                 <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full' } variant="outline">Book Now</Button>
-                                            )
+                                            ))
                                             )}
 
                                         </DialogTrigger>
