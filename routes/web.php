@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\BabysitterController;
 use App\Http\Controllers\bookingsDoneController;
 use App\Http\Controllers\CancelledBookingsController;
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
     Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
+
+    //Admin
+    Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
+    Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
 });
 
 require __DIR__ . '/settings.php';
