@@ -136,7 +136,12 @@ export default function Index() {
                                                 <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">You have a pending booking
                                                 </Button>
                                             ) : (auth.user.balance < u.rate ? (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">You have insufficient balance</Button>
+                                                 <Tooltip>
+                                            <TooltipTrigger className='w-full'><Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">Insufficient balance</Button></TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>You need to top up at least <span className='text-green-700 font-bold dark:text-green-600'>${u.rate}</span></p>
+                                            </TooltipContent>
+                                        </Tooltip>
                                             ) : (
                                                 <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full' } variant="outline">Book Now</Button>
                                             ))
