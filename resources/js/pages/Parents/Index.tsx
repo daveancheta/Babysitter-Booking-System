@@ -136,7 +136,7 @@ export default function Index() {
                                                 <Button className='mt-auto w-full pointer-events-none select-none' variant="outline">You have a pending booking
                                                 </Button>
                                             ) : (
-                                                <Button className='mt-auto w-full' variant="outline">Book Now</Button>
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full' } variant="outline">Book Now</Button>
                                             )
                                             )}
 
