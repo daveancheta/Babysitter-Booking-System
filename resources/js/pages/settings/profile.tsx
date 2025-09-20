@@ -29,6 +29,26 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
 
+    useEffect(() => {
+        let copyButton = document.getElementById("copyButton");
+        let copyText = document.getElementById("copyText");
+
+
+        copyButton?.addEventListener("click", () => {
+            if (copyButton) {
+                copyText?.classList.remove("hidden");
+                setTimeout(() => {
+
+                    if (copyText) {
+                        copyText?.classList.add("hidden");
+                    }
+                }, 1000);
+            }
+
+
+        })
+    })
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
@@ -47,7 +67,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                     >
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
-                              <div className="grid gap-2">
+                                <div className="grid gap-2">
                                     <Label htmlFor="balance">Account ID</Label>
 
                                     <div className='border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
@@ -62,11 +82,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                     readOnly
                                                 />
                                             </div>
-                                                <Copy className='w-4 h-4 ms-auto cursor-pointer' onClick={() => {navigator.clipboard.writeText(auth.user.account_id)}} />
+                                            <Copy className='ms-auto w-4 h-4 cursor-pointer' id='copyButton' onClick={() => { navigator.clipboard.writeText(auth.user.account_id) }} />
                                         </div>
+
                                     </div>
+                                    <p className='text-sm ml-1 text-green-600 hidden select-none' id='copyText'>Copied</p>
                                 </div>
-                                
+
                                 <div className="grid gap-2">
                                     <Label htmlFor="name">Name</Label>
 
