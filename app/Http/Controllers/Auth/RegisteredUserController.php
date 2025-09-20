@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
+            'account_id' => fake()->regexify('[A-Za-z0-9]{10}'),
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
