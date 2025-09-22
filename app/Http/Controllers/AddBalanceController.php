@@ -60,8 +60,9 @@ class AddBalanceController extends Controller
 
         $accountID = $request->input('account_id');
         $balance = $request->input('balance');
+        $currentBalance = User::where('account_id', $accountID)->first();
 
-        User::where('account_id', $accountID)->update(['balance' => $balance]);
+        User::where('account_id', $accountID)->update(['balance' => (int)$currentBalance->balance + $balance]); 
 
 
         return redirect()->route('balance.index');

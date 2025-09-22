@@ -25,7 +25,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
     const { data, setData, post, processing, errors } = useForm({
         account_id: '',
-        balance: 0
+        balance: ''
     });
 
     const updateBalance = (e: React.FormEvent) => {
@@ -59,7 +59,14 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                         <div className="grid gap-2">
                             <Label>Enter Amount</Label>
-                            <Input type="number" placeholder='100.00' onChange={(e) => setData('balance', parseInt(e.target.value))} value={data.balance} />
+                            <Input
+                                type="number"
+                                step="0.01"
+                                placeholder="100.00"
+                                onChange={(e) => setData('balance', e.target.value)}
+                                value={data.balance}
+                            />
+
                         </div>
 
                         <Button type='submit' className='cursor-pointer'><Wallet />Cash In</Button>
