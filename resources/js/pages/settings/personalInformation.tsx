@@ -186,7 +186,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                                     <Input
                                         id="rate"
-                                        type="text"
+                                        type="number"
+                                        step='0.01'
                                         className="mt-1 block w-full"
                                         defaultValue={auth.user.rate}
                                         name="rate"
