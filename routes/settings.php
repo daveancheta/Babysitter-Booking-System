@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('settings/personalInformation', [PersonalInformationController::class, 'update'])->name('personalInformation.update');
 
     Route::post('settings/personalInformation/profile', [PersonalInformationController::class, 'updateProfilePicture'])->name('profilePicture.update');
+    Route::post('settings/personalInformation/status/', [PersonalInformationController::class, 'updateStatus'])->name('status.update');
 
 
 

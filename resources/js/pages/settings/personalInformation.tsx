@@ -12,7 +12,7 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { UserProfileDisplay } from '@/components/user-profile-display';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone } from 'lucide-react';
+import { CircleAlert, Megaphone, Moon } from 'lucide-react';
 import {
     Dialog,
     DialogClose,
@@ -24,6 +24,20 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
+import * as React from "react"
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { id } from 'date-fns/locale';
+
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,6 +56,16 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
+    const {data, setData, post, processing, errors} = useForm({
+        id: 0,
+        status: '',
+    })
+
+    const statusSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        post(route('status.update'));
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Personal Information" />
@@ -53,7 +77,28 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         <HeadingSmall title="Personal information" description="Update your Personal Information" />
 
                         <div className='flex flex-col items-center gap-2'>
-                            <UserProfileDisplay />
+                            <div className='relative'>
+                                <UserProfileDisplay />
+                                <form onSubmit={statusSubmit}>
+                                            <div className='absolute -bottom-2 -left-0.5 rounded-full cursor-pointer'>
+                                                <Select onValueChange={(value) => setData('status', value)} value={data.status}>
+                                                    <SelectTrigger>
+                                                        <Moon className='w-5 h-5' />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectGroup>
+                                                            <SelectLabel>Status</SelectLabel>
+                                                            <SelectItem value="offline">Offline</SelectItem>
+                                                            <SelectItem value="day_off">Day off</SelectItem>
+                                                            <SelectItem value="dnd">Do not disturb</SelectItem>
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+
+                                            <button type='submit' onClick={() => setData('id', auth.user.id)}>Submit</button>
+                                </form>
+                            </div>
                             <Dialog>
                                 <DialogTrigger asChild>
                                     <Button variant="outline" className='h-8 w-20 text-xs'>Edit Profile</Button>

@@ -22,6 +22,7 @@ class ProfileUpdateRequest extends FormRequest
             'contact_number' => ['nullable', 'string', 'max:15'],
             'profile' => ['nullable', 'string', 'max:255'],
             'rate' => ['nullable', 'string', 'max:15'],
+            'status' => ['nullable', 'string', 'max:15'],
 
             'email' => [
                 'required',

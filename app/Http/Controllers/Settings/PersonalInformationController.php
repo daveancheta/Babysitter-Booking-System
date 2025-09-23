@@ -87,6 +87,21 @@ class PersonalInformationController extends Controller
 
     }
 
+       public function updateStatus(Request $request) {
+       request()-> validate([
+        'id' => 'required',
+        'status' => 'required',
+       ]);
+
+       $userId = $request->input('id');
+       $updatedStatus = $request->input('status');
+
+       User::where('id', $userId)->update(['status' => $updatedStatus]);
+
+        return redirect()->route('personalInformation.index');
+
+    }
+
     /**
      * Remove the specified resource from storage.
      */
