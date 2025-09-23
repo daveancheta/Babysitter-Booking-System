@@ -42,6 +42,12 @@ class NotificationController extends Controller
             $b->date = $start->diffInDays($end);
         }
 
+         foreach($bookings as $b) {
+            $start = Carbon::parse($b->start_date);
+            $end = Carbon::parse($b->end_date);
+            $b->date = $start->diffInDays($end);
+        }
+
 
         return Inertia::render('Main/Notification', compact('bookings', 'books'));
     }

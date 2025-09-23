@@ -60,6 +60,8 @@ interface Bookings {
     user_id: number;
     start_date: string;
     end_date: string;
+    start: number;
+    date: number
 }
 
 interface Books {
@@ -156,6 +158,9 @@ export default function Notification() {
                                         <div>
                                             <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
                                         </div>
+                                          <div>
+                                            <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                        </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>
                                         <form onSubmit={acceptAction} className='w-full'>
@@ -228,7 +233,7 @@ export default function Notification() {
                                             <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
                                         </div>
                                          <div>
-                                            <h1 className='font-bold'>Rent Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                            <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                         </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>
