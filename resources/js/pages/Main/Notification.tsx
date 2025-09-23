@@ -74,6 +74,7 @@ interface Books {
     user_id: number;
     start_date: string;
     end_date: string;
+    date: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -225,6 +226,9 @@ export default function Notification() {
                                         </div>
                                         <div>
                                             <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
+                                        </div>
+                                         <div>
+                                            <h1 className='font-bold'>Rent Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                         </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>

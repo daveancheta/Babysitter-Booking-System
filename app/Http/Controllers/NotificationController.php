@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,12 @@ class NotificationController extends Controller
         )
         ->where('user_id', $userId)
         ->get();
+
+        foreach($books as $b) {
+            $start = Carbon::parse($b->start_date);
+            $end = Carbon::parse($b->end_date);
+            $b->date = $start->diffInDays($end);
+        }
 
 
         return Inertia::render('Main/Notification', compact('bookings', 'books'));
