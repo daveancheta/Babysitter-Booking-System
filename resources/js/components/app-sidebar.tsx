@@ -31,7 +31,32 @@ const mainNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
-    const { props } = usePage();
+    const { auth } = usePage<SharedData>().props;
+    const mainNavItems: NavItem[] = [
+        
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Find a Babysitter',
+        href: '/babysitter',
+        icon: Baby,
+    },
+    {
+        title: 'Book Now',
+        href: '/parent',
+        icon: UserPlus,
+    },
+    ...(auth?.user.is_babysitter ? [] : [
+    {
+        title: 'Notification',
+        href: '/notification',
+        icon: Megaphone,
+    },
+    ])
+];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
