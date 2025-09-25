@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('rate', 10, 2)->default(0);
             $table->string('status')->nullable();
             $table->boolean('is_babysitter')->default(0);
+            $table->boolean('is_admin')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
