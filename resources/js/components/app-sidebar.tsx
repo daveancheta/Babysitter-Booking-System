@@ -44,18 +44,19 @@ export function AppSidebar() {
         href: '/babysitter',
         icon: Baby,
     },
+     ...(auth?.user.is_babysitter ? [] : [
     {
         title: 'Book Now',
         href: '/parent',
         icon: UserPlus,
     },
-    ...(auth?.user.is_babysitter ? [] : [
+     ]),
     {
         title: 'Notification',
         href: '/notification',
         icon: Megaphone,
     },
-    ])
+  
 ];
 
     return (
