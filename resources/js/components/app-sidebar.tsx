@@ -33,31 +33,34 @@ const mainNavItems: NavItem[] = [
 export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
     const mainNavItems: NavItem[] = [
+
+        ...(auth?.user.is_admin ? [
+            {
+                title: 'Dashboard',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+        ] : []),
         
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Find a Babysitter',
-        href: '/babysitter',
-        icon: Baby,
-    },
-     ...(auth?.user.is_babysitter ? [] : [
-    {
-        title: 'Book Now',
-        href: '/parent',
-        icon: UserPlus,
-    },
-     ]),
-    {
-        title: 'Notification',
-        href: '/notification',
-        icon: Megaphone,
-    },
-  
-];
+        {
+            title: 'Find a Babysitter',
+            href: '/babysitter',
+            icon: Baby,
+        },
+        ...(auth?.user.is_babysitter ? [] : [
+            {
+                title: 'Book Now',
+                href: '/parent',
+                icon: UserPlus,
+            },
+        ]),
+        {
+            title: 'Notification',
+            href: '/notification',
+            icon: Megaphone,
+        },
+
+    ];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -74,7 +77,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems}/>
+                <NavMain items={mainNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
