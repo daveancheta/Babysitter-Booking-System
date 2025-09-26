@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -133,12 +133,15 @@ export default function Index() {
 
     const handleOnMouseOverProfile = (id: number) => {
         document.getElementById(`profileContainer${id}`)?.classList.remove("hidden")
+        setInterval(handleOnMouseOutProfile, 2000)
+
     }
 
     const handleOnMouseOutProfile = (id: number) => {
         document.getElementById(`profileContainer${id}`)?.classList.add("hidden")
     }
 
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Find a Babysitter" />
@@ -221,10 +224,23 @@ export default function Index() {
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                                         <div className='flex flex-col'>
                                                             <div className='relative w-full'>
-                                                                <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)}>{p.name}</span>
+                                                                <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
 
-                                                                <div id={`profileContainer${p.id}`} className='hidden absolute top-0 left-20 flex items-center z-50 w-full rounded-lg border shadow-lg duration-200'>
-                                                                    <div>{p.name}</div>
+                                                                <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden absolute top-5 left-0 flex items-center z-50 rounded-lg border shadow-lg bg-black'>
+                                                                     <div className='flex flex-col'>
+                                                                    <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
+                                                                        <div className='mt-auto'>  <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                                {getInitials(p.name)}
+                                                                            </AvatarFallback>
+                                                                        </Avatar></div>
+                                                                        <div className='whitespace-nowrap'>{p.name}</div>
+                                                                        </div>
+                                                                        <div className='m-2 flex justify-between space-x-2'>
+                                                                            <Button className='items-center'><UserPlus/>Follow</Button>
+                                                                        <Button className='items-center'><BriefcaseBusiness/>Hire</Button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
