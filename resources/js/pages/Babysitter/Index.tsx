@@ -218,9 +218,9 @@ export default function Index() {
                                             <div className='flex flex-row gap-2 items-center'>
                                                 <>
                                                     <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                                                        {p.profile.length > 0 ? <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" /> : <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                            {getInitials(p.name)}
-                                                        </AvatarFallback>}
+                                                        {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                            {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+
                                                     </Avatar>
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                                         <div className='flex flex-col'>
@@ -231,9 +231,11 @@ export default function Index() {
                                                                     <div className='flex flex-col'>
                                                                         <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
                                                                             <div className='mt-auto'>  <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                                                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                                                    {getInitials(p.name)}
-                                                                                </AvatarFallback>
+                                                                                <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                                                                    {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                                        {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+
+                                                                                </Avatar>
                                                                             </Avatar></div>
                                                                             <div className='whitespace-nowrap'>{p.name}</div>
                                                                         </div>
