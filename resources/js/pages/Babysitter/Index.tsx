@@ -131,11 +131,20 @@ export default function Index() {
         }
     });
 
+    const handleOnMouseOverProfile = (id: number) => {
+        document.getElementById(`profileContainer${id}`)?.classList.remove("hidden")
+    }
+
+    const handleOnMouseOutProfile = (id: number) => {
+        document.getElementById(`profileContainer${id}`)?.classList.add("hidden")
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Find a Babysitter" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+
+
                 <div className='flex justify-start'>
                     <Dialog>
                         <div className={auth.user.is_babysitter ? "bg-background rounded-lg border p-6 shadow-lg duration-20 flex justify-between space-x-6" : "hidden"}>
@@ -211,7 +220,14 @@ export default function Index() {
                                                     </Avatar>
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                                         <div className='flex flex-col'>
-                                                            <span className="truncate font-medium">{p.name}</span>
+                                                            <div className='relative w-full'>
+                                                                <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)}>{p.name}</span>
+
+                                                                <div id={`profileContainer${p.id}`} className='hidden absolute top-0 left-20 flex items-center z-50 w-full rounded-lg border shadow-lg duration-200'>
+                                                                    <div>{p.name}</div>
+                                                                </div>
+                                                            </div>
+
                                                             <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'>
                                                                 <History className='w-3 h-3 ' />
                                                                 <span className='text-xs'>{p.created_at}</span>
