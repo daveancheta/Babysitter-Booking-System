@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { Copy } from "lucide-react";
+import { Copy, Star } from "lucide-react";
 import { use, useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -55,8 +55,25 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Profile information" description="Update your name and email address" />
-
+                    <div className='flex justify-between items-center'>
+                        <HeadingSmall title="Profile information" description="Update your name and email address" />
+                        <div className='flex flex-row gap-4'>
+                            <div className='flex flex-col items-center'>
+                                <p className="text-sm text-muted-foreground">8</p>
+                                <h3 className="mb-0.5 text-sm font-medium">Following</h3>
+                            </div>
+                            <div className="border-l h-10"></div>
+                            <div className='flex flex-col items-center'>
+                                <p className="text-sm text-muted-foreground">36</p>
+                                <h3 className="mb-0.5 text-sm font-medium">Followers</h3>
+                            </div>
+                            <div className="border-l h-10"></div>
+                            <div className='flex flex-col items-center'>
+                                <p className="text-sm text-muted-foreground">5/5</p>
+                                <h3 className="mb-0.5 text-sm font-medium">Rate</h3>
+                            </div>
+                        </div>
+                    </div>
                     <Form
                         method="patch"
                         action={route('profile.update')}
