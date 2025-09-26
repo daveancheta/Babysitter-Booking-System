@@ -36,6 +36,7 @@ class BabysitterController extends Controller
             ->select(
                 'posts.*',
                 'users.name',
+                'users.profile',
                 'users.id as user_id',
                 'reactions.id as react_id',
                 DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),

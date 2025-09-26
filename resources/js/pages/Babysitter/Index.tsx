@@ -59,7 +59,8 @@ interface Posts {
     userCountSession: number;
     comment: string;
     commentCount: number;
-    react_id: number
+    react_id: number;
+    profile: string;
     created_at: string;
 }
 
@@ -141,7 +142,7 @@ export default function Index() {
         document.getElementById(`profileContainer${id}`)?.classList.add("hidden")
     }
 
-    
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Find a Babysitter" />
@@ -217,9 +218,9 @@ export default function Index() {
                                             <div className='flex flex-row gap-2 items-center'>
                                                 <>
                                                     <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                                                        <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                        {p.profile.length > 0 ? <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" /> : <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                                             {getInitials(p.name)}
-                                                        </AvatarFallback>
+                                                        </AvatarFallback>}
                                                     </Avatar>
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                                         <div className='flex flex-col'>
@@ -227,18 +228,18 @@ export default function Index() {
                                                                 <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
 
                                                                 <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden absolute top-5 left-0 flex items-center z-50 rounded-lg border shadow-lg bg-black'>
-                                                                     <div className='flex flex-col'>
-                                                                    <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
-                                                                        <div className='mt-auto'>  <Avatar className="h-8 w-8 overflow-hidden rounded-full">
-                                                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                                                {getInitials(p.name)}
-                                                                            </AvatarFallback>
-                                                                        </Avatar></div>
-                                                                        <div className='whitespace-nowrap'>{p.name}</div>
+                                                                    <div className='flex flex-col'>
+                                                                        <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
+                                                                            <div className='mt-auto'>  <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                                    {getInitials(p.name)}
+                                                                                </AvatarFallback>
+                                                                            </Avatar></div>
+                                                                            <div className='whitespace-nowrap'>{p.name}</div>
                                                                         </div>
                                                                         <div className='m-2 flex justify-between space-x-2'>
-                                                                            <Button className='items-center'><UserPlus/>Follow</Button>
-                                                                        <Button className='items-center'><BriefcaseBusiness/>Hire</Button>
+                                                                            <Button className='items-center'><UserPlus />Follow</Button>
+                                                                            <Button className='items-center'><BriefcaseBusiness />Hire</Button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
