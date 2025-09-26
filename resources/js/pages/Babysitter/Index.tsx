@@ -219,7 +219,7 @@ export default function Index() {
                                                 <>
                                                     <Avatar className="h-8 w-8 overflow-hidden rounded-full">
                                                         {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                            {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+                                                            {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
 
                                                     </Avatar>
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
@@ -233,7 +233,7 @@ export default function Index() {
                                                                             <div className='mt-auto'>  <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                                                 <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                                                     {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                                                        {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-fill' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+                                                                                        {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
                                                                                 </Avatar>
                                                                             </Avatar></div>
                                                                             <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>

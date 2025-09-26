@@ -13,7 +13,7 @@ export function UserProfileInfo({ user, showEmail = false }: { user: User; showE
                 <AvatarImage src={user.avatar} alt={user.name} />
                 {auth?.user.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                     {getInitials(user.name)}
-                </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white cover-fill' src={`${window.location.origin}/storage/${auth?.user.profile}`} alt=''/>}
+                </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${auth?.user.profile}`} alt=''/>}
             </Avatar>
         </>
     );
