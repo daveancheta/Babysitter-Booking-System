@@ -13,6 +13,17 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { Copy, Star } from "lucide-react";
 import { use, useEffect } from 'react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { StringToBoolean } from 'class-variance-authority/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,9 +32,16 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface followingUser {
+    id: number;
+    name: string;
+    profile: string;
+}
+
 interface PageProps extends InertiaPageProps {
     followingCount: number;
     followerCount: number;
+    followingUser: followingUser[];
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
@@ -34,7 +52,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rate = auth.user.rate;
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
-    const { followingCount, followerCount } = usePage<PageProps>().props;
+    const { followingCount, followerCount, followingUser } = usePage<PageProps>().props;
 
     useEffect(() => {
         let copyButton = document.getElementById("copyButton");
@@ -65,12 +83,37 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                     <div className='flex justify-between items-center'>
                         <HeadingSmall title="Profile information" description="Update your name and email address" />
                         <div className='flex flex-row gap-4'>
-                            <div className='flex flex-col items-center'>
-                                <p className="text-sm text-muted-foreground">
-                                    {followingCount > 0 ? followingCount : 0}
-                                    </p>
-                                <h3 className="mb-0.5 text-sm font-medium">Following</h3>
-                            </div>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className='flex flex-col items-center cursor-pointer'>
+                                        <p className="text-sm text-muted-foreground">
+                                            {followingCount > 0 ? followingCount : 0}
+                                        </p>
+                                        <h3 className="mb-0.5 text-sm font-medium">Following</h3>
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Following</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4">
+                                        {followingUser.length > 0 && (
+                                            <div className="grid gap-3 mt-5">
+                                                {followingUser.map(f => (
+                                                    <div>
+                                                        <div className='flex flex-row gap-2 items-center'>
+                                                            <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
+                                                            <span className='truncate'>{f.name}</span>
+                                                        </div>
+                                                        <hr className='mt-2' />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
                             <div className="border-l h-10"></div>
                             <div className='flex flex-col items-center'>
                                 <p className="text-sm text-muted-foreground">{followerCount > 0 ? followingCount : 0}</p>

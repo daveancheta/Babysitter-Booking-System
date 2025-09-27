@@ -9,8 +9,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+
+use function Laravel\Prompts\select;
 
 class ProfileController extends Controller
 {
@@ -23,8 +26,15 @@ class ProfileController extends Controller
         $followingCount = Follow::where('follower_user_id', $userId)->count();
         $followerCount = Follow::where('following_user_id', $userId)->count();
 
-
-        return Inertia::render('settings/profile', compact('followingCount', 'followerCount'), [
+        $followingUser = DB::table('follows')
+            ->leftJoin('users', 'follows.following_user_id', '=', 'users.id')
+            ->select(
+                'follows.*',
+                'users.name',
+                'users.profile'
+            )->orderBy('created_at', 'desc')
+            ->get();
+        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
