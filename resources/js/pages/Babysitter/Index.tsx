@@ -217,7 +217,7 @@ export default function Index() {
 
                                             <div className='flex flex-row gap-2 items-center'>
                                                 <>
-                                                    <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                                    <Avatar className="h-12 w-12 overflow-hidden rounded-full">
                                                         {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                                             {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
 
