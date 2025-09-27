@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -255,7 +255,7 @@ export default function Index() {
                                                                             </div>
                                                                             <div className='m-2 mr-auto space-x-2 flex flex-row'>
                                                                                 <form onSubmit={handleFollowValidation}>
-                                                                                    {p.followingCount > 0 ? <Button type='button' variant='outline' className='items-center cursor-pointer'><UserPlus />Following</Button> :  <Button type='submit' onClick={() => {
+                                                                                    {p.followingCount > 0 ? <Button type='button' variant='outline' className='items-center cursor-pointer'><UserCheck />Following</Button> :  <Button type='submit' onClick={() => {
                                                                                         setData('following_user_id', p.user_id);
                                                                                         setData('follower_user_id', auth?.user.id);
                                                                                     }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>}
