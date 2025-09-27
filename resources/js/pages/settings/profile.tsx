@@ -12,6 +12,7 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { Copy, Star } from "lucide-react";
 import { use, useEffect } from 'react';
+import { PageProps as InertiaPageProps } from '@inertiajs/core'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,6 +20,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/settings/profile',
     },
 ];
+
+interface PageProps extends InertiaPageProps {
+    followingCount: [];
+}
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
@@ -28,6 +33,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rate = auth.user.rate;
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
+    const { followingCount } = usePage<PageProps>().props;
 
     useEffect(() => {
         let copyButton = document.getElementById("copyButton");
@@ -59,7 +65,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         <HeadingSmall title="Profile information" description="Update your name and email address" />
                         <div className='flex flex-row gap-4'>
                             <div className='flex flex-col items-center'>
-                                <p className="text-sm text-muted-foreground">8</p>
+                                <p className="text-sm text-muted-foreground">{followingCount}</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Following</h3>
                             </div>
                             <div className="border-l h-10"></div>
