@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { Copy, Star, UserCheck, UserPlus } from "lucide-react";
+import { Copy, Star, UserCheck, UserMinus, UserPlus } from "lucide-react";
 import { use, useEffect } from 'react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
@@ -132,7 +132,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                                 <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
-                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}>Unfollow</Button>
+                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}><UserMinus/>Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
