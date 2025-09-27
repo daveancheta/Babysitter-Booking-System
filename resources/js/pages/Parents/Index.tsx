@@ -96,7 +96,7 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                {users.length > 0 && (
+                {users.length > 0 ? 
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {users.map((u) => (
                             <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
@@ -283,7 +283,7 @@ export default function Index() {
                             </div>
                         ))}
                     </div>
-                )}
+                 : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
             </div>
         </AppLayout >
     );
