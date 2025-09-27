@@ -258,7 +258,7 @@ export default function Index() {
                                                                                 <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>
                                                                             </div>
                                                                             <div className='m-2 mr-auto space-x-2 flex flex-row'>
-                                                                                 {p.followingCount > 0 ? <Button variant='outline' className='items-center cursor-pointer' onClick={() => handleUnfollowUser(p.babysitter_id, auth?.user.id)}><UserCheck />Following</Button> :
+                                                                                 {p.followingCount > 0 ? <Button variant='outline' className='items-center cursor-pointer' onClick={() => handleUnfollowUser(p.babysitter_id, auth?.user.id)} disabled={processingDelete}><UserCheck />Following</Button> :
                                                                                 <form onSubmit={handleFollowValidation}>
                                                                                      <Button type='submit' onClick={() => {
                                                                                         setData('following_user_id', p.babysitter_id);
