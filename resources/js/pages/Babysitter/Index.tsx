@@ -85,6 +85,8 @@ export default function Index() {
         post_id: 0,
         react: 1,
         comment: '',
+        following_user_id: 0,
+        follower_user_id: 0,
     });
 
     const { delete: destroy, processing: processingDeleteReact } = useForm({});
@@ -114,6 +116,10 @@ export default function Index() {
     }
     const deletePost = (id: number) => {
         destroyPost(route('babysitter.delete', { id }));
+    }
+    const handleFollowValidation = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('follow.store'));
     }
 
 
@@ -228,32 +234,37 @@ export default function Index() {
                                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                                         <div className='flex flex-col'>
                                                             {p.user_id === auth?.user.id ? <span className="truncate font-medium cursor-pointer hover:underline">{p.name}</span>
-                                                            :  <div className='relative w-full'>
-                                                                <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
+                                                                : <div className='relative w-full'>
+                                                                    <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
 
-                                                                <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden min-w-[300px] absolute top-5 left-0 flex items-center z-50 rounded-lg border shadow-lg dark:bg-black bg-white'>
-                                                                    <button className='bg-gray-800 absolute top-5 right-2 rounded-full p-1 cursor-pointer' onClick={() => closeOnMouseOverProfile(p.id)}>
-                                                                        <X className='w-5 h-5' />
-                                                                    </button>
-                                                                    <div className='flex flex-col'>
-                                                                        <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
-                                                                            <div className='mt-auto'>  <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                                                                                <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                                                                                    {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                                                        {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+                                                                    <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden min-w-[300px] absolute top-5 left-0 flex items-center z-50 rounded-lg border shadow-lg dark:bg-black bg-white'>
+                                                                        <button className='bg-gray-800 absolute top-5 right-2 rounded-full p-1 cursor-pointer' onClick={() => closeOnMouseOverProfile(p.id)}>
+                                                                            <X className='w-5 h-5' />
+                                                                        </button>
+                                                                        <div className='flex flex-col'>
+                                                                            <div className='m-10 ml-5 mt-5 flex flex-row items-center gap-2 w-full'>
+                                                                                <div className='mt-auto'>  <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                                                    <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                                                        {p.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                                            {getInitials(p.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${p.profile}`} alt="" />}
+                                                                                    </Avatar>
                                                                                 </Avatar>
-                                                                            </Avatar>
+                                                                                </div>
+                                                                                <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>
                                                                             </div>
-                                                                            <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>
-                                                                        </div>
-                                                                        <div className='m-2 mr-auto space-x-2'>
-                                                                            <Button variant='outline' className='items-center cursor-pointer'><UserPlus />Follow</Button>
-                                                                            <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
+                                                                            <div className='m-2 mr-auto space-x-2 flex flex-row'>
+                                                                                <form onSubmit={handleFollowValidation}>
+                                                                                    <Button type='submit' onClick={() => {
+                                                                                        setData('following_user_id', p.user_id);
+                                                                                        setData('follower_user_id', auth?.user.id);
+                                                                                    }} variant='outline' className='items-center cursor-pointer'><UserPlus />Follow</Button>
+                                                                                </form>
+                                                                                <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>}
-                                                           
+                                                                </div>}
+
 
                                                             <div className='flex flex-row mt-2 gap-1 items-center text-muted-foreground'>
                                                                 <History className='w-3 h-3 ' />
