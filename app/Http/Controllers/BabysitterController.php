@@ -41,7 +41,8 @@ class BabysitterController extends Controller
                 'reactions.id as react_id',
                 DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),
                 DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as commentCount '),
-                DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment')
+                DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment'),
+                Db::raw('(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = posts.babysitter_id) as followingCount')
             )
             ->orderBy('created_at', 'desc')->get();
 

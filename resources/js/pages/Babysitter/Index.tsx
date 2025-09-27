@@ -13,7 +13,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -62,6 +62,7 @@ interface Posts {
     react_id: number;
     profile: string;
     created_at: string;
+    followingCount: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -254,10 +255,11 @@ export default function Index() {
                                                                             </div>
                                                                             <div className='m-2 mr-auto space-x-2 flex flex-row'>
                                                                                 <form onSubmit={handleFollowValidation}>
-                                                                                    <Button type='submit' onClick={() => {
+                                                                                    {p.followingCount > 0 ? <Button type='button' variant='outline' className='items-center cursor-pointer'><UserPlus />Following</Button> :  <Button type='submit' onClick={() => {
                                                                                         setData('following_user_id', p.user_id);
                                                                                         setData('follower_user_id', auth?.user.id);
-                                                                                    }} variant='outline' className='items-center cursor-pointer'><UserPlus />Follow</Button>
+                                                                                    }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>}
+                                                                                   
                                                                                 </form>
                                                                                 <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
                                                                             </div>
