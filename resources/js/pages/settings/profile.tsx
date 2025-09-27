@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { Copy, Star } from "lucide-react";
+import { Copy, Star, UserCheck, UserPlus } from "lucide-react";
 import { use, useEffect } from 'react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
@@ -66,8 +66,18 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
+    const { data, setData, post, processing, errors } = useForm({
+        following_user_id: 0,
+        follower_user_id: 0,
+    });
+
     const handleUnfollowUser = (id: number, sessionID: number) => {
         destroy(route('follow.destroy', { id, sessionID }));
+    }
+
+      const handleFollowValidation = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('follow_profile.store'));
     }
 
     useEffect(() => {
@@ -159,7 +169,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                                 <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
-                                                            {f.following_user_id === auth?.user.id && f.follower_user_id === f.ifFollows ? <Button variant='outline' className=''>Unfollow</Button> : <Button variant='outline' className=''>Follow</Button>}
+                                                            {f.ifFollows > 0 ? <Button variant='outline' className=''><UserCheck/>Following</Button> :
+                                                                <form onSubmit={handleFollowValidation}>
+                                                                    <Button type='submit' onClick={() => {
+                                                                        setData('following_user_id', f.follower_user_id);
+                                                                        setData('follower_user_id', auth?.user.id);
+                                                                    }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>
+                                                                </form>}
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
@@ -167,7 +183,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             </div>
                                         ) : (
                                             <div className="mt-5 text-center text-muted-foreground">
-                                               You don&apos;t have any followers yet
+                                                You don&apos;t have any followers yet
                                             </div>
                                         )}
 

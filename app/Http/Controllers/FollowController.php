@@ -38,6 +38,18 @@ class FollowController extends Controller
        return redirect()->route('babysitter.index');
     }
 
+    public function followProfileStore(Request $request)
+    {
+       $validated = request()->validate([
+        'following_user_id' => 'required',
+        'follower_user_id' => 'required'
+       ]);
+
+       Follow::create($validated);
+
+       return redirect()->route('profile.edit');
+    }
+
     /**
      * Display the specified resource.
      */
