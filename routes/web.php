@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/doneBookings', [DoneBookingsController::class, 'create'])->name('done.store');
     Route::post('/cancelledBookings', [CancelledBookingsController::class, 'create'])->name('cancelled.store');
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
+    Route::delete('/follow/{id}{sessionID}', [FollowController::class, 'destroy'])->name('follow.destroy');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');

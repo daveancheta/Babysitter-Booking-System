@@ -53,6 +53,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Posts {
     id: number;
     user_id: number;
+    babysitter_id: number;
     name: string;
     post: string;
     reactCount: number;
@@ -90,9 +91,8 @@ export default function Index() {
         follower_user_id: 0,
     });
 
-    const { delete: destroy, processing: processingDeleteReact } = useForm({});
+    const { delete: destroy, processing: processingDelete } = useForm({});
 
-    const { delete: destroyPost, processing: processingDeletePost } = useForm({})
 
     const submitPost = (e: React.FormEvent) => {
         e.preventDefault();
@@ -116,11 +116,15 @@ export default function Index() {
         destroy(route('react.delete', { id, postId }));
     }
     const deletePost = (id: number) => {
-        destroyPost(route('babysitter.delete', { id }));
+        destroy(route('babysitter.delete', { id }));
     }
     const handleFollowValidation = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('follow.store'));
+    }
+
+    const handleUnfollowUser = (id: number, sessionID: number) => {
+        destroy(route('follow.destroy', {id, sessionID}));
     }
 
 
@@ -254,13 +258,14 @@ export default function Index() {
                                                                                 <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>
                                                                             </div>
                                                                             <div className='m-2 mr-auto space-x-2 flex flex-row'>
+                                                                                 {p.followingCount > 0 ? <Button variant='outline' className='items-center cursor-pointer' onClick={() => handleUnfollowUser(p.babysitter_id, auth?.user.id)}><UserCheck />Following</Button> :
                                                                                 <form onSubmit={handleFollowValidation}>
-                                                                                    {p.followingCount > 0 ? <Button type='button' variant='outline' className='items-center cursor-pointer'><UserCheck />Following</Button> :  <Button type='submit' onClick={() => {
-                                                                                        setData('following_user_id', p.user_id);
+                                                                                     <Button type='submit' onClick={() => {
+                                                                                        setData('following_user_id', p.babysitter_id);
                                                                                         setData('follower_user_id', auth?.user.id);
-                                                                                    }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>}
-                                                                                   
+                                                                                    }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>
                                                                                 </form>
+                                                                                }
                                                                                 <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
                                                                             </div>
                                                                         </div>
@@ -285,7 +290,7 @@ export default function Index() {
                                             {p.userCountSession ?
                                                 <div className='flex flex-row items-center gap-1'>
                                                     <span>{useCountSession}</span>
-                                                    <button disabled={processingDeleteReact} onClick={() => handleDeleteReact(p.react_id, p.id)}>
+                                                    <button disabled={processingDelete} onClick={() => handleDeleteReact(p.react_id, p.id)}>
                                                         <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
                                                     </button>
                                                     <span className='text-sm'>{p.reactCount}</span>

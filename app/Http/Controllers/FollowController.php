@@ -65,8 +65,8 @@ class FollowController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id, $sessionID)
     {
-        //
+        Follow::where('following_user_id', $id)->where('follower_user_id', $sessionID)->delete();
     }
 }
