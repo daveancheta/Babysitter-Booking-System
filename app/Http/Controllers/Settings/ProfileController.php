@@ -21,9 +21,10 @@ class ProfileController extends Controller
     {
         $userId = Auth::id();
         $followingCount = Follow::where('follower_user_id', $userId)->count();
+        $followerCount = Follow::where('following_user_id', $userId)->count();
 
 
-        return Inertia::render('settings/profile', compact('followingCount'), [
+        return Inertia::render('settings/profile', compact('followingCount', 'followerCount'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);

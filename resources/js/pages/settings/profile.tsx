@@ -23,6 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface PageProps extends InertiaPageProps {
     followingCount: number;
+    followerCount: number;
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
@@ -33,7 +34,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rate = auth.user.rate;
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
-    const { followingCount } = usePage<PageProps>().props;
+    const { followingCount, followerCount } = usePage<PageProps>().props;
 
     useEffect(() => {
         let copyButton = document.getElementById("copyButton");
@@ -67,13 +68,12 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <div className='flex flex-col items-center'>
                                 <p className="text-sm text-muted-foreground">
                                     {followingCount > 0 ? followingCount : 0}
-                               
                                     </p>
                                 <h3 className="mb-0.5 text-sm font-medium">Following</h3>
                             </div>
                             <div className="border-l h-10"></div>
                             <div className='flex flex-col items-center'>
-                                <p className="text-sm text-muted-foreground">36</p>
+                                <p className="text-sm text-muted-foreground">{followerCount > 0 ? followingCount : 0}</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Followers</h3>
                             </div>
                             <div className="border-l h-10"></div>
