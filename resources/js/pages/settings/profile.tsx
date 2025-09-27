@@ -72,6 +72,11 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 <p className="text-sm text-muted-foreground">5/5</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Rate</h3>
                             </div>
+                            <div className="border-l h-10"></div>
+                            <div className='flex flex-col items-center'>
+                                <p className="text-sm text-muted-foreground">12</p>
+                                <h3 className="mb-0.5 text-sm font-medium">Hires</h3>
+                            </div>
                         </div>
                     </div>
                     <Form
