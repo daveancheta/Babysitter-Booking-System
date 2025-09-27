@@ -78,7 +78,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <div className='relative'>
                                 <UserProfileDisplay />
                                 <form onSubmit={statusSubmit}>
-                                    <div className='absolute -bottom-0 left-1 rounded-full cursor-pointer bg-white dark:bg-black p-1 border border-2 border-gray-900'>
+                                    <div className='absolute -bottom-0 left-1 rounded-full cursor-pointer bg-white dark:bg-black p-1 border border-2 border-gray-900 dark:border-white'>
                                         <Dialog>
 
                                             <DialogTrigger asChild>
