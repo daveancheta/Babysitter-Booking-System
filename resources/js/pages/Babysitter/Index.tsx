@@ -222,7 +222,7 @@ export default function Index() {
                     </Dialog>
                 </div>
 
-                {posts.length > 0 && (
+                {posts.length > 0 ? 
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {posts.map((p) => (
                             <ContextMenu key={p.id}>
@@ -407,7 +407,7 @@ export default function Index() {
                             </ContextMenu>
                         ))}
                     </div>
-                )}
+                : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
             </div>
 
         </AppLayout >
