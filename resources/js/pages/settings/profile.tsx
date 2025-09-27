@@ -1,6 +1,6 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { Form, Head, Link, useForm, usePage } from '@inertiajs/react';
 
 import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
@@ -36,6 +36,7 @@ interface followingUser {
     id: number;
     name: string;
     profile: string;
+    following_user_id: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -53,6 +54,12 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
     const { followingCount, followerCount, followingUser } = usePage<PageProps>().props;
+
+    const { delete: destroy, processing: processingDelete } = useForm({});
+
+    const handleUnfollowUser = (id: number, sessionID: number) => {
+        destroy(route('follow.destroy', {id, sessionID}));
+    }
 
     useEffect(() => {
         let copyButton = document.getElementById("copyButton");
@@ -106,7 +113,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                             <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                             <span className='truncate'>{f.name}</span>
                                                         </div>
-                                                        <Button variant='outline' className='cursor-pointer'>Unfollow</Button>
+                                                        <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}>Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
                                                         
