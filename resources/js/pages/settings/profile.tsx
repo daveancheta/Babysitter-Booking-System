@@ -38,11 +38,18 @@ interface followingUser {
     profile: string;
     following_user_id: number;
 }
+interface followerUser {
+    id: number;
+    name: string;
+    profile: string;
+    following_user_id: number;
+}
 
 interface PageProps extends InertiaPageProps {
     followingCount: number;
     followerCount: number;
     followingUser: followingUser[];
+    followerUser: followerUser[];
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
@@ -53,7 +60,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     let rate = auth.user.rate;
     let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
-    const { followingCount, followerCount, followingUser } = usePage<PageProps>().props;
+    const { followingCount, followerCount, followingUser, followerUser } = usePage<PageProps>().props;
 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
@@ -129,10 +136,41 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 </DialogContent>
                             </Dialog>
                             <div className="border-l h-10"></div>
-                            <div className='flex flex-col items-center'>
-                                <p className="text-sm text-muted-foreground">{followerCount > 0 ? followingCount : 0}</p>
-                                <h3 className="mb-0.5 text-sm font-medium">Followers</h3>
-                            </div>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className='flex flex-col items-center cursor-pointer'>
+                                        <p className="text-sm text-muted-foreground">{followerCount > 0 ? followerCount : 0}</p>
+                                        <h3 className="mb-0.5 text-sm font-medium">Followers</h3>
+                                    </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Following</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="grid gap-4">
+                                        {followerUser.length > 0 ? (
+                                            <div className="grid gap-3 mt-5">
+                                                {followerUser.map(f => (
+                                                    <div>
+                                                        <div className='flex justify-between'>
+                                                            <div className='flex flex-row gap-2 items-center'>
+                                                                <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
+                                                                <span className='truncate'>{f.name}</span>
+                                                            </div>
+                                                        </div>
+                                                        <hr className='mt-2' />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="mt-5 text-center text-muted-foreground">
+                                               You don’t have any followers yet
+                                            </div>
+                                        )}
+
+                                    </div>
+                                </DialogContent>
+                            </Dialog>
                             <div className="border-l h-10"></div>
                             <div className='flex flex-col items-center'>
                                 <p className="text-sm text-muted-foreground">5/5</p>

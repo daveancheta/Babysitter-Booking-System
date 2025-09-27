@@ -32,9 +32,22 @@ class ProfileController extends Controller
                 'follows.*',
                 'users.name',
                 'users.profile'
-            )->orderBy('created_at', 'desc')
+            )
+            ->orderBy('created_at', 'desc')
+            ->where('follower_user_id', $userId)
             ->get();
-        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser'), [
+
+        $followerUser = DB::table('follows')
+            ->leftJoin('users', 'follows.follower_user_id', '=', 'users.id')
+            ->select(
+                'follows.*',
+                'users.name',
+                'users.profile'
+            )
+            ->orderBy('created_at', 'desc')
+            ->where('following_user_id', $userId)
+            ->get();
+        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
