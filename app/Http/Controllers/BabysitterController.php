@@ -42,11 +42,14 @@ class BabysitterController extends Controller
                 DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),
                 DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as commentCount '),
                 DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment'),
-                Db::raw('(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = posts.babysitter_id) as followingCount')
+            )
+            ->selectRaw(
+                '(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = posts.babysitter_id AND follows.follower_user_id = ?) as followingCount',
+                [$userId]
             )
             ->orderBy('created_at', 'desc')->get();
 
-        
+
 
         foreach ($posts as $p) {
             $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
@@ -115,7 +118,7 @@ class BabysitterController extends Controller
     }
 
     // Delete Bookings
-    public function destroyBook(Booking $id) 
+    public function destroyBook(Booking $id)
     {
         $id->delete();
 

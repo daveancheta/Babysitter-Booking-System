@@ -43,6 +43,8 @@ interface followerUser {
     name: string;
     profile: string;
     following_user_id: number;
+    follower_user_id: number;
+    ifFollows: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -145,18 +147,19 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
-                                        <DialogTitle>Following</DialogTitle>
+                                        <DialogTitle>Followers</DialogTitle>
                                     </DialogHeader>
                                     <div className="grid gap-4">
                                         {followerUser.length > 0 ? (
                                             <div className="grid gap-3 mt-5">
                                                 {followerUser.map(f => (
-                                                    <div>
+                                                    <div key={f.id}>
                                                         <div className='flex justify-between'>
                                                             <div className='flex flex-row gap-2 items-center'>
                                                                 <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
+                                                            {f.following_user_id === auth?.user.id && f.follower_user_id === f.ifFollows ? <Button variant='outline' className=''>Unfollow</Button> : <Button variant='outline' className=''>Follow</Button>}
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
@@ -164,7 +167,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             </div>
                                         ) : (
                                             <div className="mt-5 text-center text-muted-foreground">
-                                               You don’t have any followers yet
+                                               You don&apos;t have any followers yet
                                             </div>
                                         )}
 

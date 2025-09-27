@@ -44,9 +44,11 @@ class ProfileController extends Controller
                 'users.name',
                 'users.profile'
             )
+            ->selectRaw('(SELECT following_user_id FROM follows WHERE follows.follower_user_id = ?) as ifFollows', [$userId])
             ->orderBy('created_at', 'desc')
             ->where('following_user_id', $userId)
             ->get();
+            
         return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),

@@ -269,7 +269,7 @@ export default function Index() {
                                                                                 <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> 
                                                                 </div>}
 
 
