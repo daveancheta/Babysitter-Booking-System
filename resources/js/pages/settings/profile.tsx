@@ -101,11 +101,15 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             <div className="grid gap-3 mt-5">
                                                 {followingUser.map(f => (
                                                     <div>
+                                                        <div className='flex justify-between'>
                                                         <div className='flex flex-row gap-2 items-center'>
                                                             <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                             <span className='truncate'>{f.name}</span>
                                                         </div>
+                                                        <Button variant='outline' className='cursor-pointer'>Unfollow</Button>
+                                                        </div>
                                                         <hr className='mt-2' />
+                                                        
                                                     </div>
                                                 ))}
                                             </div>
