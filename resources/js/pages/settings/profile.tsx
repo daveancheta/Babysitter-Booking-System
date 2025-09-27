@@ -58,7 +58,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
     const handleUnfollowUser = (id: number, sessionID: number) => {
-        destroy(route('follow.destroy', {id, sessionID}));
+        destroy(route('follow.destroy', { id, sessionID }));
     }
 
     useEffect(() => {
@@ -104,21 +104,24 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         <DialogTitle>Following</DialogTitle>
                                     </DialogHeader>
                                     <div className="grid gap-4">
-                                        {followingUser.length > 0 && (
+                                        {followingUser.length > 0 ? (
                                             <div className="grid gap-3 mt-5">
                                                 {followingUser.map(f => (
                                                     <div>
                                                         <div className='flex justify-between'>
-                                                        <div className='flex flex-row gap-2 items-center'>
-                                                            <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
-                                                            <span className='truncate'>{f.name}</span>
-                                                        </div>
-                                                        <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}>Unfollow</Button>
+                                                            <div className='flex flex-row gap-2 items-center'>
+                                                                <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
+                                                                <span className='truncate'>{f.name}</span>
+                                                            </div>
+                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}>Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
-                                                        
                                                     </div>
                                                 ))}
+                                            </div>
+                                        ) : (
+                                            <div className="mt-5 text-center text-muted-foreground">
+                                                You&apos;re not following anyone yet
                                             </div>
                                         )}
 
