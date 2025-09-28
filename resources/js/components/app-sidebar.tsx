@@ -7,29 +7,6 @@ import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Baby, UserPlus, Megaphone } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Find a Babysitter',
-        href: '/babysitter',
-        icon: Baby,
-    },
-    {
-        title: 'Book Now',
-        href: '/parent',
-        icon: UserPlus,
-    },
-    {
-        title: 'Notification',
-        href: '/notification',
-        icon: Megaphone,
-    },
-];
-
 export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
     const mainNavItems: NavItem[] = [
@@ -59,7 +36,6 @@ export function AppSidebar() {
             href: '/notification',
             icon: Megaphone,
         },
-
     ];
 
     return (
