@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { FullscreenButton } from '@/components/fullscreen-button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,7 +23,10 @@ export default function Appearance() {
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
+                    <div className='flex flex-row gap-2'>
                     <AppearanceTabs />
+                    <FullscreenButton />
+                    </div>
                 </div>
             </SettingsLayout>
         </AppLayout>

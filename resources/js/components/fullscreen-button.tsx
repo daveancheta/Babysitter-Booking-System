@@ -1,46 +1,47 @@
+import { json } from 'stream/consumers';
 import { Button } from './ui/button';
 import { Expand, MessageCircle, MessageCircleMore, Minimize } from 'lucide-react';
+import { useState } from 'react';
+import { Label } from "@/components/ui/label"
+import { cn } from '@/lib/utils';
 
 export function FullscreenButton() {
-      const handleFullScreen = () => {
+    const [fullscreenDisplay, setFullscreenDisplay] = useState(
+        localStorage.getItem("isFullscreen") || ""
+    )
+    const handleFullScreen = () => {
         var elem = document.documentElement as any;
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { 
+        } else if (elem.webkitRequestFullscreen) {
             elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { 
+        } else if (elem.msRequestFullscreen) {
             elem.msRequestFullscreen();
         }
-        
-        document.getElementById('exitFullscreenButton')?.classList.remove("hidden")
-        document.getElementById('fullscreenButton')?.classList.add("hidden")
+
+        localStorage.setItem("isFullscreen", "yes");
+        setFullscreenDisplay("yes");
     }
 
     const handleCloseFullscreen = () => {
         var elem = document as any;
         if (elem.exitFullscreen) {
             elem.exitFullscreen();
-        } else if (elem.webkitExitFullscreen) { 
+        } else if (elem.webkitExitFullscreen) {
             elem.webkitExitFullscreen();
-        } else if (elem.msExitFullscreen) { 
+        } else if (elem.msExitFullscreen) {
             elem.msExitFullscreen();
         }
 
-        document.getElementById('exitFullscreenButton')?.classList.add("hidden")
-        document.getElementById('fullscreenButton')?.classList.remove("hidden")
+        localStorage.setItem("isFullscreen", "no");
+        setFullscreenDisplay("no");
     }
+
     return (
-     <div>
-          <div className='absolute right-5 top-5' id='fullscreenButton'>
-                <Button  onClick={handleFullScreen} variant='outline' className='cursor-pointer'>
-                    <Expand />
-                </Button>
-            </div>
-            <div className='hidden absolute right-5 top-5' id='exitFullscreenButton'>
-                <Button onClick={handleCloseFullscreen} variant='outline' className='cursor-pointer'>
-                    <Minimize />
-                </Button>
-            </div>
-     </div>
+        <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
+            <button onClick={handleFullScreen} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', fullscreenDisplay === "yes" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : '')}><Expand className="-ml-1 h-4 w-4"/><span className="ml-1.5 text-sm">Expand</span></button>
+            <button onClick={handleCloseFullscreen} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', fullscreenDisplay === "no" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : '')}><Minimize className="-ml-1 h-4 w-4"/><span className="ml-1.5 text-sm">Minimize</span></button>
+        </div>
     );
 }
+
