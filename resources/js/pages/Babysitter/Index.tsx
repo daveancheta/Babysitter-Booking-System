@@ -244,7 +244,7 @@ export default function Index() {
                                                                     <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
 
                                                                     <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden min-w-[300px] absolute top-5 left-0 flex items-center z-50 rounded-lg border shadow-lg dark:bg-black bg-white'>
-                                                                        <button className='bg-gray-800 absolute top-5 right-2 rounded-full p-1 cursor-pointer' onClick={() => closeOnMouseOverProfile(p.id)}>
+                                                                        <button className='dark:bg-gray-800 bg-gray-200 absolute top-5 right-2 rounded-full p-1 cursor-pointer' onClick={() => closeOnMouseOverProfile(p.id)}>
                                                                             <X className='w-5 h-5' />
                                                                         </button>
                                                                         <div className='flex flex-col'>
