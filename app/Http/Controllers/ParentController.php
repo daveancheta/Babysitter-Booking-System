@@ -24,6 +24,7 @@ class ParentController extends Controller
                 'user_id'
             )
             ->where('is_babysitter', 1)
+            ->whereNot('rate', 0.00)
             ->where(function ($query) {
                 $query->whereNull('bookings.status')
                     ->orWhereIn('bookings.status', ['pending', 'approved']); 
