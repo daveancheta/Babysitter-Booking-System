@@ -8,6 +8,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { Form, Head, Link } from '@inertiajs/react';
 import { Expand, LoaderCircle, Lock, Minimize } from 'lucide-react';
 import Stepper, { Step } from '@/components/Stepper';
+import { FullscreenButton } from '@/components/fullscreen-button';
 
 interface LoginProps {
     status?: string;
@@ -15,49 +16,9 @@ interface LoginProps {
 }
 
 export default function Welcome() {
-    const handleFullScreen = () => {
-        var elem = document.documentElement as any;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { 
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { 
-            elem.msRequestFullscreen();
-        }
-        
-        document.getElementById('exitFullscreenButton')?.classList.remove("hidden")
-        document.getElementById('fullscreenButton')?.classList.add("hidden")
-    }
-
-    const handleCloseFullscreen = () => {
-        var elem = document as any;
-        if (elem.exitFullscreen) {
-            elem.exitFullscreen();
-        } else if (elem.webkitExitFullscreen) { 
-            elem.webkitExitFullscreen();
-        } else if (elem.msExitFullscreen) { 
-            elem.msExitFullscreen();
-        }
-
-        document.getElementById('exitFullscreenButton')?.classList.add("hidden")
-        document.getElementById('fullscreenButton')?.classList.remove("hidden")
-    }
     return (
         <div className='justify-center flex min-h-[50vh]'>
             <Head title='welcome' />
-            <div className='absolute right-5 top-5' id='fullscreenButton'>
-                <Button  onClick={handleFullScreen} variant='outline' className='cursor-pointer'>
-                    <Expand />
-                </Button>
-
-                
-            </div>
-
-            <div className='hidden absolute right-5 top-5' id='exitFullscreenButton'>
-                <Button onClick={handleCloseFullscreen} variant='outline' className='cursor-pointer'>
-                    <Minimize />
-                </Button>
-            </div>
 
             <div className='mt-auto flex flex-row gap-5'>
                 <Link href={route('login')}>
