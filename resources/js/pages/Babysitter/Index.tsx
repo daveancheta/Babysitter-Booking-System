@@ -258,7 +258,11 @@ export default function Index() {
                                                                                 </div>
                                                                                 <div className='flex flex-col gap-2 items-start'>
                                                                                     <div className='whitespace-nowrap dark:text-white text-black font-bold text-sm truncate'>{p.name}</div>
-                                                                                    <div className='whitespace-nowrap dark:text-white text-black flex flex-row items-center text-sm'><BookmarkCheck className='h-4 w-4 text-muted-foreground'/>&nbsp;{p.followerCountBS}&nbsp;<span>{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span></div>
+                                                                                    <div className='whitespace-nowrap dark:text-white text-black flex flex-row items-center text-sm'>
+                                                                                        <BookmarkCheck className='h-4 w-4 text-muted-foreground' />
+                                                                                      &nbsp;  
+                                                                                        <span className=''>{p.followerCountBS}&nbsp;{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div className={auth?.user.is_babysitter ? 'hidden' : 'm-2 mr-auto space-x-2 flex flex-row'}>
@@ -347,6 +351,7 @@ export default function Index() {
                                                                                 placeholder='Comment something…'
                                                                                 onChange={(e) => setData('comment', e.target.value)}
                                                                                 value={data.comment}
+                                                                                autoComplete='off'
                                                                             />
                                                                             <Button
                                                                                 className=''
