@@ -31,13 +31,25 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'is_babysitter' => 'required|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
+        $isBabysitter = $request->input('is_babysitter');
+        
+        if($isBabysitter) 
+        {
+            if($isBabysitter === 'babysitter') {
+                $babysitter = 1;
+            } else {
+                $babysitter = 0;
+            }
+        }
         $user = User::create([
             'account_id' => fake()->regexify('[A-Za-z0-9]{10}'),
+            'is_babysitter' => $babysitter,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

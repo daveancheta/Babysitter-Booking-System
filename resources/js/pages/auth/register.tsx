@@ -56,8 +56,8 @@ export default function Register() {
                                     <SelectValue className='text-black' placeholder="Select Role" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="0">Babysitter</SelectItem>
-                                    <SelectItem value="1">Parent</SelectItem>
+                                    <SelectItem value="babysitter">Babysitter</SelectItem>
+                                    <SelectItem value="parent">Parent</SelectItem>  
                                 </SelectContent>
                             </Select>
                         </div>

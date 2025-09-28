@@ -26,7 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'contact_number',
         'profile',
         'balance',
-        'rate'
+        'rate',
+        'is_babysitter',
     ];
 
     /**
