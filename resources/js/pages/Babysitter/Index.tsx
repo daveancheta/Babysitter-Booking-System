@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -64,6 +64,7 @@ interface Posts {
     profile: string;
     created_at: string;
     followingCount: number;
+    followerCountBS: number;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -124,7 +125,7 @@ export default function Index() {
     }
 
     const handleUnfollowUser = (id: number, sessionID: number) => {
-        destroy(route('follow.destroy', {id, sessionID}));
+        destroy(route('follow.destroy', { id, sessionID }));
     }
 
 
@@ -222,7 +223,7 @@ export default function Index() {
                     </Dialog>
                 </div>
 
-                {posts.length > 0 ? 
+                {posts.length > 0 ?
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {posts.map((p) => (
                             <ContextMenu key={p.id}>
@@ -255,21 +256,24 @@ export default function Index() {
                                                                                     </Avatar>
                                                                                 </Avatar>
                                                                                 </div>
-                                                                                <div className='whitespace-nowrap dark:text-white text-black'>{p.name}</div>
+                                                                                <div className='flex flex-col gap-2 items-start'>
+                                                                                    <div className='whitespace-nowrap dark:text-white text-black font-bold text-sm truncate'>{p.name}</div>
+                                                                                    <div className='whitespace-nowrap dark:text-white text-black flex flex-row items-center text-sm'><BookmarkCheck className='h-4 w-4 text-muted-foreground'/>&nbsp;{p.followerCountBS}&nbsp;<span>{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span></div>
+                                                                                </div>
                                                                             </div>
                                                                             <div className={auth?.user.is_babysitter ? 'hidden' : 'm-2 mr-auto space-x-2 flex flex-row'}>
-                                                                                 {p.followingCount > 0 ? <Button variant='outline' className='items-center cursor-pointer' onClick={() => handleUnfollowUser(p.babysitter_id, auth?.user.id)} disabled={processingDelete}><UserCheck />Following</Button> :
-                                                                                <form onSubmit={handleFollowValidation}>
-                                                                                     <Button type='submit' onClick={() => {
-                                                                                        setData('following_user_id', p.babysitter_id);
-                                                                                        setData('follower_user_id', auth?.user.id);
-                                                                                    }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>
-                                                                                </form>
+                                                                                {p.followingCount > 0 ? <Button variant='outline' className='items-center cursor-pointer' onClick={() => handleUnfollowUser(p.babysitter_id, auth?.user.id)} disabled={processingDelete}><UserCheck />Following</Button> :
+                                                                                    <form onSubmit={handleFollowValidation}>
+                                                                                        <Button type='submit' onClick={() => {
+                                                                                            setData('following_user_id', p.babysitter_id);
+                                                                                            setData('follower_user_id', auth?.user.id);
+                                                                                        }} variant='outline' className='items-center cursor-pointer' disabled={processing}><UserPlus />Follow</Button>
+                                                                                    </form>
                                                                                 }
                                                                                 <Button variant='outline' className='items-center cursor-pointer'><BriefcaseBusiness />Hire</Button>
                                                                             </div>
                                                                         </div>
-                                                                    </div> 
+                                                                    </div>
                                                                 </div>}
 
 
@@ -407,7 +411,7 @@ export default function Index() {
                             </ContextMenu>
                         ))}
                     </div>
-                : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
+                    : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
             </div>
 
         </AppLayout >
