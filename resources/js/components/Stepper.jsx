@@ -6,7 +6,7 @@ import './Stepper.css';
 export default function Stepper({
   children,
   initialStep = 1,
-  onStepChange = () => {},
+  onStepChange = (step) => {},
   onFinalStepCompleted = () => {},
   stepCircleContainerClassName = '',
   stepContainerClassName = '',
@@ -103,17 +103,19 @@ export default function Stepper({
           <div className={`footer-container ${footerClassName}`}>
             <div className={`footer-nav ${currentStep !== 1 ? 'spread' : 'end'}`}>
               {currentStep !== 1 && (
-                <button
+                <div
                   onClick={handleBack}
                   className={`back-button ${currentStep === 1 ? 'inactive' : ''}`}
                   {...backButtonProps}
                 >
                   {backButtonText}
-                </button>
+                </div>
               )}
-              <button onClick={isLastStep ? handleComplete : handleNext} className="next-button" {...nextButtonProps}>
-                {isLastStep ? 'Complete' : nextButtonText}
-              </button>
+              <div onClick={isLastStep ? handleComplete : handleNext} className={isLastStep ? 'hidden' : 'next-button'} {...nextButtonProps}>
+                {nextButtonText}
+              </div>
+
+              <button className={isLastStep ? 'next-button' : 'hidden'}>Complete</button>
             </div>
           </div>
         )}
