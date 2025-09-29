@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -167,10 +167,9 @@ export default function Index() {
 
                 <div className='flex justify-start'>
                     <Dialog>
-                        <div className={auth.user.is_babysitter ? "bg-background rounded-lg border p-6 shadow-lg duration-20 flex justify-between space-x-6" : "hidden"}>
-                            <UserDisplay />
+                        <div className={auth.user.is_babysitter ? "w-full flex justify-start" : "hidden"}>
                             <DialogTrigger asChild>
-                                <Button className='rounded-full flex justify-start p-5' variant="outline">Tell parents about yourself…</Button>
+                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen/> Tell parents about yourself…</Button>
                             </DialogTrigger>
                         </div>
                         <DialogContent className="sm:max-w-[425px]">
@@ -224,7 +223,7 @@ export default function Index() {
                 </div>
 
                 {posts.length > 0 ?
-                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
                         {posts.map((p) => (
                             <ContextMenu key={p.id}>
                                 <ContextMenuTrigger>
