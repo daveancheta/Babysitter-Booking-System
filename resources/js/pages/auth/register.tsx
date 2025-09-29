@@ -32,7 +32,7 @@ export default function Register() {
     }
     return (
         <div>
-            <form onSubmit={handleRegisterUser}>
+            <form onSubmit={handleRegisterUser} className='justify-center flex xl:min-h-[55vh] min-h-[90vh]'>
                 <Stepper
                     initialStep={1}
                     onStepChange={(step) => {
