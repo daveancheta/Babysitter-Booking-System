@@ -106,9 +106,9 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <div className='flex justify-between items-center'>
+                    <div className='block-flex xl:flex xl:justify-between'>
                         <HeadingSmall title="Profile information" description="Update your name and email address" />
-                        <div className='flex flex-row gap-4'>
+                        <div className='flex flex-row gap-4 xl:mt-0 mt-4 justify-center'>
                             <Dialog>
                                 <DialogTrigger asChild>
                                     <button className='flex flex-col items-center cursor-pointer'>
