@@ -92,6 +92,8 @@ export default function Index() {
         post(route('booking.store'));
     }
 
+    let authBalance = auth?.user.balance;
+    let formattedAuthBalance = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(authBalance);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
@@ -135,7 +137,7 @@ export default function Index() {
                                             ) : (usersBook > 0 ? (
                                                 <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">You have a pending booking
                                                 </Button>
-                                            ) : (auth.user.balance < u.rate ? (
+                                            ) : (Number(formattedAuthBalance) < Number(u.rate) ? (
                                                  <Tooltip>
                                             <TooltipTrigger className='w-full'><Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">Insufficient balance</Button></TooltipTrigger>
                                             <TooltipContent>

@@ -32,6 +32,10 @@ class ParentController extends Controller
             ->orderBy('id')
             ->get();
 
+            foreach($users as $u) {
+                $u->rate = number_format($u->rate, 2);
+            }
+
         $userSessionId = Auth::id();
         $usersBook = Booking::where('user_id', $userSessionId)
             ->whereIn('status', ['pending', 'approved'])

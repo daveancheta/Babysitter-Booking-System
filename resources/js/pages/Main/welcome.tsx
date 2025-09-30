@@ -8,7 +8,6 @@ import AuthLayout from '@/layouts/auth-layout';
 import { Form, Head, Link } from '@inertiajs/react';
 import { Expand, LoaderCircle, Lock, Minimize } from 'lucide-react';
 import Stepper, { Step } from '@/components/Stepper';
-import { FullscreenButton } from '@/components/fullscreen-button';
 
 interface LoginProps {
     status?: string;
