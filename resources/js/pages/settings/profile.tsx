@@ -132,7 +132,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                                 <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
-                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)}><UserMinus/>Unfollow</Button>
+                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)} disabled={processingDelete}><UserMinus/>Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
