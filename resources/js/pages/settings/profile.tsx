@@ -24,6 +24,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { StringToBoolean } from 'class-variance-authority/types';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInitials } from '@/hooks/use-initials';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -75,7 +78,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         destroy(route('follow.destroy', { id, sessionID }));
     }
 
-      const handleFollowValidation = (e: React.FormEvent) => {
+    const handleFollowValidation = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('follow_profile.store'));
     }
@@ -99,6 +102,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
         })
     })
+
+        const getInitials = useInitials();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -129,10 +134,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                     <div>
                                                         <div className='flex justify-between'>
                                                             <div className='flex flex-row gap-2 items-center'>
-                                                                <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
+                                                                <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                                    {f.profile === null ? <AvatarFallback className="rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                        {getInitials(f.name)} </AvatarFallback> : <img className='rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${f.profile}`} alt="" />}
+                                                                </Avatar>
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
-                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)} disabled={processingDelete}><UserMinus/>Unfollow</Button>
+                                                            <Button variant='outline' className='cursor-pointer' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)} disabled={processingDelete}><UserMinus />Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
@@ -169,7 +177,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                                 <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
-                                                            {f.ifFollows > 0 ? <Button variant='outline' className=''><UserCheck/>Following</Button> :
+                                                            {f.ifFollows > 0 ? <Button variant='outline' className=''><UserCheck />Following</Button> :
                                                                 <form onSubmit={handleFollowValidation}>
                                                                     <Button type='submit' onClick={() => {
                                                                         setData('following_user_id', f.follower_user_id);
