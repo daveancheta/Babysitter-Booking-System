@@ -41,6 +41,7 @@ import {
     ContextMenuSubTrigger,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -158,6 +159,8 @@ export default function Index() {
         document.getElementById(`profileContainer${id}`)?.classList.add("hidden");
     }
 
+    const isMobile = useIsMobile();
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -167,11 +170,16 @@ export default function Index() {
 
                 <div className='flex justify-start'>
                     <Dialog>
-                        <div className={auth.user.is_babysitter ? "w-full flex justify-start" : "hidden"}>
+                        {isMobile ? <div className={auth.user.is_babysitter ? "w-full flex justify-center" : "hidden"}>
                             <DialogTrigger asChild>
                                 <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen/> Tell parents about yourself…</Button>
                             </DialogTrigger>
-                        </div>
+                        </div> : <div className={auth.user.is_babysitter ? "w-full flex justify-start" : "hidden"}>
+                            <DialogTrigger asChild>
+                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen/> Tell parents about yourself…</Button>
+                            </DialogTrigger>
+                        </div>}
+                        
                         <DialogContent className="sm:max-w-[425px]">
                             <form onSubmit={submitPost} action="">
                                 <DialogHeader>

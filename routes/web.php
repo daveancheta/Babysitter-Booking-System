@@ -10,6 +10,7 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ReactController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
     Route::delete('/follow/{id}{sessionID}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    Route::get('/search', SearchController::class)->name('result.search');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
