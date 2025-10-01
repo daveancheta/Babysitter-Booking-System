@@ -174,7 +174,10 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                                     <div key={f.id}>
                                                         <div className='flex justify-between'>
                                                             <div className='flex flex-row gap-2 items-center'>
-                                                                <img className='h-15 w-15 rounded-full' src={`${window.location.origin}/storage/${f.profile}`} alt="" />
+                                                                <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                                    {f.profile === null ? <AvatarFallback className="rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                                        {getInitials(f.name)} </AvatarFallback> : <img className='rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${f.profile}`} alt="" />}
+                                                                </Avatar>
                                                                 <span className='truncate'>{f.name}</span>
                                                             </div>
                                                             {f.ifFollows > 0 ? <Button variant='outline' className=''><UserCheck />Following</Button> :
