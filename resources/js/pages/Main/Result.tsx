@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2 } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, UserRound, Baby } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -49,7 +49,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface Results {
+    id: number;
     name: string;
+    profile: string;
+    is_babysitter: string;
+    createdAtFormatted: string;
 }
 
 
@@ -61,16 +65,31 @@ export default function Result() {
     const { auth } = usePage<SharedData>().props;
     const { results } = usePage<PageProps>().props;
 
+    const getInitials = useInitials();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
-                <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                   <p>{results.length > 0 && (
-                    <div>{results.map((r) => (
-                        <div>{r.name}</div>
-                    ))}</div>
-                   )}</p>
-                </div>
+            <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+                {results.length > 0 && (
+                    <div className='grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
+                        {results.map((r) => (
+                            <div className="dark:bg-neutral-900 rounded-lg border p-6 shadow-lg duration-200 flex flex-col" key={r.id}>
+                                <div className='flex flex-row gap-3'>
+                                    <Avatar className="h-20 w-20 overflow-hidden rounded-full">
+                                        {r.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                            {getInitials(r.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${r.profile}`} alt="" />}
+                                    </Avatar>
+                                    <span>{r.name}</span>
+                                    <span className='text-muted-foreground'>{r.createdAtFormatted}</span>
+                                </div>
+                                <span className='mt-auto ms-auto'>{r.is_babysitter ? <Badge variant='outline'><Baby/> Babysitter</Badge> : <Badge variant='outline'><UserRound/> Parent</Badge>}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+            </div>
         </AppLayout >
     );
 }
