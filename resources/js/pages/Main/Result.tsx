@@ -80,10 +80,13 @@ export default function Result() {
                                         {r.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                             {getInitials(r.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${r.profile}`} alt="" />}
                                     </Avatar>
-                                    <span>{r.name}</span>
-                                    <span className='text-muted-foreground'>{r.createdAtFormatted}</span>
+                                    <div className='flex flex-col'>
+                                    <span className='whitespace-nowrap truncate'>{r.name}</span>
+                                    <span className='text-muted-foreground whitespace-nowrap truncate'>{r.createdAtFormatted}</span>
+                                    </div>
                                 </div>
                                 <span className='mt-auto ms-auto'>{r.is_babysitter ? <Badge variant='outline'><Baby/> Babysitter</Badge> : <Badge variant='outline'><UserRound/> Parent</Badge>}</span>
+                                <Button variant='outline' className='mt-2 cursor-pointer'>Follow</Button>
                             </div>
                         ))}
                     </div>
