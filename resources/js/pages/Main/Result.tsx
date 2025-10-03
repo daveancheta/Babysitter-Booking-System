@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, UserRound, Baby } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, UserRound, Baby, Divide } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -82,7 +82,7 @@ export default function Result() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                {results.length > 0 && (
+                {results.length > 0 ? (
                     <div className='grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
                         {results.map((r) => (
                             <div className="dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 flex flex-col" key={r.id}>
@@ -107,7 +107,7 @@ export default function Result() {
                             </div>
                         ))}
                     </div>
-                )}
+                ) : <div className='mt-5 text-center text-muted-foreground'>We couldn&rsquo;t find any results for that.</div>}
 
             </div>
         </AppLayout >
