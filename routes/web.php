@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/cancelledBookings', [CancelledBookingsController::class, 'create'])->name('cancelled.store');
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
+    Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
     Route::delete('/follow/{id}{sessionID}', [FollowController::class, 'destroy'])->name('follow.destroy');
     Route::get('/search', SearchController::class)->name('result.search');
 

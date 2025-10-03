@@ -67,6 +67,16 @@ export default function Result() {
 
     const getInitials = useInitials();
 
+    const { data, setData, post, processing, errors} = useForm({
+        following_user_id: 0,
+        follower_user_id: 0,
+    })
+
+    const handleFollowValidation = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('follow_profile_search.store'));
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
@@ -74,7 +84,7 @@ export default function Result() {
                 {results.length > 0 && (
                     <div className='grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
                         {results.map((r) => (
-                            <div className="dark:bg-neutral-900 rounded-lg border p-6 shadow-lg duration-200 flex flex-col" key={r.id}>
+                            <div className="dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 flex flex-col" key={r.id}>
                                 <div className='flex flex-row gap-3'>
                                     <Avatar className="h-20 w-20 overflow-hidden rounded-full">
                                         {r.profile === null ? <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
@@ -82,11 +92,13 @@ export default function Result() {
                                     </Avatar>
                                     <div className='flex flex-col'>
                                     <span className='whitespace-nowrap truncate'>{r.name}</span>
-                                    <span className='text-muted-foreground whitespace-nowrap truncate'>{r.createdAtFormatted}</span>
+                                    <span className='text-muted-foreground whitespace-nowrap truncate text-xs'>Joined on {r.createdAtFormatted}</span>
                                     </div>
                                 </div>
                                 <span className='mt-auto ms-auto'>{r.is_babysitter ? <Badge variant='outline'><Baby/> Babysitter</Badge> : <Badge variant='outline'><UserRound/> Parent</Badge>}</span>
-                                <Button variant='outline' className='mt-2 cursor-pointer'>Follow</Button>
+                                <form onSubmit={handleFollowValidation}>
+                                <Button variant='outline' className='mt-2 cursor-pointer w-full' onClick={() => {setData('following_user_id', r.id), setData('follower_user_id', auth?.user.id)}} disabled={processing}>Follow</Button>
+                                </form>
                             </div>
                         ))}
                     </div>

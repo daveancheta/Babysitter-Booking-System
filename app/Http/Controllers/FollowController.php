@@ -50,6 +50,18 @@ class FollowController extends Controller
        return redirect()->route('profile.edit');
     }
 
+    public function followProfileStoreSearch(Request $request)
+    {
+       $validated = request()->validate([
+        'following_user_id' => 'required',
+        'follower_user_id' => 'required'
+       ]);
+
+       Follow::create($validated);
+
+       return redirect()->route('result.search');
+    }
+
     /**
      * Display the specified resource.
      */
