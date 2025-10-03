@@ -54,6 +54,7 @@ interface Results {
     profile: string;
     is_babysitter: string;
     createdAtFormatted: string;
+    ifFollows: number;
 }
 
 
@@ -67,7 +68,7 @@ export default function Result() {
 
     const getInitials = useInitials();
 
-    const { data, setData, post, processing, errors} = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         following_user_id: 0,
         follower_user_id: 0,
     })
@@ -91,14 +92,18 @@ export default function Result() {
                                             {getInitials(r.name)} </AvatarFallback> : <img className='rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${r.profile}`} alt="" />}
                                     </Avatar>
                                     <div className='flex flex-col'>
-                                    <span className='whitespace-nowrap truncate'>{r.name}</span>
-                                    <span className='text-muted-foreground whitespace-nowrap truncate text-xs'>Joined on {r.createdAtFormatted}</span>
+                                        <span className='whitespace-nowrap truncate'>{r.name}</span>
+                                        <span className='text-muted-foreground whitespace-nowrap truncate text-xs'>Joined on {r.createdAtFormatted}</span>
                                     </div>
                                 </div>
-                                <span className='mt-auto ms-auto'>{r.is_babysitter ? <Badge variant='outline'><Baby/> Babysitter</Badge> : <Badge variant='outline'><UserRound/> Parent</Badge>}</span>
-                                <form onSubmit={handleFollowValidation}>
-                                <Button variant='outline' className='mt-2 cursor-pointer w-full' onClick={() => {setData('following_user_id', r.id), setData('follower_user_id', auth?.user.id)}} disabled={processing}>Follow</Button>
-                                </form>
+                                <span className='mt-auto ms-auto mb-5'>{r.is_babysitter ? <Badge variant='outline'><Baby /> Babysitter</Badge>
+                                    :
+                                    <Badge variant='outline'><UserRound /> Parent</Badge>}</span>
+                                {r.ifFollows > 0 ? <Button variant='outline' className='pointer-events-none'>Following</Button> :
+                                    (auth?.user.id === r.id ? <Button variant='outline' className='pointer-events-none'>You</Button> : <form onSubmit={handleFollowValidation}>
+                                        <Button variant='outline' className='mt-2 cursor-pointer w-full' onClick={() => { setData('following_user_id', r.id), setData('follower_user_id', auth?.user.id) }} disabled={processing}>Follow</Button>
+                                    </form>)
+                                }
                             </div>
                         ))}
                     </div>
