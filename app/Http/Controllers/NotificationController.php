@@ -36,6 +36,24 @@ class NotificationController extends Controller
         ->where('user_id', $userId)
         ->get();
 
+        $booksCancelled = DB::table('cancelled_bookings')
+        ->leftJoin('users', 'cancelled_bookings.babysitter_id', '=', 'users.id')
+        ->select(
+            'users.*',
+            'cancelled_bookings.*',
+        )
+        ->where('user_id', $userId)
+        ->get();
+
+        $booksDone = DB::table('done_bookings')
+        ->leftJoin('users', 'done_bookings.babysitter_id', '=', 'users.id')
+        ->select(
+            'users.*',
+            'done_bookings.*',
+        )
+        ->where('user_id', $userId)
+        ->get();
+
         foreach($books as $b) {
             $start = Carbon::parse($b->start_date);
             $end = Carbon::parse($b->end_date);
@@ -49,7 +67,7 @@ class NotificationController extends Controller
         }
 
 
-        return Inertia::render('Main/Notification', compact('bookings', 'books'));
+        return Inertia::render('Main/Notification', compact('books', 'booksCancelled', 'booksDone'));
     }
 
     /**

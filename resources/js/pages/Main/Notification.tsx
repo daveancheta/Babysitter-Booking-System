@@ -48,22 +48,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Bookings {
-    id: number;
-    name: string;
-    babysitter_id: number;
-    contact_number: string;
-    profile: string;
-    rate: number;
-    status: string;
-    payment_method: string;
-    user_id: number;
-    start_date: string;
-    end_date: string;
-    start: number;
-    date: number
-}
-
 interface Books {
     id: number;
     name: string;
@@ -79,14 +63,45 @@ interface Books {
     date: number;
 }
 
+interface BooksCancelled {
+    id: number;
+    name: string;
+    babysitter_id: number;
+    contact_number: string;
+    profile: string;
+    rate: number;
+    status: string;
+    payment_method: string;
+    user_id: number;
+    start_date: string;
+    end_date: string;
+    date: number;
+}
+
+interface BooksDone {
+    id: number;
+    name: string;
+    babysitter_id: number;
+    contact_number: string;
+    profile: string;
+    rate: number;
+    status: string;
+    payment_method: string;
+    user_id: number;
+    start_date: string;
+    end_date: string;
+    date: number;
+}
+
 interface PageProps extends InertiaPageProps {
-    bookings: Bookings[];
+    booksCancelled: BooksCancelled[];
+    booksDone: BooksDone[];
     books: Books[];
 }
 
 export default function Notification() {
     const { auth } = usePage<SharedData>().props;
-    const { bookings, books } = usePage<PageProps>().props;
+    const { booksCancelled, books, booksDone } = usePage<PageProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,
@@ -133,81 +148,7 @@ export default function Notification() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
-            {auth.user.is_babysitter ? (
-                <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                    {bookings.length > 0 && (
-                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                            {bookings.map((b) => (
-                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
-                                    <div className='relative'>
-                                        <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                        <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
-                                    </div>
-                                    <div className='flex flex-col p-6'>
-                                        <div className='flex justify-between items-center'>
-                                            <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                <span>5/10</span>
-                                            </div>
-                                        </div>
-                                        <div className=''>
-                                            <span className='font-bold'>Hourly Rate:</span>
-                                            <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
-                                        </div>
-                                        <div>
-                                            <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
-                                        </div>
-                                          <div>
-                                            <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                        </div>
-                                    </div>
-                                    <div className='m-6 flex flex-row gap-2'>
-                                        <form onSubmit={acceptAction} className='w-full'>
-                                            <Button type='submit' onClick={() => {
-                                                setData('action', 'approved');
-                                                setData('booking_id', b.id)
-                                            }} className="mt-auto w-full bg-green-600 hover:bg-green-700 text-white dark:bg-green-700 dark:hover:bg-green-800 cursor-pointer">
-                                                Accept
-                                            </Button>
-                                        </form>
-
-                                        <form onSubmit={declineAction} className='w-full'>
-                                            <Button type='submit' onClick={() => {
-                                                setData('booking_id', b.id);
-                                                setData('action', 'declined');
-                                            }} className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700 cursor-pointer">
-                                                Decline
-                                            </Button>
-                                        </form>
-
-                                        <form onSubmit={submitDoneBookings} className='w-full'>
-                                            <Button type='submit' onClick={() => {
-                                                setData('user_id', b.user_id);
-                                                setData('babysitter_id', b.babysitter_id);
-                                                setData('status', b.status);
-                                                setData('payment_method', b.payment_method);
-                                                setData('start_date', b.start_date);
-                                                setData("end_date", b.end_date)
-                                                setData("booking_id", b.id)
-                                            }} className="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-white dark:bg-amber-600 dark:hover:bg-amber-700 cursor-pointer">
-                                                Done
-                                            </Button>
-                                        </form>
-
-                                        <Button onClick={() => deleteBooking(b.id)} className="mt-auto bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700 cursor-pointer">
-                                            <Trash2 />
-                                        </Button>
-
-                                    </div>
-
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            ) : (
-                <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+                <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                     {books.length > 0 && (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {books.map((b) => (
@@ -259,7 +200,97 @@ export default function Notification() {
                         </div>
                     )}
                 </div>
-            )}
+
+                <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+                    {booksCancelled.length > 0 && (
+                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                            {booksCancelled.map((b) => (
+                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                    <div className='relative'>
+                                        <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                        <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
+                                    </div>
+
+                                    <div className='flex flex-col p-6'>
+                                        <div className='flex justify-between items-center'>
+                                            <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
+                                            <div className='flex flex-row gap-1 item-center'>
+                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                <span>5/10</span>
+                                            </div>
+                                        </div>
+                                        <div className=''>
+                                            <span className='font-bold'>Hourly Rate:</span>
+                                            <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                        </div>
+                                        <div>
+                                            <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
+                                        </div>
+                                         <div>
+                                            <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                        </div>
+                                    </div>
+                                    <div className='m-6 flex flex-row gap-2'>
+   
+                                        <form onSubmit={submitCancelledBookings} className='w-full'>
+                                            <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
+                                                Cancel
+                                            </Button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+                    {booksDone.length > 0 && (
+                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                            {booksDone.map((b) => (
+                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                    <div className='relative'>
+                                        <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                        <Badge variant='available'><span className='uppercase'>Done</span></Badge>
+                                    </div>
+
+                                    <div className='flex flex-col p-6'>
+                                        <div className='flex justify-between items-center'>
+                                            <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
+                                            <div className='flex flex-row gap-1 item-center'>
+                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                <span>5/10</span>
+                                            </div>
+                                        </div>
+                                        <div className=''>
+                                            <span className='font-bold'>Hourly Rate:</span>
+                                            <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                        </div>
+                                        <div>
+                                            <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
+                                        </div>
+                                         <div>
+                                            <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                        </div>
+                                    </div>
+                                    <div className='m-6 flex flex-row gap-2'>
+   
+                                        <form onSubmit={submitCancelledBookings} className='w-full'>
+                                            <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
+                                                Cancel
+                                            </Button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            
         </AppLayout >
     );
 }
