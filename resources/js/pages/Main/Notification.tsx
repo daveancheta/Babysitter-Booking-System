@@ -315,13 +315,6 @@ export default function Notification() {
                                         </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>
-
-                                        <form onSubmit={submitCancelledBookings} className='w-full'>
-                                            <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
-                                                Cancel
-                                            </Button>
-                                        </form>
-
                                     </div>
 
                                 </div>
@@ -360,13 +353,6 @@ export default function Notification() {
                                         </div>
                                     </div>
                                     <div className='m-6 flex flex-row gap-2'>
-
-                                        <form onSubmit={submitCancelledBookings} className='w-full'>
-                                            <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
-                                                Cancel
-                                            </Button>
-                                        </form>
-
                                     </div>
 
                                 </div>
