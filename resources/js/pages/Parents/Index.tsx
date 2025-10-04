@@ -101,7 +101,7 @@ export default function Index() {
                 {users.length > 0 ? 
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {users.map((u) => (
-                            <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
+                            <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                     <Badge variant={u.status === 'pending' ? 'booked' : (u.status === 'approved' ? 'booked' : 'available')}>{u.status === 'pending' ? 'BOOKED' : (u.status === 'approved' ? 'BOOKED' : 'AVAILABLE')}</Badge>
@@ -145,7 +145,7 @@ export default function Index() {
                                             </TooltipContent>
                                         </Tooltip>
                                             ) : (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full' } variant="outline">Book Now</Button>
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full cursor-pointer' } variant="outline">Book Now</Button>
                                             ))
                                             )}
 
