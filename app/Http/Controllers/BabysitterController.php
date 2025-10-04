@@ -117,12 +117,4 @@ class BabysitterController extends Controller
 
         return redirect()->route('babysitter.index');
     }
-
-    // Delete Bookings
-    public function destroyBook(Booking $id)
-    {
-        $id->delete();
-
-        return redirect()->route('notification.index');
-    }
 }
