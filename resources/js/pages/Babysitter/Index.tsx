@@ -235,7 +235,7 @@ export default function Index() {
                         {posts.map((p) => (
                             <ContextMenu key={p.id}>
                                 <ContextMenuTrigger>
-                                    <div className='bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={p.id}>
+                                    <div className='dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[200px] flex flex-col' key={p.id}>
                                         <div className='flex justify-between'>
 
                                             <div className='flex flex-row gap-2 items-center'>
