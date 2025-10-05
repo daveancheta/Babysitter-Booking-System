@@ -140,6 +140,9 @@ interface BookingsDone {
 }
 
 interface PageProps extends InertiaPageProps {
+    flash: {
+        message?: string;
+    }
     booksCancelled: BooksCancelled[];
     booksDone: BooksDone[];
     books: Books[];
@@ -150,7 +153,7 @@ interface PageProps extends InertiaPageProps {
 
 export default function Notification() {
     const { auth } = usePage<SharedData>().props;
-    const { booksCancelled, books, booksDone, bookingsCancelled, bookings, bookingsDone } = usePage<PageProps>().props;
+    const { booksCancelled, books, booksDone, bookingsCancelled, bookings, bookingsDone, flash } = usePage<PageProps>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,
@@ -161,7 +164,9 @@ export default function Notification() {
         payment_method: '',
         start_date: '',
         end_date: '',
+        ratings: 0,
     });
+
     const { delete: destroy, processing: processingDeleteBooking } = useForm({});
 
     const acceptAction = (e: React.FormEvent) => {
@@ -206,6 +211,77 @@ export default function Notification() {
     const cancelledBooksButton = () => {
         localStorage.setItem("bookingsNavigation", "cancelled");
         setBookingsNavigation("cancelled")
+    }
+
+    const starOne = () => {
+        document.getElementById("star-1")?.classList.add("fill-yellow-500");
+        document.getElementById("star-2")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-3")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-4")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-5")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-1")?.classList.add("text-yellow-500");
+        document.getElementById("star-2")?.classList.remove("text-yellow-500");
+        document.getElementById("star-3")?.classList.remove("text-yellow-500");
+        document.getElementById("star-4")?.classList.remove("text-yellow-500");
+        document.getElementById("star-5")?.classList.remove("text-yellow-500");
+    }
+
+    const starTwo = () => {
+        document.getElementById("star-1")?.classList.add("fill-yellow-500");
+        document.getElementById("star-2")?.classList.add("fill-yellow-500");
+        document.getElementById("star-3")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-4")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-5")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-1")?.classList.add("text-yellow-500");
+        document.getElementById("star-2")?.classList.add("text-yellow-500");
+        document.getElementById("star-3")?.classList.remove("text-yellow-500");
+        document.getElementById("star-4")?.classList.remove("text-yellow-500");
+        document.getElementById("star-5")?.classList.remove("text-yellow-500");
+    }
+
+    const starThree = () => {
+        document.getElementById("star-1")?.classList.add("fill-yellow-500");
+        document.getElementById("star-2")?.classList.add("fill-yellow-500");
+        document.getElementById("star-3")?.classList.add("fill-yellow-500");
+        document.getElementById("star-4")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-5")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-1")?.classList.add("text-yellow-500");
+        document.getElementById("star-2")?.classList.add("text-yellow-500");
+        document.getElementById("star-3")?.classList.add("text-yellow-500");
+        document.getElementById("star-4")?.classList.remove("text-yellow-500");
+        document.getElementById("star-5")?.classList.remove("text-yellow-500");
+
+    }
+
+    const starFour = () => {
+        document.getElementById("star-1")?.classList.add("fill-yellow-500");
+        document.getElementById("star-2")?.classList.add("fill-yellow-500");
+        document.getElementById("star-3")?.classList.add("fill-yellow-500");
+        document.getElementById("star-4")?.classList.add("fill-yellow-500");
+        document.getElementById("star-5")?.classList.remove("fill-yellow-500");
+        document.getElementById("star-1")?.classList.add("text-yellow-500");
+        document.getElementById("star-2")?.classList.add("text-yellow-500");
+        document.getElementById("star-3")?.classList.add("text-yellow-500");
+        document.getElementById("star-4")?.classList.add("text-yellow-500");
+        document.getElementById("star-5")?.classList.remove("text-yellow-500");
+    }
+
+    const starFive = () => {
+        document.getElementById("star-1")?.classList.add("fill-yellow-500");
+        document.getElementById("star-2")?.classList.add("fill-yellow-500");
+        document.getElementById("star-3")?.classList.add("fill-yellow-500");
+        document.getElementById("star-4")?.classList.add("fill-yellow-500");
+        document.getElementById("star-5")?.classList.add("fill-yellow-500");
+        document.getElementById("star-1")?.classList.add("text-yellow-500");
+        document.getElementById("star-2")?.classList.add("text-yellow-500");
+        document.getElementById("star-3")?.classList.add("text-yellow-500");
+        document.getElementById("star-4")?.classList.add("text-yellow-500");
+        document.getElementById("star-5")?.classList.add("text-yellow-500");
+    }
+
+    const handleRating = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('rating.store'));
     }
 
     return (
@@ -476,7 +552,7 @@ export default function Notification() {
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <div className='m-6 flex flex-row gap-2'>
-                                                    <Button variant='secondary' className='cursor-pointer'>Rate</Button>
+                                                    <Button variant='secondary' className='cursor-pointer' onClick={() => setData('babysitter_id', b.babysitter_id)}>Rate</Button>
                                                 </div>
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[425px]">
@@ -486,22 +562,30 @@ export default function Notification() {
                                                         Rate now — how was your experience with our babysitter caring for your baby?
                                                     </DialogDescription>
                                                 </DialogHeader>
-                                                <div className="grid gap-4">
-                                                    <div className="grid gap-3">
-                                                        <div className='flex flex-row justify-center items-center gap-2 mt-5 mb-5'>
-                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
-                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
-                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
-                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
-                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                <form onSubmit={handleRating}>
+                                                       {flash.message && <Alert>
+                                                        <Megaphone />
+                                                        <AlertTitle>Notification!</AlertTitle>
+                                                        <AlertDescription>
+                                                            {flash.message}
+                                                        </AlertDescription>
+                                                    </Alert>}
+                                                    <div className="grid gap-4">
+                                                        <div className="grid gap-3">
+                                                            <div className='flex flex-row justify-center items-center gap-2 mt-5 mb-5'>
+                                                                <button disabled={processing} type='submit' onClick={() => { starOne(); setData('user_id', auth?.user.id); setData('ratings', 1) }} className='cursor-pointer'><StarIcon id='star-1' size={30} /></button>
+                                                                <button disabled={processing} type='submit' onClick={() => { starTwo(); setData('user_id', auth?.user.id); setData('ratings', 2) }} className='cursor-pointer'><StarIcon id='star-2' size={30} /></button>
+                                                                <button disabled={processing} type='submit' onClick={() => { starThree(); setData('user_id', auth?.user.id); setData('ratings', 3) }} className='cursor-pointer'><StarIcon id='star-3' size={30} /></button>
+                                                                <button disabled={processing} type='submit' onClick={() => { starFour(); setData('user_id', auth?.user.id); setData('ratings', 4) }} className='cursor-pointer'><StarIcon id='star-4' size={30} /></button>
+                                                                <button disabled={processing} type='submit' onClick={() => { starFive(); setData('user_id', auth?.user.id); setData('ratings', 5) }} className='cursor-pointer'><StarIcon id='star-5' size={30} /></button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </form>
                                                 <DialogFooter>
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
-                                                    <Button type="submit">Save changes</Button>
                                                 </DialogFooter>
                                             </DialogContent>
                                         </Dialog>

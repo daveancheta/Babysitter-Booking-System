@@ -9,6 +9,7 @@ use App\Http\Controllers\DoneBookingsController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
+use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
     Route::delete('/follow/{id}{sessionID}', [FollowController::class, 'destroy'])->name('follow.destroy');
     Route::get('/search', SearchController::class)->name('result.search');
+    Route::post('/ratings', [RatingsController::class, 'store'])->name('rating.store');
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
