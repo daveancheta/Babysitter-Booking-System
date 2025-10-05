@@ -211,7 +211,7 @@ export default function Notification() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
-            {auth?.user.is_babysitter ? <div>
+            {auth?.user.is_babysitter ? <div className='overflow-hidden'>
                 <div className='flex justify-center mt-4'>
                     <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
                         <button onClick={pendingBookingsButton} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "pending" ? "bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100" : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><Hourglass className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Pending</span></button>
@@ -232,10 +232,6 @@ export default function Notification() {
                                     <div className='flex flex-col p-6'>
                                         <div className='flex justify-between items-center'>
                                             <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                <span>5/10</span>
-                                            </div>
                                         </div>
                                         <div>
                                             <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
@@ -298,10 +294,6 @@ export default function Notification() {
                                     <div className='flex flex-col p-6'>
                                         <div className='flex justify-between items-center'>
                                             <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                <span>5/10</span>
-                                            </div>
                                         </div>
                                         <div className=''>
                                             <span className='font-bold'>Hourly Rate:</span>
@@ -336,10 +328,6 @@ export default function Notification() {
                                     <div className='flex flex-col p-6'>
                                         <div className='flex justify-between items-center'>
                                             <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                <span>5/10</span>
-                                            </div>
                                         </div>
                                         <div className=''>
                                             <span className='font-bold'>Hourly Rate:</span>
@@ -362,7 +350,7 @@ export default function Notification() {
                 </div>
             </div>
                 :
-                <div>
+                <div className='overflow-hidden'>
                     <div className='flex justify-center mt-4'>
                         <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
                             <button onClick={pendingBookingsButton} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "pending" ? "bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100" : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><Hourglass className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Pending</span></button>
@@ -436,10 +424,6 @@ export default function Notification() {
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
-                                                </div>
                                             </div>
                                             <div className=''>
                                                 <span className='font-bold'>Hourly Rate:</span>
@@ -454,11 +438,7 @@ export default function Notification() {
                                         </div>
                                         <div className='m-6 flex flex-row gap-2'>
 
-                                            <form onSubmit={submitCancelledBookings} className='w-full'>
-                                                <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
-                                                    Cancel
-                                                </Button>
-                                            </form>
+                                           
 
                                         </div>
 
@@ -481,10 +461,6 @@ export default function Notification() {
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
-                                                </div>
                                             </div>
                                             <div className=''>
                                                 <span className='font-bold'>Hourly Rate:</span>
@@ -498,13 +474,7 @@ export default function Notification() {
                                             </div>
                                         </div>
                                         <div className='m-6 flex flex-row gap-2'>
-
-                                            <form onSubmit={submitCancelledBookings} className='w-full'>
-                                                <Button type='submit' className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled>
-                                                    Cancel
-                                                </Button>
-                                            </form>
-
+                                            <Button variant='secondary' className='cursor-pointer'>Rate</Button>
                                         </div>
 
                                     </div>
