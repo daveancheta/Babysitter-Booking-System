@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, Expand, Minimize, Hourglass, BadgeCheck, CheckCircle, XCircle, Divide } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, Expand, Minimize, Hourglass, BadgeCheck, CheckCircle, XCircle, Divide, StarIcon } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -223,7 +223,7 @@ export default function Notification() {
                     {bookings.length > 0 ? (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {bookings.map((b) => (
-                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                         <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
@@ -285,7 +285,7 @@ export default function Notification() {
                     {bookingsCancelled.length > 0 ? (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {bookingsCancelled.map((b) => (
-                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                         <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
@@ -319,7 +319,7 @@ export default function Notification() {
                     {bookingsDone.length > 0 ? (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {bookingsDone.map((b) => (
-                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                         <Badge variant='available'><span className='uppercase'>Done</span></Badge>
@@ -362,7 +362,7 @@ export default function Notification() {
                         {books.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {books.map((b) => (
-                                    <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                    <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
@@ -415,7 +415,7 @@ export default function Notification() {
                         {booksCancelled.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {booksCancelled.map((b) => (
-                                    <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                    <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
@@ -438,7 +438,7 @@ export default function Notification() {
                                         </div>
                                         <div className='m-6 flex flex-row gap-2'>
 
-                                           
+
 
                                         </div>
 
@@ -452,7 +452,7 @@ export default function Notification() {
                         {booksDone.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {booksDone.map((b) => (
-                                    <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                    <div className='bg-background dark:bg-neutral-900 rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant='available'><span className='uppercase'>Done</span></Badge>
@@ -473,10 +473,38 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                             </div>
                                         </div>
-                                        <div className='m-6 flex flex-row gap-2'>
-                                            <Button variant='secondary' className='cursor-pointer'>Rate</Button>
-                                        </div>
-
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <div className='m-6 flex flex-row gap-2'>
+                                                    <Button variant='secondary' className='cursor-pointer'>Rate</Button>
+                                                </div>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Rate</DialogTitle>
+                                                    <DialogDescription>
+                                                        Rate now — how was your experience with our babysitter caring for your baby?
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="grid gap-4">
+                                                    <div className="grid gap-3">
+                                                        <div className='flex flex-row justify-center items-center gap-2 mt-5 mb-5'>
+                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                            <button className='cursor-pointer'><StarIcon size={30} /></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <DialogFooter>
+                                                    <DialogClose asChild>
+                                                        <Button variant="outline">Cancel</Button>
+                                                    </DialogClose>
+                                                    <Button type="submit">Save changes</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                     </div>
                                 ))}
                             </div>
