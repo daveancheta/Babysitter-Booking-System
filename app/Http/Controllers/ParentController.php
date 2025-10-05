@@ -100,6 +100,29 @@ class ParentController extends Controller
         return redirect()->route('notification.index');
     }
 
+     public function updateStatus(Request $request)
+    {
+        request()->validate([
+            'booking_id' => 'required',
+            'babysitter_id' => 'required',
+            'status' => 'required'
+        ]);
+
+        $booking_id = $request->input('booking_id');
+        $status = $request->input('status');
+        $babysitter_id = $request->input('babysitter_id');
+
+        Booking::where('id', $booking_id)->update(['status' => $status]);
+
+        if($status) {
+            if($status === "done" || "declined") {
+                User::where('id', $babysitter_id)->update(['book_status' => NULL]);
+            } 
+        }
+
+        return redirect()->route('notification.index');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -40,6 +40,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -103,6 +105,12 @@ export default function Notification() {
         post(route('booking.update'));
     }
 
+     const handleStatusUpdate = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('bookings_status.update'));
+    }
+
+    const isMobile = useIsMobile();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -112,7 +120,7 @@ export default function Notification() {
                     {bookings.length > 0 && (
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                             {bookings.map((b) => (
-                                <div className='bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                     <div className='relative'>
                                         <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                         <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
@@ -136,9 +144,28 @@ export default function Notification() {
                                             <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                         </div>
                                     </div>
-                                    <div className='m-6 flex flex-row gap-2'>
-
-
+                                    <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                        <form onSubmit={handleStatusUpdate}>
+                                            <Button disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing} variant='secondary' onClick={() => {
+                                                setData('status', 'approved');
+                                                setData('booking_id', b.id)
+                                                setData('babysitter_id', b.babysitter_id)
+                                            }}>Approved</Button>
+                                        </form>
+                                        <form onSubmit={handleStatusUpdate}>
+                                        <Button variant='secondary' onClick={() => {
+                                                setData('status', 'declined');
+                                                setData('booking_id', b.id)
+                                                setData('babysitter_id', b.babysitter_id)
+                                            }} disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Decline</Button>
+                                        </form>
+                                        <form onSubmit={handleStatusUpdate}>
+                                        <Button variant='secondary' onClick={() => {
+                                                setData('status', 'done');
+                                                setData('booking_id', b.id)
+                                                setData('babysitter_id', b.babysitter_id)
+                                            }} disabled={b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Done</Button>
+                                    </form>
                                     </div>
 
                                 </div>
@@ -183,7 +210,7 @@ export default function Notification() {
                                                 setData('booking_id', b.id)
                                                 setData('babysitter_id', b.babysitter_id)
                                             }
-                                            } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'cancel' || b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
+                                            } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
                                                 Cancel
                                             </Button>
                                         </form>

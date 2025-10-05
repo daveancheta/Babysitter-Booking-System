@@ -22,7 +22,6 @@ class NotificationController extends Controller
             ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
             ->select(
                 'bookings.*',
-                'users.*',
                 'users.profile',
                 'users.name', 
             )
