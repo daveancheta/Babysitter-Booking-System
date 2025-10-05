@@ -43,8 +43,8 @@ import {
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Notification',
-        href: '/notification',
+        title: 'Search',
+        href: '/search',
     },
 ];
 
@@ -80,7 +80,7 @@ export default function Result() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Notification" />
+            <Head title="Search" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                 {results.length > 0 ? (
                     <div className='grid gap-4 md:grid-cols-1 lg:grid-cols-2'>
