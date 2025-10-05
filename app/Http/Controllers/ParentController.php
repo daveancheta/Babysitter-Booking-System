@@ -16,34 +16,18 @@ class ParentController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')
-            ->leftJoin('bookings', 'users.id', '=', 'bookings.babysitter_id')
-            ->select(
-                'users.*',
-                'bookings.status',
-                'user_id'
-            )
-            ->where('is_babysitter', 1)
+        $users = User::where('is_babysitter', 1)
             ->whereNot('rate', 0.00)
-            ->where(function ($query) {
-                $query->whereNull('bookings.status')
-                    ->orWhereIn('bookings.status', ['pending', 'approved']); 
-            })   
             ->orderBy('id')
             ->get();
 
-            foreach($users as $u) {
-                $u->rate = number_format($u->rate, 2);
-            }
+        foreach ($users as $u) {
+            $u->rate = number_format($u->rate, 2);
+        }
 
         $userSessionId = Auth::id();
-        $usersBook = Booking::where('user_id', $userSessionId)
-            ->whereIn('status', ['pending', 'approved'])
-            ->count();
 
-
-
-        return Inertia::render('Parents/Index', compact('users', 'usersBook'));
+        return Inertia::render('Parents/Index', compact('users'));
     }
 
     /**
@@ -62,11 +46,17 @@ class ParentController extends Controller
         $validated = request()->validate([
             'user_id' => 'required',
             'babysitter_id' => 'required',
+            'book_status' => 'required',
             'status' => 'required',
             'payment_method' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
         ]);
+
+        $bookStatus = $request->input('book_status');
+        $babysitterId = $request->input('babysitter_id');
+
+        User::where('id', $babysitterId)->update(['book_status' => $bookStatus]);
 
         Booking::create($validated);
 
@@ -92,9 +82,22 @@ class ParentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        request()->validate([
+            'booking_id' => 'required',
+            'babysitter_id' => 'required',
+            'status' => 'required'
+        ]);
+
+        $booking_id = $request->input('booking_id');
+        $babysitter_id = $request->input('babysitter_id');
+        $status = $request->input('status');
+
+        Booking::where('id', $booking_id)->update(['status' => $status]);
+        User::where('id', $babysitter_id)->update(['book_status' => NULL]);
+
+        return redirect()->route('notification.index');
     }
 
     /**

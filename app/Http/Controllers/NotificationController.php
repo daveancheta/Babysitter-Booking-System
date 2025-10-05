@@ -18,98 +18,41 @@ class NotificationController extends Controller
     {
         $userId = Auth::id();
 
-         $bookings = DB::table('bookings')
-        ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'bookings.*',
-        )
-        ->where('babysitter_id', $userId)
-        ->get();
-
-        $bookingsCancelled = DB::table('cancelled_bookings')
-        ->leftJoin('users', 'cancelled_bookings.user_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'cancelled_bookings.*',
-        )
-        ->where('babysitter_id', $userId)
-        ->get();
-
-        $bookingsDone = DB::table('done_bookings')
-        ->leftJoin('users', 'done_bookings.user_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'done_bookings.*',
-        )
-        ->where('babysitter_id', $userId)
-        ->get();
+        $bookings = DB::table('bookings')
+            ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
+            ->select(
+                'bookings.*',
+                'users.*',
+                'users.profile',
+                'users.name', 
+            )
+            ->where('babysitter_id', $userId)
+            ->get();
 
         $books = DB::table('bookings')
-        ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'bookings.*',
-        )
-        ->where('user_id', $userId)
-        ->get();
+            ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
+            ->select(
+                'bookings.*',
+                'users.profile',
+                'users.name',
+                'users.rate',
+            )
+            ->where('user_id', $userId)
+            ->get();
 
-        $booksCancelled = DB::table('cancelled_bookings')
-        ->leftJoin('users', 'cancelled_bookings.babysitter_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'cancelled_bookings.*',
-        )
-        ->where('user_id', $userId)
-        ->get();
-
-        $booksDone = DB::table('done_bookings')
-        ->leftJoin('users', 'done_bookings.babysitter_id', '=', 'users.id')
-        ->select(
-            'users.*',
-            'done_bookings.*',
-        )
-        ->where('user_id', $userId)
-        ->get();
-
-        foreach($books as $b) {
+        foreach ($books as $b) {
             $start = Carbon::parse($b->start_date);
             $end = Carbon::parse($b->end_date);
             $b->date = $start->diffInDays($end);
         }
 
-        foreach($bookings as $b) {
+        foreach ($bookings as $b) {
             $start = Carbon::parse($b->start_date);
             $end = Carbon::parse($b->end_date);
             $b->date = $start->diffInDays($end);
         }
 
-         foreach($booksDone as $b) {
-            $start = Carbon::parse($b->start_date);
-            $end = Carbon::parse($b->end_date);
-            $b->date = $start->diffInDays($end);
-        }
-
-        foreach($booksCancelled as $b) {
-            $start = Carbon::parse($b->start_date);
-            $end = Carbon::parse($b->end_date);
-            $b->date = $start->diffInDays($end);
-        }
-
-        foreach($bookingsDone as $b) {
-            $start = Carbon::parse($b->start_date);
-            $end = Carbon::parse($b->end_date);
-            $b->date = $start->diffInDays($end);
-        }
-
-        foreach($bookingsCancelled as $b) {
-            $start = Carbon::parse($b->start_date);
-            $end = Carbon::parse($b->end_date);
-            $b->date = $start->diffInDays($end);
-        }
-
-
-        return Inertia::render('Main/Notification', compact('books', 'booksCancelled', 'booksDone', 'bookings', 'bookingsCancelled', 'bookingsDone'));
+        return Inertia::render('Main/Notification', compact('books', 'bookings'));
     }
 
     /**
@@ -129,10 +72,6 @@ class NotificationController extends Controller
             'booking_id' => 'nullable',
             'action' => 'nullable'
         ]);
-
-        $bookingId = $request->input('booking_id');
-        Booking::where('id', $bookingId)
-        ->update(['status' => $request->input('action')]);
 
         return redirect()->route('notification.index');
     }

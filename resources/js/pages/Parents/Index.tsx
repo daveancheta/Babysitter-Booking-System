@@ -56,7 +56,7 @@ interface Users {
     contact_number: string;
     profile: string;
     rate: number;
-    status: string;
+    book_status: string;
     user_id: number;
 }
 
@@ -66,7 +66,6 @@ interface PageProps extends InertiaPageProps {
         message?: string;
     }
     users: Users[];
-    usersBook: number;
 }
 
 export default function Index() {
@@ -75,7 +74,7 @@ export default function Index() {
 
     const [openEnd, setOpenEnd] = React.useState(false)
     const [dateEnd, setDateEnd] = React.useState<Date | undefined>(undefined)
-    const { users, flash, usersBook } = usePage<PageProps>().props;
+    const { users, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
@@ -83,6 +82,7 @@ export default function Index() {
         babysitter_id: 0,
         status: 'pending',
         payment_method: '',
+        book_status: '',
         start_date: '',
         end_date: '',
     });
@@ -98,13 +98,13 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                {users.length > 0 ? 
+                {users.length > 0 ?
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                         {users.map((u) => (
                             <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
-                                    <Badge variant={u.status === 'pending' ? 'booked' : (u.status === 'approved' ? 'booked' : 'available')}>{u.status === 'pending' ? 'BOOKED' : (u.status === 'approved' ? 'BOOKED' : 'AVAILABLE')}</Badge>
+                                    <Badge variant={u.book_status === "booked" ? "booked" : "available"}>{u.book_status === "booked" ? "BOOKED" : "AVAILABLE"}</Badge>
                                     <div className='absolute top-2 left-2'>
                                         <Tooltip>
                                             <TooltipTrigger><CircleAlert className='w-5 h-5 text-white' /></TooltipTrigger>
@@ -132,11 +132,8 @@ export default function Index() {
                                 <div className='m-6'>
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            {u.status === "pending" || u.status === "approved" ? (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">Already Booked</Button>
-                                            ) : (usersBook > 0 ? (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none' } variant="outline">You have a pending booking
-                                                </Button>
+                                            {u.book_status === "booked" ? (
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none'} variant="outline">Already Booked</Button>
                                             ) : (Number(formattedAuthBalance) < Number(u.rate) ? (
                                                  <Tooltip>
                                             <TooltipTrigger className='w-full'><Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">Insufficient balance</Button></TooltipTrigger>
@@ -145,9 +142,8 @@ export default function Index() {
                                             </TooltipContent>
                                         </Tooltip>
                                             ) : (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full cursor-pointer' } variant="outline">Book Now</Button>
-                                            ))
-                                            )}
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full cursor-pointer' } variant="outline" onClick={() => setData('babysitter_id', u.id)}>Book Now</Button>
+                                            ))}
 
                                         </DialogTrigger>
                                         <DialogContent className="sm:max-w-[425px]">
@@ -271,10 +267,10 @@ export default function Index() {
                                                     <DialogClose asChild>
                                                         <Button variant="outline">Cancel</Button>
                                                     </DialogClose>
-                                                    {u.status === "pending" ? (
+                                                    {u.book_status === "booked" ? (
                                                         <Button className='pointer-events-none select-none' disabled>Already Booked</Button>
                                                     ) : (
-                                                        <Button type='submit' onClick={(e) => setData('babysitter_id', u.id)} disabled={processing}>Confirm Booking</Button>
+                                                        <Button type='submit' disabled={processing} onClick={() => setData('book_status', 'booked')}>Confirm Booking</Button>
                                                     )}
 
                                                 </DialogFooter>
@@ -285,7 +281,7 @@ export default function Index() {
                             </div>
                         ))}
                     </div>
-                 : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
+                    : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
             </div>
         </AppLayout >
     );

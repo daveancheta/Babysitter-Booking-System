@@ -37,8 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
-    Route::post('/doneBookings', [DoneBookingsController::class, 'create'])->name('done.store');
-    Route::post('/cancelledBookings', [CancelledBookingsController::class, 'create'])->name('cancelled.store');
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
     Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
@@ -46,9 +44,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/search', SearchController::class)->name('result.search');
     Route::post('/ratings', [RatingsController::class, 'store'])->name('rating.store');
 
+
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
     Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
+    Route::post('/booking', [ParentController::class, 'update'])->name('booking.update');
+
 
     //Admin
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
