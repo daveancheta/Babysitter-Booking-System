@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('booking_id');
             $table->bigInteger('babysitter_id');
             $table->bigInteger('user_id');
             $table->bigInteger('ratings');

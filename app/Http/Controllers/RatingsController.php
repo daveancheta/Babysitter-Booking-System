@@ -29,6 +29,7 @@ class RatingsController extends Controller
     public function store(Request $request)
     {
         $validated = request()->validate([
+            'booking_id' => 'required',
             'babysitter_id' => 'required',
             'user_id' => 'required',
             'ratings' => 'required',

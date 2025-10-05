@@ -337,6 +337,7 @@ export default function Notification() {
 
                                         <form onSubmit={submitDoneBookings} className='w-full'>
                                             <Button type='submit' onClick={() => {
+                                                setData('booking_id', b.id);
                                                 setData('user_id', b.user_id);
                                                 setData('babysitter_id', b.babysitter_id);
                                                 setData('status', b.status);
@@ -467,6 +468,7 @@ export default function Notification() {
 
                                             <form onSubmit={submitCancelledBookings} className='w-full'>
                                                 <Button type='submit' onClick={() => {
+                                                    setData('booking_id', b.id);
                                                     setData('user_id', b.user_id);
                                                     setData('babysitter_id', b.babysitter_id);
                                                     setData('status', b.status);
@@ -563,7 +565,7 @@ export default function Notification() {
                                                     </DialogDescription>
                                                 </DialogHeader>
                                                 <form onSubmit={handleRating}>
-                                                       {flash.message && <Alert>
+                                                    {flash.message && <Alert>
                                                         <Megaphone />
                                                         <AlertTitle>Notification!</AlertTitle>
                                                         <AlertDescription>
