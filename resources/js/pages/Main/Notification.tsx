@@ -118,12 +118,12 @@ export default function Notification() {
         setBookingNavigation("all")
     }
 
-     const handleCancelledNavigation = () => {
+    const handleCancelledNavigation = () => {
         localStorage.setItem("bookingsNavigation", "cancelled");
         setBookingNavigation("cancelled")
     }
 
-     const handleDoneNavigation = () => {
+    const handleDoneNavigation = () => {
         localStorage.setItem("bookingsNavigation", "cancelled");
         setBookingNavigation("done")
     }
@@ -135,9 +135,9 @@ export default function Notification() {
             <Head title="Notification" />
             <div className={isMobile ? "flex justify-center mt-4" : "flex justify-start mt-4 ml-4"}>
                 <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
-                    <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4"/><span className="ml-1.5 text-sm">All</span></button>
-                    <button onClick={handleCancelledNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "cancelled" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4"/><span className="ml-1.5 text-sm">Cancelled</span></button>
-                    <button onClick={handleDoneNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "done" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BadgeCheckIcon className="-ml-1 h-4 w-4"/><span className="ml-1.5 text-sm">Done</span></button>
+                    <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">All</span></button>
+                    <button onClick={handleCancelledNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "cancelled" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Cancelled</span></button>
+                    <button onClick={handleDoneNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "done" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BadgeCheckIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Done</span></button>
                 </div>
             </div>
 
@@ -156,7 +156,7 @@ export default function Notification() {
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
+                                                <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
                                                     <span>5/10</span>
                                                 </div>
@@ -215,7 +215,7 @@ export default function Notification() {
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
+                                                <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
                                                     <span>5/10</span>
                                                 </div>
@@ -259,18 +259,14 @@ export default function Notification() {
                         {bookings.length > 0 && (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')}      key={b.id}>
-                                            <div className='relative'>
+                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')} key={b.id}>
+                                        <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
                                         </div>
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
-                                                </div>
                                             </div>
                                             <div className=''>
                                                 <span className='font-bold'>Hourly Rate:</span>
@@ -302,10 +298,6 @@ export default function Notification() {
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
-                                                </div>
                                             </div>
                                             <div className=''>
                                                 <span className='font-bold'>Hourly Rate:</span>
@@ -347,7 +339,7 @@ export default function Notification() {
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
                                     <div className={cn(b.status === 'done' ? '' : 'hidden')} key={b.id}>
-                                            <div className='relative'>
+                                        <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant='available'><span className='uppercase'>Done</span></Badge>
                                         </div>
