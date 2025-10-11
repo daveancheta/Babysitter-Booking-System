@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Banning;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -35,12 +37,18 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
+        $userId = Auth::id();
+
+        $userIp = DB::table('users')->select('ip_address')->where('id', $userId);
+        $isBanned = DB::table('bannings')->where('ip_address', $userIp)->exists();
 
         if ($user->is_admin) {
             return redirect()->intended(route('dashboard', absolute: false));
+        } else if ($isBanned) {
+            return redirect()->intended(route('ban.index', absolute: false));
+        } else {
+            return redirect()->intended(route('babysitter.index', absolute: false));
         }
-
-        return redirect()->intended(route('babysitter.index', absolute: false));
     }
 
     /**

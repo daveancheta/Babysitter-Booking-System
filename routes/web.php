@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\BabysitterController;
+use App\Http\Controllers\BanningController;
 use App\Http\Controllers\bookingsDoneController;
 use App\Http\Controllers\CancelledBookingsController;
 use App\Http\Controllers\CommentController;
@@ -55,7 +56,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Admin
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
+
+   
 });
 
+ Route::get('/ban', BanningController::class)->name('ban.index');
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

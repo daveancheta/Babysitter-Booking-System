@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
             'password' => 'superadmin12345',
             'is_admin' => true,
+            'ip_address' => '123.456.7.89',
         ]);
         User::factory()->create([
             'account_id' => 'kZRVIP32He',
@@ -30,8 +31,9 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false,
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'goldberg1234',
+            'ip_address' => '123.456.7.89',
         ]);
-         User::factory()->create([
+        User::factory()->create([
             'account_id' => '0RRtTCZYsF',
             'name' => 'Love Quinn',
             'email' => 'lovequinn@gmail.com',
@@ -40,8 +42,9 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false,
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'quinn1234',
+            'ip_address' => '123.456.7.89',
         ]);
-         User::factory()->create([
+        User::factory()->create([
             'account_id' => 'bA5rD5lH9M',
             'name' => 'Guinevere Beck',
             'email' => 'guineverebeck@gmail.com',
@@ -50,6 +53,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false,
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'beck1234',
+            'ip_address' => '123.456.7.89',
         ]);
         User::factory()->create([
             'account_id' => 'vH4iB3PA2N',
@@ -59,6 +63,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'ancheta1234',
+            'ip_address' => '123.456.7.89',
         ]);
     }
 }
