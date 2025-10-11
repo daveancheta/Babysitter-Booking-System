@@ -43,6 +43,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Notification',
@@ -124,11 +125,76 @@ export default function Notification() {
     }
 
     const handleDoneNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "cancelled");
+        localStorage.setItem("bookingsNavigation", "done");
         setBookingNavigation("done")
     }
 
     const isMobile = useIsMobile();
+
+    const starOne = () => {
+        document.getElementById('star-one')?.classList.add("fill-yellow-500");
+        document.getElementById('star-one')?.classList.add("text-yellow-500");
+        document.getElementById('star-two')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-two')?.classList.remove("text-yellow-500");
+        document.getElementById('star-three')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-three')?.classList.remove("text-yellow-500");
+        document.getElementById('star-four')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-four')?.classList.remove("text-yellow-500");
+        document.getElementById('star-five')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-five')?.classList.remove("text-yellow-500");  
+    }
+
+    const starTwo = () => {
+        document.getElementById('star-one')?.classList.add("fill-yellow-500");
+        document.getElementById('star-one')?.classList.add("text-yellow-500");
+        document.getElementById('star-two')?.classList.add("fill-yellow-500");
+        document.getElementById('star-two')?.classList.add("text-yellow-500");
+        document.getElementById('star-three')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-three')?.classList.remove("text-yellow-500");
+        document.getElementById('star-four')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-four')?.classList.remove("text-yellow-500");
+        document.getElementById('star-five')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-five')?.classList.remove("text-yellow-500");
+    }
+
+    const starThree = () => {
+        document.getElementById('star-one')?.classList.add("fill-yellow-500");
+        document.getElementById('star-one')?.classList.add("text-yellow-500");
+        document.getElementById('star-two')?.classList.add("fill-yellow-500");
+        document.getElementById('star-two')?.classList.add("text-yellow-500");
+        document.getElementById('star-three')?.classList.add("fill-yellow-500");
+        document.getElementById('star-three')?.classList.add("text-yellow-500");
+        document.getElementById('star-four')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-four')?.classList.remove("text-yellow-500");
+        document.getElementById('star-five')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-five')?.classList.remove("text-yellow-500");
+    }
+
+     const starFour = () => {
+        document.getElementById('star-one')?.classList.add("fill-yellow-500");
+        document.getElementById('star-one')?.classList.add("text-yellow-500");
+        document.getElementById('star-two')?.classList.add("fill-yellow-500");
+        document.getElementById('star-two')?.classList.add("text-yellow-500");
+        document.getElementById('star-three')?.classList.add("fill-yellow-500");
+        document.getElementById('star-three')?.classList.add("text-yellow-500");
+        document.getElementById('star-four')?.classList.add("fill-yellow-500");
+        document.getElementById('star-four')?.classList.add("text-yellow-500");
+        document.getElementById('star-five')?.classList.remove("fill-yellow-500");
+        document.getElementById('star-five')?.classList.remove("text-yellow-500");
+    }
+
+     const starFive = () => {
+        document.getElementById('star-one')?.classList.add("fill-yellow-500");
+        document.getElementById('star-one')?.classList.add("text-yellow-500");
+        document.getElementById('star-two')?.classList.add("fill-yellow-500");
+        document.getElementById('star-two')?.classList.add("text-yellow-500");
+        document.getElementById('star-three')?.classList.add("fill-yellow-500");
+        document.getElementById('star-three')?.classList.add("text-yellow-500");
+        document.getElementById('star-four')?.classList.add("fill-yellow-500");
+        document.getElementById('star-four')?.classList.add("text-yellow-500");
+        document.getElementById('star-five')?.classList.add("fill-yellow-500");
+        document.getElementById('star-five')?.classList.add("text-yellow-500");
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -408,6 +474,36 @@ export default function Notification() {
                                                     Cancel
                                                 </Button>
                                             </form>
+                                            <Dialog>
+                                                <form>
+                                                    <DialogTrigger asChild>
+                                                        <Button variant='secondary' className='cursor-pointer'>Rate</Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent className="sm:max-w-[425px]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Rate</DialogTitle>
+                                                            <DialogDescription>
+                                                                Give a rating for {b.name}, his/her wonderful work nicely done.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <div className="grid gap-4">
+                                                            <div className="flex flex-row justify-center gap-2">
+                                                                <button onClick={() => { starOne() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                <button onClick={() => { starTwo() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                <button onClick={() => { starThree() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                <button onClick={() => { starFour() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                <button onClick={() => { starFive() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                            </div>
+                                                        </div>
+                                                        <DialogFooter>
+                                                            <DialogClose asChild>
+                                                                <Button variant="outline">Cancel</Button>
+                                                            </DialogClose>
+                                                            <Button type="submit">Submit Rating </Button>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </form>
+                                            </Dialog>
                                         </div>
 
                                     </div>
