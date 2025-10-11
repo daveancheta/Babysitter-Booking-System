@@ -31,7 +31,7 @@ class RatingsController extends Controller
         $validated = request()->validate([
             'booking_id' => 'required',
             'babysitter_id' => 'required',
-            'user_id' => 'required',
+            'parent_id' => 'required',  
             'ratings' => 'required',
         ]);
 

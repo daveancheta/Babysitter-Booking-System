@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('booking_id');
             $table->bigInteger('babysitter_id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('parent_id');
             $table->bigInteger('ratings');
             $table->timestamps();
         });

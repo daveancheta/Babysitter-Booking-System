@@ -98,10 +98,12 @@ export default function Notification() {
         action: '',
         user_id: 0,
         babysitter_id: 0,
+        parent_id: 0,
         payment_method: '',
         status: '',
         start_date: '',
         end_date: '',
+        ratings: 0,
     });
 
     const handleCancelStatus = (e: React.FormEvent) => {
@@ -141,7 +143,7 @@ export default function Notification() {
         document.getElementById('star-four')?.classList.remove("fill-yellow-500");
         document.getElementById('star-four')?.classList.remove("text-yellow-500");
         document.getElementById('star-five')?.classList.remove("fill-yellow-500");
-        document.getElementById('star-five')?.classList.remove("text-yellow-500");  
+        document.getElementById('star-five')?.classList.remove("text-yellow-500");
     }
 
     const starTwo = () => {
@@ -170,7 +172,7 @@ export default function Notification() {
         document.getElementById('star-five')?.classList.remove("text-yellow-500");
     }
 
-     const starFour = () => {
+    const starFour = () => {
         document.getElementById('star-one')?.classList.add("fill-yellow-500");
         document.getElementById('star-one')?.classList.add("text-yellow-500");
         document.getElementById('star-two')?.classList.add("fill-yellow-500");
@@ -183,7 +185,7 @@ export default function Notification() {
         document.getElementById('star-five')?.classList.remove("text-yellow-500");
     }
 
-     const starFive = () => {
+    const starFive = () => {
         document.getElementById('star-one')?.classList.add("fill-yellow-500");
         document.getElementById('star-one')?.classList.add("text-yellow-500");
         document.getElementById('star-two')?.classList.add("fill-yellow-500");
@@ -194,6 +196,11 @@ export default function Notification() {
         document.getElementById('star-four')?.classList.add("text-yellow-500");
         document.getElementById('star-five')?.classList.add("fill-yellow-500");
         document.getElementById('star-five')?.classList.add("text-yellow-500");
+    }
+
+    const handleSubmitRating = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(route('rating.store'));
     }
 
     return (
@@ -477,7 +484,12 @@ export default function Notification() {
                                             <Dialog>
                                                 <form>
                                                     <DialogTrigger asChild>
-                                                        <Button variant='secondary' className='cursor-pointer'>Rate</Button>
+                                                        <Button variant='secondary' className='cursor-pointer' onClick={() => {
+                                                            setData('parent_id', auth?.user.id);
+                                                            setData('babysitter_id', b.babysitter_id);
+                                                            setData('booking_id', b.id);
+                                                        }}
+                                                        >Rate</Button>
                                                     </DialogTrigger>
                                                     <DialogContent className="sm:max-w-[425px]">
                                                         <DialogHeader>
@@ -486,15 +498,17 @@ export default function Notification() {
                                                                 Give a rating for {b.name}, his/her wonderful work nicely done.
                                                             </DialogDescription>
                                                         </DialogHeader>
-                                                        <div className="grid gap-4">
-                                                            <div className="flex flex-row justify-center gap-2">
-                                                                <button onClick={() => { starOne() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
-                                                                <button onClick={() => { starTwo() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
-                                                                <button onClick={() => { starThree() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
-                                                                <button onClick={() => { starFour() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
-                                                                <button onClick={() => { starFive() }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                        <form onSubmit={handleSubmitRating}>
+                                                            <div className="grid gap-4">
+                                                                <div className="flex flex-row justify-center gap-2">
+                                                                    <button onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                    <button onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                    <button onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                    <button onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                    <button onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
                                                         <DialogFooter>
                                                             <DialogClose asChild>
                                                                 <Button variant="outline">Cancel</Button>
