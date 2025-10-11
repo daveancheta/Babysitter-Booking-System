@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('account_id')->nullable()->unique();
+            $table->string('ip_address');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('address')->nullable();
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->decimal('balance', 10, 2)->default(0);
             $table->decimal('rate', 10, 2)->default(0);
             $table->string('active_status')->nullable();
-             $table->string('book_status')->nullable();
+            $table->string('book_status')->nullable();
             $table->boolean('is_babysitter')->default(0);
             $table->boolean('is_admin')->default(0);
             $table->timestamp('email_verified_at')->nullable();
