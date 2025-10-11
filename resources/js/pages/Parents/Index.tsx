@@ -57,6 +57,8 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 type Pagination<T> = {
     data: T[];
@@ -117,6 +119,8 @@ export default function Index() {
         e.preventDefault();
         post(route('booking.store'));
     }
+
+    const isMobile = useIsMobile();
 
     let authBalance = auth?.user.balance;
     let formattedAuthBalance = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(authBalance);
@@ -310,7 +314,7 @@ export default function Index() {
                         </div> </div>
                     : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
             </div>
-            <div className='mt-5 mb-10'>
+            <div className={cn('-mt-10 mb-10', isMobile ? "" : "ml-5")}>
             {users.links && users.links.length > 0 && (
                 <Pagination className="mt-6">
                     <PaginationContent>

@@ -19,7 +19,7 @@ class ParentController extends Controller
         $users = User::where('is_babysitter', 1)
             ->whereNot('rate', 0.00)
             ->orderBy('id')
-            ->paginate(1);
+            ->paginate(2);
 
         foreach ($users as $u) {
             $u->rate = number_format($u->rate, 2);

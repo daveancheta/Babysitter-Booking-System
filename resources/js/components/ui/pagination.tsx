@@ -3,15 +3,23 @@ import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { useIsMobile } from "@/hooks/use-mobile"
 
-const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
-  <nav
-    role="navigation"
-    aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center", className)}
-    {...props}
-  />
-)
+
+const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => {
+
+  const isMobile = useIsMobile();
+
+  return (
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      className={cn(isMobile ? "mx-auto flex w-full justify-center" : "mx-auto flex w-full justify-start", className)}
+      {...props}
+    />
+  )
+}
+
 Pagination.displayName = "Pagination"
 
 const PaginationContent = React.forwardRef<
