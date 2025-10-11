@@ -108,7 +108,7 @@ export default function Register() {
                                 pattern='.+@gmail.com'
                             />
                         </div>
-                        <div className='mb-1 flex flex-col gap-2'>
+                        <div className='mb-1 flex flex-col gap-2 mt-4'>
                             <Label>Password</Label>
                             <Input id="password"
                                 type="password"
