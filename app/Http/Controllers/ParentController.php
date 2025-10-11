@@ -19,7 +19,7 @@ class ParentController extends Controller
         $users = User::where('is_babysitter', 1)
             ->whereNot('rate', 0.00)
             ->orderBy('id')
-            ->get();
+            ->paginate(1);
 
         foreach ($users as $u) {
             $u->rate = number_format($u->rate, 2);
@@ -100,7 +100,7 @@ class ParentController extends Controller
         return redirect()->route('notification.index');
     }
 
-     public function updateStatus(Request $request)
+    public function updateStatus(Request $request)
     {
         request()->validate([
             'booking_id' => 'required',
@@ -114,10 +114,10 @@ class ParentController extends Controller
 
         Booking::where('id', $booking_id)->update(['status' => $status]);
 
-        if($status) {
-            if($status === "done" || "declined") {
+        if ($status) {
+            if ($status === "done" || "declined") {
                 User::where('id', $babysitter_id)->update(['book_status' => NULL]);
-            } 
+            }
         }
 
         return redirect()->route('notification.index');

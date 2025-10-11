@@ -47,6 +47,31 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/parent',
     },
 ];
+import { Link } from '@inertiajs/react';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
+type Pagination<T> = {
+    data: T[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    meta: {
+        current_page: number;
+        last_page: number;
+        total: number;
+    };
+};
+
 
 interface Users {
     id: number;
@@ -65,7 +90,8 @@ interface PageProps extends InertiaPageProps {
     flash: {
         message?: string;
     }
-    users: Users[];
+    users: Pagination<Users>;
+
 }
 
 export default function Index() {
@@ -98,9 +124,9 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Book Now" />
             <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                {users.length > 0 ?
+                {users.data.length > 0 ?
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                        {users.map((u) => (
+                        {users.data.map((u) => (
                             <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={u.id}>
                                 <div className='relative'>
                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
@@ -135,14 +161,14 @@ export default function Index() {
                                             {u.book_status === "booked" ? (
                                                 <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none select-none'} variant="outline">Already Booked</Button>
                                             ) : (Number(formattedAuthBalance) < Number(u.rate) ? (
-                                                 <Tooltip>
-                                            <TooltipTrigger className='w-full'><Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none' } variant="outline">Insufficient balance</Button></TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>You need to top up at least <span className='text-green-700 font-bold dark:text-green-600'>${u.rate}</span></p>
-                                            </TooltipContent>
-                                        </Tooltip>
+                                                <Tooltip>
+                                                    <TooltipTrigger className='w-full'><Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full pointer-events-none'} variant="outline">Insufficient balance</Button></TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>You need to top up at least <span className='text-green-700 font-bold dark:text-green-600'>${u.rate}</span></p>
+                                                    </TooltipContent>
+                                                </Tooltip>
                                             ) : (
-                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full cursor-pointer' } variant="outline" onClick={() => setData('babysitter_id', u.id)}>Book Now</Button>
+                                                <Button className={auth.user.is_babysitter ? 'hidden' : 'mt-auto w-full cursor-pointer'} variant="outline" onClick={() => setData('babysitter_id', u.id)}>Book Now</Button>
                                             ))}
 
                                         </DialogTrigger>
@@ -280,8 +306,52 @@ export default function Index() {
                                 </div>
                             </div>
                         ))}
-                    </div>
+                        <div className="flex justify-center mt-4 space-x-2">
+                        </div> </div>
                     : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
+            </div>
+            <div className='mt-5 mb-10'>
+            {users.links && users.links.length > 0 && (
+                <Pagination className="mt-6">
+                    <PaginationContent>
+                        {users.links.map((link, index) => {
+                            // Handle previous and next buttons
+                            if (link.label.includes('Previous')) {
+                                return (
+                                    <PaginationItem key={index}>
+                                        <PaginationPrevious
+                                            href={link.url || '#'}
+                                            className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                        />
+                                    </PaginationItem>
+                                );
+                            }
+
+                            if (link.label.includes('Next')) {
+                                return (
+                                    <PaginationItem key={index}>
+                                        <PaginationNext
+                                            href={link.url || '#'}
+                                            className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                        />
+                                    </PaginationItem>
+                                );
+                            }
+
+                            // Handle numbered pages
+                            return (
+                                <PaginationItem key={index}>
+                                    <PaginationLink
+                                        href={link.url || '#'}
+                                        isActive={link.active}
+                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                    />
+                                </PaginationItem>
+                            );
+                        })}
+                    </PaginationContent>
+                </Pagination>
+            )}
             </div>
         </AppLayout >
     );
