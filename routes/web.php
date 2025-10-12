@@ -58,8 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
 
-    Route::get('/getMessageUsers', [MessageController::class, 'index']);
-   
+    Route::get('/getMessageUsers', [MessageController::class, 'index'])->name('get.message');
+    Route::post('/sendMessageUsers', [MessageController::class, 'store'])->name('send.message');
 });
 
  Route::get('/ban', BanningController::class)->name('ban.index');

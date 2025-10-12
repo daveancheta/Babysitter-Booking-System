@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +42,13 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = request()->validate([
+            'sender_id' => 'required',
+            'receiver_id' => 'required',
+            'message' => 'required',
+        ]);
+
+        Message::create($validated);
     }
 
     /**
