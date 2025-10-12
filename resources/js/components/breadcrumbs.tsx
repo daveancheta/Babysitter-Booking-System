@@ -101,7 +101,13 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         setMessage("")
     }
 
-  
+    const handleSendEmoji = () => {
+         axios.post(route('send.message'), {
+            message: '😀',
+            sender_id: sender_id,
+            receiver_id: receiver_id
+        })
+    }
 
 
     return (
@@ -225,6 +231,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             </div>
                             <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' onChange={(e) => setMessage(e.target.value)} value={message}/>
                             <Button variant='outline' className='cursor-pointer' onClick={handleSendChat} hidden={!message.trim()}><Send /></Button>
+                            <Button variant='outline' className='cursor-pointer' onClick={handleSendEmoji} hidden={message.trim()}>😀</Button>
                         </div>
                     </div>
                 ))}
