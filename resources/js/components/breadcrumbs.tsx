@@ -73,6 +73,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById(`chatContainer${id}`)?.classList.remove("hidden")
     }
 
+    const inputFileTrigger = () => {
+        document.getElementById("inputFile")?.click();
+    }
+
 
     return (
         <>
@@ -186,14 +190,15 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <hr className='mt-3' />
 
                     <div className='mt-auto flex flex-row gap-2 items-center'>
-                        <Images/>
+                        <div className='flex items-center'>
+                            <button className='cursor-pointer' onClick={inputFileTrigger}><Images size={20}/></button>
+                            <input id='inputFile' type="file" className='hidden'/>
+                        </div>
                         <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa'/>
                         <Button variant='outline' className='cursor-pointer'><Send /></Button>
                     </div>
                 </div>
             ))}
-
-
         </>
     );
 }
