@@ -3,7 +3,7 @@ import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { MessageCircle, MessageCircleMore, Search, X } from 'lucide-react';
+import { Images, MessageCircle, MessageCircleMore, Search, Send, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from 'axios';
@@ -12,6 +12,7 @@ interface User {
     id: number;
     name: string;
     profile: string;
+    following_user_id: number;
 }
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
@@ -57,16 +58,21 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     useEffect(() => {
         const fetchMessage = () => {
-              axios.get('/getMessageUsers')
-            .then(response => {
-                setUsers(response.data);
-            })
+            axios.get('/getMessageUsers')
+                .then(response => {
+                    setUsers(response.data);
+                })
         }
 
         fetchMessage()
         const interval = setInterval(fetchMessage, 1000);
         return () => clearInterval(interval)
     }, []);
+
+    const handleOpenChatUser = (id: number) => {
+        document.getElementById(`chatContainer${id}`)?.classList.remove("hidden")
+    }
+
 
     return (
         <>
@@ -139,14 +145,13 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
                             <p className='text-xl font-medium'>Chats</p>
                             {users.map(u => (
-                                <div className='flex flex-row mt-4 gap-2 items-center'>
+                                <button className='flex flex-row mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => handleOpenChatUser(u.following_user_id)}>
                                     <img className='w-18 h-18 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                     <div className='flex flex-col'>
-                                    <p className='truncate'>{u.name}</p>
-                                    <p className='truncate text-sm text-muted-foreground'>Start chatting with {u.name}</p>
+                                        <p className='truncate text-start'>{u.name}</p>
+                                        <p className='truncate text-sm text-muted-foreground text-start'>Start chatting with {u.name}</p>
                                     </div>
-                                </div>
-
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -166,6 +171,29 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <button onClick={handleSearchInput} className='cursor-pointer'><X size={18} className='cursor-pointer' /></button>
                 </div>
             </div>
+
+            {users.map(u => (
+                <div className='hidden fixed bottom-1 left-3.8 z-40 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.following_user_id}`}>
+                    <div className='flex justify-between items-center'>
+                        <div className='flex flex-row gap-2 items-center'>
+                            <img className='w-15 h-15 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                            <p>{u.name}</p>
+                        </div>
+                        <button className='cursor-pointer'>
+                            <X />
+                        </button>
+                    </div>
+                    <hr className='mt-3' />
+
+                    <div className='mt-auto flex flex-row gap-2 items-center'>
+                        <Images/>
+                        <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa'/>
+                        <Button variant='outline' className='cursor-pointer'><Send /></Button>
+                    </div>
+                </div>
+            ))}
+
+
         </>
     );
 }
