@@ -103,7 +103,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         })
     })
 
-        const getInitials = useInitials();
+    const getInitials = useInitials();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -201,13 +201,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     </div>
                                 </DialogContent>
                             </Dialog>
-                            <div className="border-l h-10"></div>
-                            <div className='flex flex-col items-center'>
+                            <div className={auth?.user.isBabysitter ? 'border-l h-10' : 'hidden'}></div>
+                            <div className={auth?.user.isBabysitter ? 'flex flex-col items-center' : 'hidden'}>
                                 <p className="text-sm text-muted-foreground">5/5</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Rate</h3>
                             </div>
-                            <div className="border-l h-10"></div>
-                            <div className='flex flex-col items-center'>
+                            <div className={auth?.user.isBabysitter ? 'border-l h-10' : 'hidden'}></div>
+                            <div className={auth?.user.isBabysitter ? 'flex flex-col items-center' : 'hidden'}>
                                 <p className="text-sm text-muted-foreground">12</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Hires</h3>
                             </div>
@@ -302,7 +302,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     </div>
                                 )}
 
-                                <div className="grid gap-2">
+                                <div className={auth?.user.is_babysitter ? 'grid gap-2' : 'hidden'}>
                                     <Label htmlFor="balance">Hourly rate</Label>
 
                                     <span className='border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
