@@ -236,7 +236,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     <InputError className="mt-2" message={errors.contact_number} />
                                 </div>
 
-                                <div className="grid gap-2">
+                                <div className={auth?.user.is_babysitter ? 'grid gap-2' : 'hidden'}>
                                     <Label htmlFor="rate">Hourly rate</Label>
 
                                     <Input
