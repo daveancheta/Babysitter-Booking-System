@@ -230,8 +230,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 <input id='inputFile' type="file" className='hidden' />
                             </div>
                             <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' onChange={(e) => setMessage(e.target.value)} value={message}/>
-                            <Button variant='outline' className='cursor-pointer' onClick={handleSendChat} hidden={!message.trim()}><Send /></Button>
-                            <Button variant='outline' className='cursor-pointer' onClick={handleSendEmoji} hidden={message.trim()}>😀</Button>
+                            <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendChat} hidden={!message.trim()}><Send /></Button>
+                            <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendEmoji} hidden={message.trim()}>😀</Button>
                         </div>
                     </div>
                 ))}
