@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FollowController extends Controller
@@ -58,8 +59,6 @@ class FollowController extends Controller
        ]);
 
        Follow::create($validated);
-
-       return redirect()->route('result.search');
     }
 
     /**
@@ -89,8 +88,8 @@ class FollowController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id, $sessionID)
+    public function destroy(Follow $followId)
     {
-        Follow::where('following_user_id', $id)->where('follower_user_id', $sessionID)->delete();
+        $followId->delete();
     }
 }

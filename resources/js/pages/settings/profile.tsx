@@ -74,8 +74,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
         follower_user_id: 0,
     });
 
-    const handleUnfollowUser = (id: number, sessionID: number) => {
-        destroy(route('follow.destroy', { id, sessionID }));
+    const handleUnfollowUser = (followId: number) => {
+        destroy(route('follow.destroy', { followId }));
     }
 
     const handleFollowValidation = (e: React.FormEvent) => {
@@ -131,16 +131,16 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         {followingUser.length > 0 ? (
                                             <div className="grid gap-3 mt-5">
                                                 {followingUser.map(f => (
-                                                    <div>
+                                                    <div key={f.id}>
                                                         <div className='flex justify-between items-center'>
                                                             <div className='flex flex-row gap-2 items-center'>
                                                                 <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                                     {f.profile === null ? <AvatarFallback className="rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                                                         {getInitials(f.name)} </AvatarFallback> : <img className='rounded-full bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white object-cover' src={`${window.location.origin}/storage/${f.profile}`} alt="" />}
                                                                 </Avatar>
-                                                                <span className='truncate text-xs'>{f.name}</span>
+                                                                <span className='truncate text-xs'>{f.name}{f.id}</span>
                                                             </div>
-                                                            <Button variant='outline' className='cursor-pointer text-xs' onClick={() => handleUnfollowUser(f.following_user_id, auth?.user.id)} disabled={processingDelete}><UserMinus />Unfollow</Button>
+                                                            <Button variant='outline' className='cursor-pointer text-xs' onClick={() => handleUnfollowUser(f.id)} disabled={processingDelete}><UserMinus />Unfollow</Button>
                                                         </div>
                                                         <hr className='mt-2' />
                                                     </div>
