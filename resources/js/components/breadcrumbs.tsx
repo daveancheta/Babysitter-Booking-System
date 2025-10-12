@@ -1,11 +1,18 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { MessageCircle, MessageCircleMore, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
+import axios from 'axios';
+
+interface User {
+    id: number;
+    name: string;
+    profile: string;
+}
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
 
@@ -35,16 +42,32 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleOpenChat = () => {
-       let chatContainer =  document.getElementById('chatContainer');
+        let chatContainer = document.getElementById('chatContainer');
 
-       if (chatContainer?.classList.contains("hidden")) {
-        document.getElementById('messageIcon')?.classList.add("text-blue-400")
-        chatContainer?.classList.remove("hidden")
-       } else {
-        document.getElementById('messageIcon')?.classList.remove("text-blue-400")
-        chatContainer?.classList.add("hidden")
-       }
+        if (chatContainer?.classList.contains("hidden")) {
+            document.getElementById('messageIcon')?.classList.add("text-blue-400")
+            chatContainer?.classList.remove("hidden")
+        } else {
+            document.getElementById('messageIcon')?.classList.remove("text-blue-400")
+            chatContainer?.classList.add("hidden")
+        }
     }
+
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        const fetchMessage = () => {
+              axios.get('/getMessageUsers')
+            .then(response => {
+                setUsers(response.data);
+            })
+        }
+
+        fetchMessage()
+        const interval = setInterval(fetchMessage, 1000);
+        return () => clearInterval(interval)
+    }, []);
+
     return (
         <>
             {isMobile ?
@@ -114,7 +137,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <MessageCircleMore id='messageIcon' />
                         </Button>
                         <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
-                        <p className='text-xl font-medium'>Chats</p>
+                            <p className='text-xl font-medium'>Chats</p>
+                            {users.map(u => (
+                                <div className='flex flex-row mt-4 gap-2 items-center'>
+                                    <img className='w-18 h-18 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                    <div className='flex flex-col'>
+                                    <p className='truncate'>{u.name}</p>
+                                    <p className='truncate text-sm text-muted-foreground'>Start chatting with {u.name}</p>
+                                    </div>
+                                </div>
+
+                            ))}
                         </div>
                     </div>
                 }

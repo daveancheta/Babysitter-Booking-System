@@ -8,6 +8,7 @@ use App\Http\Controllers\CancelledBookingsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DoneBookingsController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\RatingsController;
@@ -57,6 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
 
+    Route::get('/getMessageUsers', [MessageController::class, 'index']);
    
 });
 
