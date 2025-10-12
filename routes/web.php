@@ -60,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/getMessageUsers', [MessageController::class, 'index'])->name('get.message');
     Route::post('/sendMessageUsers', [MessageController::class, 'store'])->name('send.message');
+    Route::get('/getChat', [MessageController::class, 'getChat'])->name('get.chat');
 });
 
  Route::get('/ban', BanningController::class)->name('ban.index');

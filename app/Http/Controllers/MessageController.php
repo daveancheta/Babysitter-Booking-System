@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function Laravel\Prompts\select;
 use function Pest\Laravel\json;
 
 class MessageController extends Controller
@@ -16,13 +17,15 @@ class MessageController extends Controller
      */
     public function index()
     {
+        $userId = Auth::id();
+
         $users = DB::table('follows')
             ->leftJoin('users', 'follows.following_user_id', '=', 'users.id')
-            ->where('follower_user_id', Auth::id())
+            ->where('follower_user_id', $userId)
             ->select(
                 'follows.*',
                 'users.name',
-                'users.profile'
+                'users.profile',
             )
             ->get();
 
@@ -32,9 +35,13 @@ class MessageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function getChat()
     {
-        //
+        $userId = Auth::id();
+
+        $messages = Message::get();
+
+            return response()->json($messages);
     }
 
     /**
@@ -43,6 +50,7 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $validated = request()->validate([
+            'chat_id' => 'required',
             'sender_id' => 'required',
             'receiver_id' => 'required',
             'message' => 'required',

@@ -3,16 +3,25 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Images, MessageCircle, MessageCircleMore, Search, Send, X } from 'lucide-react';
+import { Divide, Images, MessageCircle, MessageCircleMore, Search, Send, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from 'axios';
+import { cn } from '@/lib/utils';
 
 interface User {
     id: number;
     name: string;
     profile: string;
     following_user_id: number;
+}
+
+interface Chat {
+    id: number;
+    chat_id: number;
+    receiver_id: number;
+    sender_id: number;
+    message: string;
 }
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
@@ -57,8 +66,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     const [users, setUsers] = useState<User[]>([]);
 
-    const [post, setPost] = useState([]);
-
     useEffect(() => {
         const fetchMessage = () => {
             axios.get(route("get.message"), {})
@@ -72,6 +79,21 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         return () => clearInterval(interval)
 
     }, []);
+
+    const [chats, setChats] = useState<Chat[]>([])
+
+    useEffect(() => {
+        const fetchChat = () => {
+            axios.get(route("get.chat"), {})
+            .then(response => {
+                setChats(response.data);
+            })
+        }
+
+        fetchChat()
+        const interval = setInterval(fetchChat, 1000);
+        return () => clearInterval(interval);
+    });
 
     const handleOpenChatUser = (id: number) => {
         document.getElementById(`chatContainer${id}`)?.classList.remove("hidden")
@@ -90,9 +112,12 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const [message, setMessage] = useState("");
     const [sender_id, setSenderId] = useState(0);
     const [receiver_id, setReceiverId] = useState(0);
+    const [chat_id, setChatId] = useState(0);
+
 
     const handleSendChat = () => {
         axios.post(route('send.message'), {
+            chat_id: chat_id,
             message: message,
             sender_id: sender_id,
             receiver_id: receiver_id
@@ -102,7 +127,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleSendEmoji = () => {
-         axios.post(route('send.message'), {
+        axios.post(route('send.message'), {
+            chat_id: chat_id,
             message: '😀',
             sender_id: sender_id,
             receiver_id: receiver_id
@@ -182,7 +208,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <p className='text-xl font-medium'>Chats</p>
                             <div id='buttonOpenChatUser'>
                                 {users.map(u => (
-                                    <button className='flex flex-row w-full mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => {handleOpenChatUser(u.following_user_id); setReceiverId(u.following_user_id); setSenderId(auth?.user.id)}}>
+                                    <button className='flex flex-row w-full mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => { handleOpenChatUser(u.id); setReceiverId(u.following_user_id); setSenderId(auth?.user.id); setChatId(u.id) }}>
                                         <img className='w-18 h-18 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                         <div className='flex flex-col'>
                                             <p className='truncate text-start'>{u.name}</p>
@@ -212,24 +238,35 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
             <div className='fixed bottom-1 left-3.8 z-40 flex flex-row-reverse gap-2'>
                 {users.map(u => (
-                    <div className='hidden  dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.following_user_id}`}>
+                    <div className='hidden  dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.id}`}>
                         <div className='flex justify-between items-center'>
                             <div className='flex flex-row gap-2 items-center'>
                                 <img className='w-15 h-15 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                 <p>{u.name}</p>
                             </div>
-                            <button className='cursor-pointer' onClick={() => handleCloseChatUser(u.following_user_id)}>
+                            <button className='cursor-pointer' onClick={() => handleCloseChatUser(u.id)}>
                                 <X />
                             </button>
                         </div>
                         <hr className='mt-3' />
-
+                        {chats.map(c => (
+                            <div>
+                                {c.chat_id === u.id ? 
+                                <p 
+                                className={cn('mt-2', c.sender_id === auth?.user.id ? 'flex justify-end' : 'flex justify-start')}>
+                                    {c.message}
+                                    </p> 
+                                    : ''
+                                    }
+                                    </div>
+                        ))}
                         <div className='mt-auto flex flex-row gap-2 items-center'>
+
                             <div className='flex items-center'>
                                 <button className='cursor-pointer' onClick={inputFileTrigger}><Images size={20} /></button>
                                 <input id='inputFile' type="file" className='hidden' />
                             </div>
-                            <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' onChange={(e) => setMessage(e.target.value)} value={message}/>
+                            <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' onChange={(e) => setMessage(e.target.value)} value={message} />
                             <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendChat} hidden={!message.trim()}><Send /></Button>
                             <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendEmoji} hidden={message.trim()}>😀</Button>
                         </div>
