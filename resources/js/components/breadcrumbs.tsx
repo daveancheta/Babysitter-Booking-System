@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Button } from './ui/button';
 import { MessageCircle, MessageCircleMore, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
@@ -38,12 +38,13 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
        let chatContainer =  document.getElementById('chatContainer');
 
        if (chatContainer?.classList.contains("hidden")) {
+        document.getElementById('messageIcon')?.classList.add("text-blue-400")
         chatContainer?.classList.remove("hidden")
        } else {
+        document.getElementById('messageIcon')?.classList.remove("text-blue-400")
         chatContainer?.classList.add("hidden")
        }
     }
-
     return (
         <>
             {isMobile ?
@@ -110,7 +111,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </Button> :
                     <div className='relative'>
                         <Button onClick={handleOpenChat} className='cursor-pointer' variant='outline'>
-                            <MessageCircleMore />
+                            <MessageCircleMore id='messageIcon' />
                         </Button>
                         <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
                         <p className='text-xl font-medium'>Chats</p>
