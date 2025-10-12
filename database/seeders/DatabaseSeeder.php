@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'quinn1234',
             'ip_address' => '123.456.7.89',
+            'rate' => '250.00',
         ]);
         User::factory()->create([
             'account_id' => 'bA5rD5lH9M',
@@ -54,6 +55,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => '2025-09-26 03:34:29',
             'password' => 'beck1234',
             'ip_address' => '123.456.7.89',
+            'rate' => '500.00',
         ]);
         User::factory()->create([
             'account_id' => 'vH4iB3PA2N',

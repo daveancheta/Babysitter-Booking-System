@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm } from '@inertiajs/react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Button } from './ui/button';
 import { MessageCircle, MessageCircleMore, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
@@ -33,6 +33,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         e.preventDefault();
         get(route('result.search'));
     }
+
+    const handleOpenChat = () => {
+       let chatContainer =  document.getElementById('chatContainer');
+
+       if (chatContainer?.classList.contains("hidden")) {
+        chatContainer?.classList.remove("hidden")
+       } else {
+        chatContainer?.classList.add("hidden")
+       }
+    }
+
     return (
         <>
             {isMobile ?
@@ -94,11 +105,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
                 {isMobile ?
-                    <Link href="" id='linkMessage' className="whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 has-[>svg]:px-3">
+                    <Button variant='outline'>
                         <MessageCircleMore />
-                    </Link> : <Link href="" className="whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 has-[>svg]:px-3">
-                        <MessageCircleMore />
-                    </Link>
+                    </Button> :
+                    <div className='relative'>
+                        <Button onClick={handleOpenChat} className='cursor-pointer' variant='outline'>
+                            <MessageCircleMore />
+                        </Button>
+                        <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
+                        <p className='text-xl font-medium'>Chats</p>
+                        </div>
+                    </div>
                 }
                 <div id='searchIcon'>
                     <Button onClick={handleSearch} variant='outline' className="">
@@ -112,7 +129,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <input type="text" className="pl-10 border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm -mr-2" placeholder='Search...' onChange={(e) => setData('search', e.target.value)} value={data.search} />
                         </form>
                     </div>
-                    <button onClick={handleSearchInput} className='cursor-pointer'><X size={18} className='cursor-pointer'/></button>
+                    <button onClick={handleSearchInput} className='cursor-pointer'><X size={18} className='cursor-pointer' /></button>
                 </div>
             </div>
         </>
