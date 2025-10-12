@@ -67,10 +67,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         fetchMessage()
         const interval = setInterval(fetchMessage, 1000);
         return () => clearInterval(interval)
+
     }, []);
 
     const handleOpenChatUser = (id: number) => {
         document.getElementById(`chatContainer${id}`)?.classList.remove("hidden")
+        document.getElementById('buttonOpenChatUser')?.classList.add("pointer-events-none")
+    }
+
+    const handleCloseChatUser = (id: number) => {
+        document.getElementById(`chatContainer${id}`)?.classList.add("hidden")
+         document.getElementById('buttonOpenChatUser')?.classList.remove("pointer-events-none")
     }
 
     const inputFileTrigger = () => {
@@ -148,8 +155,9 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         </Button>
                         <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
                             <p className='text-xl font-medium'>Chats</p>
+                            <div id='buttonOpenChatUser'>
                             {users.map(u => (
-                                <button className='flex flex-row mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => handleOpenChatUser(u.following_user_id)}>
+                                <button className='flex flex-row w-full mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => handleOpenChatUser(u.following_user_id)}>
                                     <img className='w-18 h-18 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
                                     <div className='flex flex-col'>
                                         <p className='truncate text-start'>{u.name}</p>
@@ -157,6 +165,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                     </div>
                                 </button>
                             ))}
+                            </div>
                         </div>
                     </div>
                 }
@@ -176,29 +185,31 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             </div>
 
-            {users.map(u => (
-                <div className='hidden fixed bottom-1 left-3.8 z-40 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.following_user_id}`}>
-                    <div className='flex justify-between items-center'>
-                        <div className='flex flex-row gap-2 items-center'>
-                            <img className='w-15 h-15 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
-                            <p>{u.name}</p>
+            <div className='fixed bottom-1 left-3.8 z-40 flex flex-row-reverse gap-2'>
+                {users.map(u => (
+                    <div className='hidden  dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.following_user_id}`}>
+                        <div className='flex justify-between items-center'>
+                             <div className='flex flex-row gap-2 items-center'>
+                                <img className='w-15 h-15 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
+                                <p>{u.name}</p>
+                            </div>
+                            <button className='cursor-pointer' onClick={() => handleCloseChatUser(u.following_user_id)}>
+                                <X />
+                            </button>
                         </div>
-                        <button className='cursor-pointer'>
-                            <X />
-                        </button>
-                    </div>
-                    <hr className='mt-3' />
+                        <hr className='mt-3' />
 
-                    <div className='mt-auto flex flex-row gap-2 items-center'>
-                        <div className='flex items-center'>
-                            <button className='cursor-pointer' onClick={inputFileTrigger}><Images size={20}/></button>
-                            <input id='inputFile' type="file" className='hidden'/>
+                        <div className='mt-auto flex flex-row gap-2 items-center'>
+                            <div className='flex items-center'>
+                                <button className='cursor-pointer' onClick={inputFileTrigger}><Images size={20} /></button>
+                                <input id='inputFile' type="file" className='hidden' />
+                            </div>
+                            <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' />
+                            <Button variant='outline' className='cursor-pointer'><Send /></Button>
                         </div>
-                        <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa'/>
-                        <Button variant='outline' className='cursor-pointer'><Send /></Button>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </>
     );
 }
