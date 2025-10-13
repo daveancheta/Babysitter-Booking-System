@@ -19,6 +19,7 @@ class NotificationController extends Controller
         $userId = Auth::id();
 
         $bookings = DB::table('bookings')
+        ->latest()
             ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
             ->select(
                 'bookings.*',
@@ -29,6 +30,7 @@ class NotificationController extends Controller
             ->get();
 
         $books = DB::table('bookings')
+        ->latest()
             ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
             ->select(
                 'bookings.*',

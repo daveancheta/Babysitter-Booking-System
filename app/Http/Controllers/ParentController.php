@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BookingMail;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ParentController extends Controller
@@ -58,7 +60,11 @@ class ParentController extends Controller
 
         User::where('id', $babysitterId)->update(['book_status' => $bookStatus]);
 
-        Booking::create($validated);
+        $bookings = Booking::create($validated);
+
+        $user = Auth::user();
+        Mail::to($user->email)
+        ->send(new BookingMail($bookings));
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
