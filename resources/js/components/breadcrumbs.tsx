@@ -3,11 +3,9 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Divide, Images, MessageCircle, MessageCircleMore, Search, Send, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
-import axios from 'axios';
-import { cn } from '@/lib/utils';
 
 interface User {
     id: number;
@@ -51,90 +49,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         e.preventDefault();
         get(route('result.search'));
     }
-
-    const handleOpenChat = () => {
-        let chatContainer = document.getElementById('chatContainer');
-
-        if (chatContainer?.classList.contains("hidden")) {
-            document.getElementById('messageIcon')?.classList.add("text-blue-400")
-            chatContainer?.classList.remove("hidden")
-        } else {
-            document.getElementById('messageIcon')?.classList.remove("text-blue-400")
-            chatContainer?.classList.add("hidden")
-        }
-    }
-
-    const [users, setUsers] = useState<User[]>([]);
-
-    useEffect(() => {
-        const fetchMessage = () => {
-            axios.get(route("get.message"), {})
-                .then(response => {
-                    setUsers(response.data);
-                })
-        }
-
-        fetchMessage()
-        const interval = setInterval(fetchMessage, 1000);
-        return () => clearInterval(interval)
-
-    }, []);
-
-    const [chats, setChats] = useState<Chat[]>([])
-
-    useEffect(() => {
-        const fetchChat = () => {
-            axios.get(route("get.chat"), {})
-            .then(response => {
-                setChats(response.data);
-            })
-        }
-
-        fetchChat()
-        const interval = setInterval(fetchChat, 1000);
-        return () => clearInterval(interval);
-    });
-
-    const handleOpenChatUser = (id: number) => {
-        document.getElementById(`chatContainer${id}`)?.classList.remove("hidden")
-        document.getElementById('buttonOpenChatUser')?.classList.add("pointer-events-none")
-    }
-
-    const handleCloseChatUser = (id: number) => {
-        document.getElementById(`chatContainer${id}`)?.classList.add("hidden")
-        document.getElementById('buttonOpenChatUser')?.classList.remove("pointer-events-none")
-    }
-
-    const inputFileTrigger = () => {
-        document.getElementById("inputFile")?.click();
-    }
-
-    const [message, setMessage] = useState("");
-    const [sender_id, setSenderId] = useState(0);
-    const [receiver_id, setReceiverId] = useState(0);
-    const [chat_id, setChatId] = useState(0);
-
-
-    const handleSendChat = () => {
-        axios.post(route('send.message'), {
-            chat_id: chat_id,
-            message: message,
-            sender_id: sender_id,
-            receiver_id: receiver_id
-        })
-
-        setMessage("")
-    }
-
-    const handleSendEmoji = () => {
-        axios.post(route('send.message'), {
-            chat_id: chat_id,
-            message: '😀',
-            sender_id: sender_id,
-            receiver_id: receiver_id
-        })
-    }
-
 
     return (
         <>
