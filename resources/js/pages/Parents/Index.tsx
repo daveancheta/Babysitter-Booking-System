@@ -118,6 +118,9 @@ export default function Index() {
     const submitBooking = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('booking.store'));
+
+        setData('start_date', '')
+        setData('end_date', '')
     }
 
     const isMobile = useIsMobile();
@@ -125,9 +128,9 @@ export default function Index() {
     let authBalance = auth?.user.balance;
     let formattedAuthBalance = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(authBalance);
 
-    const handleEndDate = () => {
-        document.getElementById('endDate')?.classList.remove("pointer-events-none")
-        document.getElementById('startDateIdentifier')?.classList.add("hidden")
+    const handleEndDate = (id: number) => {
+        document.getElementById(`endDate${id}`)?.classList.remove("pointer-events-none")
+        document.getElementById(`startDateIdentifier${id}`)?.classList.add("hidden")
     }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -244,7 +247,7 @@ export default function Index() {
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                                                                 <Calendar
-                                                                onDayClick={handleEndDate}
+                                                                onDayClick={() => handleEndDate(u.id)}
                                                                     mode="single"
                                                                     selected={dateStart}
                                                                     captionLayout="dropdown"
@@ -264,8 +267,8 @@ export default function Index() {
                                                             </PopoverContent>
                                                         </Popover>
                                                     </div>
-                                                    <div id='endDate' className="grid gap-3 mb-6 pointer-events-none">
-                                                        <Label htmlFor="username-1">End Date <span id='startDateIdentifier' className='text-muted-foreground'>(Please select a start date first)</span></Label>
+                                                    <div id={`endDate${u.id}`} className="grid gap-3 mb-6 pointer-events-none">
+                                                        <Label htmlFor="username-1">End Date <span id={`startDateIdentifier${u.id}`} className='text-muted-foreground'>(Please select a start date first)</span></Label>
                                                         <Popover open={openEnd} onOpenChange={setOpenEnd}>
                                                             <PopoverTrigger asChild>
                                                                 <Button
