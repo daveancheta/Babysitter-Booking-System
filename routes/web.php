@@ -57,10 +57,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Admin
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
-
-    Route::get('/getMessageUsers', [MessageController::class, 'index'])->name('get.message');
-    Route::post('/sendMessageUsers', [MessageController::class, 'store'])->name('send.message');
-    Route::get('/getChat', [MessageController::class, 'getChat'])->name('get.chat');
 });
 
  Route::get('/ban', BanningController::class)->name('ban.index');

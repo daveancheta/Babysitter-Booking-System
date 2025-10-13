@@ -94,14 +94,14 @@ $total = $booking->rate * $duration;
                                     <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{ $booking->name }}</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
-                                        ₱{{ $booking->rate }}/hour</td>
+                                        ₱{{ number_format($booking->rate, 2) }} per hour</td>
                                 </tr>
 
                                 <tr>
                                     <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">Total</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
-                                        ₱{{ $total }}</td>
+                                        ₱{{ number_format($total, 2) }}</td>
                                 </tr>
                             </table>
                         </td>
@@ -120,7 +120,7 @@ $total = $booking->rate * $duration;
                     <!-- Bottom Bar -->
                     <tr>
                         <td
-                            style="background-color:#f1f1f1; padding:15px; text-align:center; color:#888; font-size:12px;">
+                            style="background-color:#1a1a1a; padding:15px; text-align:center; color:#ffffff; font-size:12px;">
                             © {{ date('Y') }} SitterLy. All rights reserved.
                         </td>
                     </tr>
