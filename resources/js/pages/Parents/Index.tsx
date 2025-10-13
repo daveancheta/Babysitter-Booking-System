@@ -245,7 +245,7 @@ export default function Index() {
                                                                     onSelect={(date) => {
                                                                         if (date) {
                                                                             setDateStart(date)
-                                                                            setData("start_date", date.toISOString().split("T")[0]);
+                                                                            setData("start_date", date.toLocaleDateString('en-CA'));
                                                                             setOpenStart(false)
                                                                         }
                                                                     }}
@@ -279,13 +279,16 @@ export default function Index() {
                                                                     onSelect={(date) => {
                                                                         if (date) {
                                                                             setDateEnd(date)
-                                                                            setData("end_date", date.toISOString().split("T")[0]);
+                                                                            setData("end_date", date.toLocaleDateString('en-CA'));
                                                                             setOpenEnd(false)
                                                                         }
                                                                     }}
-
                                                                     disabled={{
-                                                                        before: new Date(moment().add(1, "days").toDate()),
+                                                                        before: new Date(
+                                                                            new Date(data.start_date).setDate(
+                                                                                new Date(data.start_date).getDate() + 1
+                                                                            )
+                                                                        ),
                                                                         after: new Date(moment().add(1, 'month').toDate()),
                                                                     }}
                                                                 />
@@ -315,47 +318,47 @@ export default function Index() {
                     : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
             </div>
             <div className={cn('-mt-10 mb-10', isMobile ? "" : "ml-5")}>
-            {users.links && users.links.length > 0 && (
-                <Pagination className="mt-6">
-                    <PaginationContent>
-                        {users.links.map((link, index) => {
-                            // Handle previous and next buttons
-                            if (link.label.includes('Previous')) {
+                {users.links && users.links.length > 0 && (
+                    <Pagination className="mt-6">
+                        <PaginationContent>
+                            {users.links.map((link, index) => {
+                                // Handle previous and next buttons
+                                if (link.label.includes('Previous')) {
+                                    return (
+                                        <PaginationItem key={index}>
+                                            <PaginationPrevious
+                                                href={link.url || '#'}
+                                                className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                            />
+                                        </PaginationItem>
+                                    );
+                                }
+
+                                if (link.label.includes('Next')) {
+                                    return (
+                                        <PaginationItem key={index}>
+                                            <PaginationNext
+                                                href={link.url || '#'}
+                                                className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                            />
+                                        </PaginationItem>
+                                    );
+                                }
+
+                                // Handle numbered pages
                                 return (
                                     <PaginationItem key={index}>
-                                        <PaginationPrevious
+                                        <PaginationLink
                                             href={link.url || '#'}
-                                            className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                            isActive={link.active}
+                                            dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     </PaginationItem>
                                 );
-                            }
-
-                            if (link.label.includes('Next')) {
-                                return (
-                                    <PaginationItem key={index}>
-                                        <PaginationNext
-                                            href={link.url || '#'}
-                                            className={!link.url ? 'pointer-events-none opacity-50' : ''}
-                                        />
-                                    </PaginationItem>
-                                );
-                            }
-
-                            // Handle numbered pages
-                            return (
-                                <PaginationItem key={index}>
-                                    <PaginationLink
-                                        href={link.url || '#'}
-                                        isActive={link.active}
-                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                    />
-                                </PaginationItem>
-                            );
-                        })}
-                    </PaginationContent>
-                </Pagination>
-            )}
+                            })}
+                        </PaginationContent>
+                    </Pagination>
+                )}
             </div>
         </AppLayout >
     );
