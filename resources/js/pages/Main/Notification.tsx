@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import {
     Dialog,
     DialogClose,
@@ -218,7 +218,7 @@ export default function Notification() {
             <div id='allContainer' className={bookingsNavigation === 'all' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
@@ -272,11 +272,11 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No bookings yet.</div>)}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {books.map((b) => (
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
@@ -320,7 +320,7 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                     </div>
                 )}
             </div>
@@ -329,7 +329,7 @@ export default function Notification() {
             <div id='doneContainer' className={bookingsNavigation === 'cancelled' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
                                     <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')} key={b.id}>
@@ -355,11 +355,11 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.</div>)}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {books.map((b) => (
                                     <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')} key={b.id}>
@@ -399,7 +399,7 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                     </div>
                 )}
             </div>
@@ -408,7 +408,7 @@ export default function Notification() {
             <div id='doneContainer' className={bookingsNavigation === 'done' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
                                     <div className={cn(b.status === 'done' ? '' : 'hidden')} key={b.id}>
@@ -438,11 +438,11 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No done bookings yet.</div>)}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {books.map((b) => (
                                     <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
@@ -523,7 +523,7 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No done bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                     </div>
                 )}
             </div>
