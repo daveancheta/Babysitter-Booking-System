@@ -196,30 +196,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
-                {isMobile ?
-                    <Button variant='outline'>
-                        <MessageCircleMore />
-                    </Button> :
-                    <div className='relative'>
-                        <Button onClick={handleOpenChat} className='cursor-pointer' variant='outline'>
-                            <MessageCircleMore id='messageIcon' />
-                        </Button>
-                        <div id='chatContainer' className='absolute top-10 right-0 z-50 dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col hidden'>
-                            <p className='text-xl font-medium'>Chats</p>
-                            <div id='buttonOpenChatUser'>
-                                {users.map(u => (
-                                    <button className='flex flex-row w-full mt-4 gap-2 items-center hover:dark:bg-neutral-800 hover:bg-neutral-200 rounded-lg p-2 cursor-pointer' onClick={() => { handleOpenChatUser(u.id); setReceiverId(u.following_user_id); setSenderId(auth?.user.id); setChatId(u.id) }}>
-                                        <img className='w-18 h-18 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
-                                        <div className='flex flex-col'>
-                                            <p className='truncate text-start'>{u.name}</p>
-                                            <p className='truncate text-sm text-muted-foreground text-start'>Start chatting with {u.name}</p>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                }
+                
                 <div id='searchIcon'>
                     <Button onClick={handleSearch} variant='outline' className="">
                         <Search />
@@ -234,44 +211,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     <button onClick={handleSearchInput} className='cursor-pointer'><X size={18} className='cursor-pointer' /></button>
                 </div>
-            </div>
-
-            <div className='fixed bottom-1 left-3.8 z-40 flex flex-row-reverse gap-2'>
-                {users.map(u => (
-                    <div className='hidden  dark:bg-neutral-900 bg-background rounded-lg border p-6 shadow-lg duration-200 min-h-[400px] min-w-[400px] flex flex-col' id={`chatContainer${u.id}`}>
-                        <div className='flex justify-between items-center'>
-                            <div className='flex flex-row gap-2 items-center'>
-                                <img className='w-15 h-15 rounded-full' src={`${window.location.origin}/storage/${u.profile}`} alt="" />
-                                <p>{u.name}</p>
-                            </div>
-                            <button className='cursor-pointer' onClick={() => handleCloseChatUser(u.id)}>
-                                <X />
-                            </button>
-                        </div>
-                        <hr className='mt-3' />
-                        {chats.map(c => (
-                            <div>
-                                {c.chat_id === u.id ? 
-                                <p 
-                                className={cn('mt-2', c.sender_id === auth?.user.id ? 'flex justify-end' : 'flex justify-start')}>
-                                    {c.message}
-                                    </p> 
-                                    : ''
-                                    }
-                                    </div>
-                        ))}
-                        <div className='mt-auto flex flex-row gap-2 items-center'>
-
-                            <div className='flex items-center'>
-                                <button className='cursor-pointer' onClick={inputFileTrigger}><Images size={20} /></button>
-                                <input id='inputFile' type="file" className='hidden' />
-                            </div>
-                            <Input className='dark:bg-neutral-800 bg-background' type="text" placeholder='Aa' onChange={(e) => setMessage(e.target.value)} value={message} />
-                            <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendChat} hidden={!message.trim()}><Send /></Button>
-                            <Button variant='outline' className='cursor-pointer transition duration-300 ease-in-out hover:-translate-y-1.5 hover:scale-110' onClick={handleSendEmoji} hidden={message.trim()}>😀</Button>
-                        </div>
-                    </div>
-                ))}
             </div>
         </>
     );
