@@ -64,7 +64,7 @@ class ParentController extends Controller
 
         $user = Auth::user();
         Mail::to($user->email)
-        ->send(new BookingMail($bookings));
+        ->send(new BookingMail($bookings)); 
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }

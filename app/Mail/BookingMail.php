@@ -28,7 +28,7 @@ class BookingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Mail',
+            subject: 'Booking Confirmation',
         );
     }
 
