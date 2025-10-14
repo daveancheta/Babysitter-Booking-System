@@ -307,7 +307,7 @@ export default function Index() {
                                                 </div>
                                                 <DialogFooter>
                                                     <DialogClose asChild>
-                                                        <Button variant="outline">Cancel</Button>
+                                                        <Button variant="outline" disabled={processing}>Cancel</Button>
                                                     </DialogClose>
                                                     {u.book_status === "booked" ? (
                                                         <Button className='pointer-events-none select-none' disabled>Already Booked</Button>
