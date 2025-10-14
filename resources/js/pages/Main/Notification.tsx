@@ -208,14 +208,14 @@ export default function Notification() {
             <Head title="Notification" />
             <div className={isMobile ? "flex justify-center mt-4" : "flex justify-start mt-4 ml-4"}>
                 <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
-                    <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">All</span></button>
+                    <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" || bookingsNavigation === "" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">All</span></button>
                     <button onClick={handleCancelledNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "cancelled" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Cancelled</span></button>
                     <button onClick={handleDoneNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "done" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BadgeCheckIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Done</span></button>
                 </div>
             </div>
 
             {/* All */}
-            <div id='allContainer' className={bookingsNavigation === 'all' ? '' : 'hidden'}>
+            <div id='allContainer' className={bookingsNavigation === 'all' || bookingsNavigation === ""  ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
