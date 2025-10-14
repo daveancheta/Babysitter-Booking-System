@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\BookingMail;
-use App\Mail\CancelBookingMail;
+use App\Mail\Parent\BookingMail;
+use App\Mail\Parent\CancelBookingMail;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;

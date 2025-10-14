@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Parent;
 
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
@@ -10,14 +10,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CancelBookingMail extends Mailable
+class BookingMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public $booking_id)
+    public function __construct(public Booking $bookings)
     {
         //
     }
@@ -28,7 +28,7 @@ class CancelBookingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Cancel Booking Confirmation',
+            subject: 'Booking Confirmation',
         );
     }
 
@@ -38,7 +38,7 @@ class CancelBookingMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mail/CancelBookingMail',
+            view: 'Mail/Parent/BookingMail',
         );
     }
 
