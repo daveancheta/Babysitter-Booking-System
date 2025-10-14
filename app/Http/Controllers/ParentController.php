@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\BookingMail;
+use App\Mail\CancelBookingMail;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -64,7 +65,7 @@ class ParentController extends Controller
 
         $user = Auth::user();
         Mail::to($user->email)
-        ->send(new BookingMail($bookings)); 
+            ->send(new BookingMail($bookings));
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
@@ -90,7 +91,7 @@ class ParentController extends Controller
      */
     public function update(Request $request)
     {
-        request()->validate([
+        $validated = request()->validate([
             'booking_id' => 'required',
             'babysitter_id' => 'required',
             'status' => 'required'
@@ -102,6 +103,12 @@ class ParentController extends Controller
 
         Booking::where('id', $booking_id)->update(['status' => $status]);
         User::where('id', $babysitter_id)->update(['book_status' => NULL]);
+
+        $bookings = $validated;
+
+        $user = Auth::user();
+        Mail::to($user->email)
+            ->send(new CancelBookingMail($booking_id));
 
         return redirect()->route('notification.index');
     }
