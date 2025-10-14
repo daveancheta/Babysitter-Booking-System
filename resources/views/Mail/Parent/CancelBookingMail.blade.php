@@ -34,7 +34,7 @@ $total = $booking->rate * $duration;
                     <!-- Header -->
                     <tr>
                         <td style="background-color:#1a1a1a; padding:20px; text-align:center; color:#ffffff;">
-                            <h1 style="margin:0; font-size:24px;">Booking Confirmation</h1>
+                            <h1 style="margin:0; font-size:24px;">Booking Cancelled</h1>
                         </td>
                     </tr>
 
@@ -43,7 +43,7 @@ $total = $booking->rate * $duration;
                         <td style="padding:20px;">
                             <p style="margin:0 0 10px;">Hi {{ Auth::user()->name }},</p>
                             <p style="margin:0 0 20px;">
-                                This is an automated booking confirmation email — please do not reply
+                                This is an automated booking cancellation notice — please do not reply.
                             </p>
                         </td>
                     </tr>
@@ -58,9 +58,10 @@ $total = $booking->rate * $duration;
                                     <td style="padding:8px; text-align:right;">{{ $bookings->created_at->format('F d,
                                         Y') }}</td>
                                 </tr>
-                                  <tr>
+                                <tr>
                                     <td style="padding:8px; font-weight:bold;">Status:</td>
-                                    <td style="padding:8px; text-align:right; color: #ff0000; font-weight: bold;">Cancelled</td>
+                                    <td style="padding:8px; text-align:right; color: #ff0000; font-weight: bold;">
+                                        Cancelled</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Booking Period:</td>
@@ -95,7 +96,8 @@ $total = $booking->rate * $duration;
                                     <th style="padding:10px; text-align:left; border-bottom:1px solid #ddd;">Babysitter
                                         Name
                                     </th>
-                                    <th style="padding:10px; text-align:right; border-bottom:1px solid #ddd;">Amount
+                                    <th style="padding:10px; text-align:right; border-bottom:1px solid #ddd;">Salary
+                                        Amount
                                     </th>
                                 </tr>
 
@@ -104,7 +106,7 @@ $total = $booking->rate * $duration;
                                         $booking->name }}</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
-                                        ₱{{ number_format($booking->rate, 2) }} per hour</td>
+                                        ₱{{ number_format($booking->rate, 2) }} per day</td>
                                 </tr>
 
                                 <tr>

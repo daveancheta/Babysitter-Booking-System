@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mail\Parent;
+namespace App\Mail\Babysitter;
 
 use App\Models\Booking;
 use Illuminate\Bus\Queueable;
@@ -28,7 +28,7 @@ class CancelBookingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Cancellation Notice',
+            subject: 'booking Cancellation Notice',
         );
     }
 
@@ -38,7 +38,7 @@ class CancelBookingMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mail/Parent/CancelBookingMail',
+            view: 'Mail/Babysitter/CancelBookingMail',
         );
     }
 

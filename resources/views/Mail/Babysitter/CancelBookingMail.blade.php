@@ -9,6 +9,9 @@
 @php
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Booking;
+
+$bookings = Booking::where('id', $booking_id)->first();
 
 $start = Carbon::parse($bookings->start_date);
 $end = Carbon::parse($bookings->end_date);
@@ -17,7 +20,7 @@ $duration = $start->diffInDays($end);
 $booking = DB::table('bookings')
 ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
 ->where('bookings.babysitter_id', $bookings->babysitter_id)
-->first();  
+->first();
 
 $total = $booking->rate * $duration;
 @endphp
@@ -31,16 +34,16 @@ $total = $booking->rate * $duration;
                     <!-- Header -->
                     <tr>
                         <td style="background-color:#1a1a1a; padding:20px; text-align:center; color:#ffffff;">
-                            <h1 style="margin:0; font-size:24px;">Booking Confirmation</h1>
+                            <h1 style="margin:0; font-size:24px;">Booking Cancelled</h1>
                         </td>
                     </tr>
 
                     <!-- Intro -->
                     <tr>
                         <td style="padding:20px;">
-                            <p style="margin:0 0 10px;">Hi {{ Auth::user()->name }},</p>
+                            <p style="margin:0 0 10px;">Hi {{ $booking->name }},</p>
                             <p style="margin:0 0 20px;">
-                                This is an automated booking confirmation email — please do not reply.
+                                This is an automated booking cancellation notice — please do not reply.
                             </p>
                         </td>
                     </tr>
@@ -49,24 +52,25 @@ $total = $booking->rate * $duration;
                     <tr>
                         <td style="padding:0 20px 20px;">
                             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
-                               
+
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Book Date:</td>
                                     <td style="padding:8px; text-align:right;">{{ $bookings->created_at->format('F d,
                                         Y') }}</td>
                                 </tr>
-                                 <tr>
+                                  <tr>
                                     <td style="padding:8px; font-weight:bold;">Status:</td>
-                                    <td style="padding:8px; text-align:right; color: #ff9500; font-weight: bold;">Pending</td>
+                                    <td style="padding:8px; text-align:right; color: #ff0000; font-weight: bold;">Cancelled</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Booking Period:</td>
                                     <td style="padding:8px; text-align:right;">{{ $start->format('F d, Y') }} – {{
                                         $end->format('F d, Y') }}</td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td style="padding:8px; font-weight:bold;">Payment Method:</td>
-                                    <td style="padding:8px; text-align:right; text-transform: capitalize;">Per {{ $bookings->payment_method }}</td>
+                                    <td style="padding:8px; text-align:right; text-transform: capitalize;">Per {{
+                                        $bookings->payment_method }}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Duration:</td>
@@ -88,14 +92,16 @@ $total = $booking->rate * $duration;
                         <td style="padding:0 20px 20px;">
                             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
                                 <tr style="background-color:#f9f9f9;">
-                                    <th style="padding:10px; text-align:left; border-bottom:1px solid #ddd;">Babysitter Name
+                                    <th style="padding:10px; text-align:left; border-bottom:1px solid #ddd;">Parent
+                                        Name
                                     </th>
                                     <th style="padding:10px; text-align:right; border-bottom:1px solid #ddd;">Salary Amount
                                     </th>
                                 </tr>
 
-                                 <tr>
-                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{ $booking->name }}</td>
+                                <tr>
+                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{
+                                        Auth::user()->name }}</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
                                         ₱{{ number_format($booking->rate, 2) }} per day</td>

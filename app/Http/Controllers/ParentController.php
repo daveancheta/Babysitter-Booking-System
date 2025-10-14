@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Parent\BookingMail;
-use App\Mail\Parent\CancelBookingMail;
+use App\Mail\Parent\BookingMail as ParentBookingMail;
+use App\Mail\Babysitter\BookingMail as BabysitterBookingMail;
+use App\Mail\Parent\CancelBookingMail as ParentCancelBookingMail;
+use App\Mail\Babysitter\CancelBookingMail as BabysitterCancelBookingMail;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,9 +65,14 @@ class ParentController extends Controller
 
         $bookings = Booking::create($validated);
 
+
         $user = Auth::user();
         Mail::to($user->email)
-            ->send(new BookingMail($bookings));
+            ->send(new ParentBookingMail($bookings));
+
+        $babysitter = User::where('id', $babysitterId)->first();
+        Mail::to($babysitter->email)
+            ->send(new BabysitterBookingMail($bookings));
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
@@ -98,17 +105,21 @@ class ParentController extends Controller
         ]);
 
         $booking_id = $request->input('booking_id');
-        $babysitter_id = $request->input('babysitter_id');
+        $babysitterId = $request->input('babysitter_id');
         $status = $request->input('status');
 
         Booking::where('id', $booking_id)->update(['status' => $status]);
-        User::where('id', $babysitter_id)->update(['book_status' => NULL]);
+        User::where('id', $babysitterId)->update(['book_status' => NULL]);
 
         $bookings = $validated;
 
         $user = Auth::user();
         Mail::to($user->email)
-            ->send(new CancelBookingMail($booking_id));
+            ->send(new ParentCancelBookingMail($booking_id));
+
+        $babysitter = User::where('id', $babysitterId)->first();
+        Mail::to($babysitter->email)
+            ->send(new BabysitterCancelBookingMail($booking_id));
 
         return redirect()->route('notification.index');
     }
