@@ -17,7 +17,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen, Pen, Trash, EyeClosed, EyeOff } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -164,10 +164,6 @@ export default function Index() {
     }
 
     const isMobile = useIsMobile();
-
-    const handleEditPost = () => {
-
-    }
 
 
     return (
@@ -389,15 +385,15 @@ export default function Index() {
                                 </ContextMenuTrigger>
                                 <ContextMenuContent className={p.user_id === auth.user.id ? 'w-52' : 'hidden'}>
                                     <ContextMenuItem inset>
-                                        <button onClick={() => deletePost(p.id)}>
-                                            Delete
+                                        <button onClick={() => deletePost(p.id)} className='flex flex-row items-center gap-2'>
+                                            <Trash size={15}/>Delete
                                         </button>
                                         <ContextMenuShortcut>⌘</ContextMenuShortcut>
                                     </ContextMenuItem>
                                     <Dialog>
                                         <form>
                                             <DialogTrigger asChild>
-                                                <button onClick={handleEditPost} className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 hover:bg-neutral-800 w-full">Edit</button>
+                                                <button className="relative items-center flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 hover:bg-neutral-800 w-full gap-2"><Pen size={15}/>Edit</button>
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[425px]">
                                                 <form onSubmit={() => editPost(p.id)}>
@@ -424,34 +420,15 @@ export default function Index() {
                                         </form>
                                     </Dialog>
                                     <ContextMenuItem inset>
-                                        Reload
+                                        <div className='flex flex-row gap-2 items-center'>
+                                        <EyeOff size={15}/> Hide post</div>
                                         <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                                     </ContextMenuItem>
-                                    <ContextMenuSub>
-                                        <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
-                                        <ContextMenuSubContent className="w-44">
-                                            <ContextMenuItem>Save Page...</ContextMenuItem>
-                                            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                                            <ContextMenuItem>Name Window...</ContextMenuItem>
-                                            <ContextMenuSeparator />
-                                            <ContextMenuItem>Developer Tools</ContextMenuItem>
-                                            <ContextMenuSeparator />
-                                            <ContextMenuItem>Delete</ContextMenuItem>
-                                        </ContextMenuSubContent>
-                                    </ContextMenuSub>
                                     <ContextMenuSeparator />
                                     <ContextMenuCheckboxItem checked>
-                                        Show Bookmarks
+                                        Report
                                     </ContextMenuCheckboxItem>
-                                    <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-                                    <ContextMenuSeparator />
-                                    <ContextMenuRadioGroup value="pedro">
-                                        <ContextMenuLabel inset>People</ContextMenuLabel>
-                                        <ContextMenuRadioItem value="pedro">
-                                            Pedro Duarte
-                                        </ContextMenuRadioItem>
-                                        <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-                                    </ContextMenuRadioGroup>
+                                    <ContextMenuCheckboxItem>Share</ContextMenuCheckboxItem>
                                 </ContextMenuContent>
                             </ContextMenu>
                         ))}

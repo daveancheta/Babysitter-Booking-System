@@ -59,11 +59,11 @@ interface PageProps extends InertiaPageProps {
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
-    let balance = auth.user.balance;
-    let balanceFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(balance);
+    const balance = auth.user.balance;
+    const balanceFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(balance);
     const balanceValue = '$' + balanceFormatted;
-    let rate = auth.user.rate;
-    let rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
+    const rate = auth.user.rate;
+    const rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
     const { followingCount, followerCount, followingUser, followerUser } = usePage<PageProps>().props;
 
@@ -84,8 +84,8 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     }
 
     useEffect(() => {
-        let copyButton = document.getElementById("copyButton");
-        let copyText = document.getElementById("copyText");
+        const copyButton = document.getElementById("copyButton");
+        const copyText = document.getElementById("copyText");
 
 
         copyButton?.addEventListener("click", () => {

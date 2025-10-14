@@ -125,8 +125,8 @@ export default function Index() {
 
     const isMobile = useIsMobile();
 
-    let authBalance = auth?.user.balance;
-    let formattedAuthBalance = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(authBalance);
+    const authBalance = auth?.user.balance;
+    const formattedAuthBalance = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(authBalance);
 
     const handleEndDate = (id: number) => {
         document.getElementById(`endDate${id}`)?.classList.remove("pointer-events-none")
