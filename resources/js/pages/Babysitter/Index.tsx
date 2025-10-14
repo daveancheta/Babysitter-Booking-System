@@ -410,14 +410,14 @@ export default function Index() {
                                                     </DialogHeader>
                                                     <div className="grid gap-4">
                                                         <div className="grid gap-3 mt-4 mb-4">
-                                                            <Textarea id="name-1" name="name" onChange={(e) => setData('post', e.target.value)} value={data.post} placeholder={p.post} />
+                                                            <Textarea name="name" onChange={(e) => setData('post', e.target.value)} value={data.post} placeholder={p.post} />
                                                         </div>
                                                     </div>
                                                     <DialogFooter>
                                                         <DialogClose asChild>
-                                                            <Button variant="outline">Cancel</Button>
+                                                            <Button variant="outline" disabled={processing}>Cancel</Button>
                                                         </DialogClose>
-                                                        <Button type="submit" disabled={!data.post.trim()}>Save</Button>
+                                                        <Button type="submit" disabled={!data.post.trim() || processing}>Save</Button>
                                                     </DialogFooter>
                                                 </form>
                                             </DialogContent>

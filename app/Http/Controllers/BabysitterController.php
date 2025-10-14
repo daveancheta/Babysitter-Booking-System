@@ -110,6 +110,8 @@ class BabysitterController extends Controller
         ]);
 
         $id->update($validated);
+
+        return redirect()->route("babysitter.index");
     }
 
     /**

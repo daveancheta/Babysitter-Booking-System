@@ -47,7 +47,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/ratings', [RatingsController::class, 'store'])->name('rating.store');
     Route::put('/post/{id}', [BabysitterController::class, 'update'])->name('edit.post');
 
-
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
     Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
