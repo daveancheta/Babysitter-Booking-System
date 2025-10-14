@@ -55,6 +55,10 @@ $total = $booking->rate * $duration;
                                     <td style="padding:8px; text-align:right;">{{ $bookings->created_at->format('F d,
                                         Y') }}</td>
                                 </tr>
+                                 <tr>
+                                    <td style="padding:8px; font-weight:bold;">Status:</td>
+                                    <td style="padding:8px; text-align:right; color: #ff9500; font-weight: bold;">Pending</td>
+                                </tr>
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Booking Period:</td>
                                     <td style="padding:8px; text-align:right;">{{ $start->format('F d, Y') }} – {{
