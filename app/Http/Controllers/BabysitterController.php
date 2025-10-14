@@ -103,9 +103,13 @@ class BabysitterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $id)
     {
-        //
+        $validated = $request->validate([
+            'post' => 'required'
+        ]);
+
+        $id->update($validated);
     }
 
     /**

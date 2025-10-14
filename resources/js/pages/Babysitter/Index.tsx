@@ -82,7 +82,7 @@ export default function Index() {
     const [commentText, setCommentText] = useState('');
     const userId = auth.user.id;
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, put, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
         user_id: auth.user?.id,
         post: '',
@@ -92,6 +92,10 @@ export default function Index() {
         following_user_id: 0,
         follower_user_id: 0,
     });
+
+    const editPost = (id: number) => {
+        put(route('edit.post', { id }));
+    }
 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
@@ -161,6 +165,10 @@ export default function Index() {
 
     const isMobile = useIsMobile();
 
+    const handleEditPost = () => {
+
+    }
+
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -172,14 +180,14 @@ export default function Index() {
                     <Dialog>
                         {isMobile ? <div className={auth.user.is_babysitter ? "w-full flex justify-center" : "hidden"}>
                             <DialogTrigger asChild>
-                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen/> Tell parents about yourself…</Button>
+                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen /> Tell parents about yourself…</Button>
                             </DialogTrigger>
                         </div> : <div className={auth.user.is_babysitter ? "w-full flex justify-start" : "hidden"}>
                             <DialogTrigger asChild>
-                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen/> Tell parents about yourself…</Button>
+                                <Button className='rounded-sm cursor-pointer p-5' variant="outline"><NotebookPen /> Tell parents about yourself…</Button>
                             </DialogTrigger>
                         </div>}
-                        
+
                         <DialogContent className="sm:max-w-[425px]">
                             <form onSubmit={submitPost} action="">
                                 <DialogHeader>
@@ -267,7 +275,7 @@ export default function Index() {
                                                                                     <div className='whitespace-nowrap dark:text-white text-black font-bold text-sm truncate'>{p.name}</div>
                                                                                     <div className='whitespace-nowrap dark:text-white text-black flex flex-row items-center text-sm'>
                                                                                         <BookmarkCheck className='h-4 w-4 text-muted-foreground' />
-                                                                                      &nbsp;  
+                                                                                        &nbsp;
                                                                                         <span className=''>{p.followerCountBS}&nbsp;{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span>
                                                                                     </div>
                                                                                 </div>
@@ -384,12 +392,37 @@ export default function Index() {
                                         <button onClick={() => deletePost(p.id)}>
                                             Delete
                                         </button>
-                                        <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+                                        <ContextMenuShortcut>⌘</ContextMenuShortcut>
                                     </ContextMenuItem>
-                                    <ContextMenuItem inset disabled>
-                                        Edit
-                                        <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-                                    </ContextMenuItem>
+                                    <Dialog>
+                                        <form>
+                                            <DialogTrigger asChild>
+                                                <button onClick={handleEditPost} className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 hover:bg-neutral-800 w-full">Edit</button>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[425px]">
+                                                <form onSubmit={() => editPost(p.id)}>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Edit post</DialogTitle>
+                                                        <DialogDescription>
+                                                            Make changes to your post here. Click save when you&apos;re
+                                                            done.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <div className="grid gap-4">
+                                                        <div className="grid gap-3 mt-4 mb-4">
+                                                            <Textarea id="name-1" name="name" onChange={(e) => setData('post', e.target.value)} value={data.post} placeholder={p.post} />
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <DialogClose asChild>
+                                                            <Button variant="outline">Cancel</Button>
+                                                        </DialogClose>
+                                                        <Button type="submit" disabled={!data.post.trim()}>Save</Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </DialogContent>
+                                        </form>
+                                    </Dialog>
                                     <ContextMenuItem inset>
                                         Reload
                                         <ContextMenuShortcut>⌘R</ContextMenuShortcut>
@@ -422,6 +455,7 @@ export default function Index() {
                                 </ContextMenuContent>
                             </ContextMenu>
                         ))}
+
                     </div>
                     : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
             </div>
