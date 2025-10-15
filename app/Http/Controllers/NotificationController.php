@@ -19,24 +19,26 @@ class NotificationController extends Controller
         $userId = Auth::id();
 
         $bookings = DB::table('bookings')
-        ->latest()
+            ->latest()
             ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
             ->select(
                 'bookings.*',
                 'users.profile',
-                'users.name', 
+                'users.name',
+                DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
             )
             ->where('babysitter_id', $userId)
             ->get();
 
         $books = DB::table('bookings')
-        ->latest()
+            ->latest()
             ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
             ->select(
                 'bookings.*',
                 'users.profile',
                 'users.name',
                 'users.rate',
+                DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
             )
             ->where('user_id', $userId)
             ->get();

@@ -64,6 +64,7 @@ interface Bookings {
     start_date: string;
     end_date: string;
     date: number;
+    ratings: number;
 }
 
 interface Books {
@@ -79,6 +80,8 @@ interface Books {
     start_date: string;
     end_date: string;
     date: number;
+    ratings: number;
+
 }
 
 interface PageProps extends InertiaPageProps {
@@ -231,7 +234,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
+                                                    <span>{b.ratings}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>
@@ -251,7 +254,7 @@ export default function Notification() {
                                                     setData('status', 'approved');
                                                     setData('booking_id', b.id)
                                                     setData('babysitter_id', b.babysitter_id)
-                                                }}>Approved</Button>
+                                                }}>Approve</Button>
                                             </form>
                                             <form onSubmit={handleStatusUpdate}>
                                                 <Button variant='secondary' onClick={() => {
@@ -290,7 +293,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
+                                                    <span>{b.ratings}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>
@@ -352,6 +355,11 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                             </div>
                                         </div>
+                                         <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                                <Button variant='secondary' disabled>Approve</Button>
+                                                <Button variant='secondary' disabled>Decline</Button>
+                                                <Button variant='secondary' disabled>Done</Button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -411,7 +419,7 @@ export default function Notification() {
                         {bookings.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                                 {bookings.map((b) => (
-                                    <div className={cn(b.status === 'done' ? '' : 'hidden')} key={b.id}>
+                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
                                             <Badge variant='available'><span className='uppercase'>Done</span></Badge>
@@ -421,7 +429,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className='flex flex-row gap-1 item-center'>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
+                                                    <span>{b.ratings}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>
@@ -434,6 +442,11 @@ export default function Notification() {
                                             <div>
                                                 <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
                                             </div>
+                                        </div>
+                                          <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                                <Button variant='secondary' disabled>Approve</Button>
+                                                <Button variant='secondary' disabled>Decline</Button>
+                                                <Button variant='secondary' disabled>Done</Button>
                                         </div>
                                     </div>
                                 ))}
@@ -456,7 +469,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className='flex flex-row gap-1 item-center'>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>5/10</span>
+                                                    <span>{b.ratings}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>
@@ -489,32 +502,32 @@ export default function Notification() {
                                                             setData('babysitter_id', b.babysitter_id);
                                                             setData('booking_id', b.id);
                                                         }}
-                                                        >Rate</Button>
+                                                        disabled={processing || b.ratings > 0}>Rate</Button>
                                                     </DialogTrigger>
                                                     <DialogContent className="sm:max-w-[425px]">
+                                                         <form onSubmit={handleSubmitRating}>
                                                         <DialogHeader>
                                                             <DialogTitle>Rate</DialogTitle>
                                                             <DialogDescription>
                                                                 Give a rating for {b.name}, his/her wonderful work nicely done.
                                                             </DialogDescription>
                                                         </DialogHeader>
-                                                        <form onSubmit={handleSubmitRating}>
                                                             <div className="grid gap-4">
-                                                                <div className="flex flex-row justify-center gap-2">
-                                                                    <button onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
-                                                                    <button onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
-                                                                    <button onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
-                                                                    <button onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
-                                                                    <button onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
                                                                 </div>
                                                             </div>
-                                                        </form>
                                                         <DialogFooter>
                                                             <DialogClose asChild>
-                                                                <Button variant="outline">Cancel</Button>
+                                                                <Button variant="outline" disabled={processing}>Cancel</Button>
                                                             </DialogClose>
-                                                            <Button type="submit">Submit Rating </Button>
+                                                            <Button type="submit" disabled={processing || b.ratings > 0}>Submit Rating</Button>
                                                         </DialogFooter>
+                                                        </form>
                                                     </DialogContent>
                                                 </form>
                                             </Dialog>
