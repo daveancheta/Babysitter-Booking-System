@@ -436,7 +436,6 @@ export default function Index() {
                     </div>
                     : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
             </div>
-
         </AppLayout >
     );
 }

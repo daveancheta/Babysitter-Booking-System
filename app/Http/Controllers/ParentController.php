@@ -6,6 +6,7 @@ use App\Mail\Parent\BookingMail as ParentBookingMail;
 use App\Mail\Babysitter\BookingMail as BabysitterBookingMail;
 use App\Mail\Parent\CancelBookingMail as ParentCancelBookingMail;
 use App\Mail\Babysitter\CancelBookingMail as BabysitterCancelBookingMail;
+use App\Mail\Babysitter\BookingStatusMail;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -111,8 +112,6 @@ class ParentController extends Controller
         Booking::where('id', $booking_id)->update(['status' => $status]);
         User::where('id', $babysitterId)->update(['book_status' => NULL]);
 
-        $bookings = $validated;
-
         $user = Auth::user();
         Mail::to($user->email)
             ->send(new ParentCancelBookingMail($booking_id));
@@ -144,6 +143,11 @@ class ParentController extends Controller
             }
         }
 
+        $booking = Booking::where('id', $booking_id)->first();
+        $parent = User::where('id', $booking->user_id)->first();
+        Mail::to($parent->email)
+            ->send(new BookingStatusMail($booking_id));
+            
         return redirect()->route('notification.index');
     }
 
