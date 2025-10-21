@@ -58,6 +58,31 @@ class NotificationController extends Controller
         return Inertia::render('Main/Notification', compact('books', 'bookings'));
     }
 
+    public function bookingJson()
+    {
+        $userId = Auth::id();
+
+        $bookings = DB::table('bookings')
+            ->latest()
+            ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
+            ->select(
+                'bookings.*',
+                'users.profile',
+                'users.name',
+                DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
+            )
+            ->where('babysitter_id', $userId)
+            ->get();
+
+        foreach ($bookings as $b) {
+            $start = Carbon::parse($b->start_date);
+            $end = Carbon::parse($b->end_date);
+            $b->date = $start->diffInDays($end);
+        }
+
+        return response()->json($bookings);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

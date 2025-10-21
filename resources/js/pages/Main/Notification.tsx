@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import axios from "axios";
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -85,16 +86,30 @@ interface Books {
 }
 
 interface PageProps extends InertiaPageProps {
-    bookings: Bookings[];
     books: Books[];
 }
 
 export default function Notification() {
     const { auth } = usePage<SharedData>().props;
-    const { bookings, books } = usePage<PageProps>().props;
+    const { books } = usePage<PageProps>().props;
     const [bookingsNavigation, setBookingNavigation] = useState(
         localStorage.getItem("bookingsNavigation") || ""
     )
+
+    const [bookings, setBookings] = useState<Bookings[]>([]);
+
+    useEffect(() => {
+        const fetchData = () => {
+            axios.get(route("notification.bookingJson"), {})
+            .then((response: any) => {
+                setBookings(response.data);
+            })
+        }
+
+        fetchData()
+        const interval = setInterval(fetchData, 1000);
+        return () => clearInterval(interval);
+    })
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,

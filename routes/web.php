@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/reaction/{id}{postId}', [ReactController::class, 'destroy'])->name('react.delete');
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('/bookings', [NotificationController::class, 'bookingJson'])->name('notification.bookingJson');
     Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
     Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
