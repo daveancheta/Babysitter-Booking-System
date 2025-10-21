@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\select;
+use function Pest\Laravel\json;
 use function Pest\Laravel\post;
 
 class BabysitterController extends Controller
@@ -58,6 +59,45 @@ class BabysitterController extends Controller
         }
 
         return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
+    }
+
+     public function postJson()
+    {
+        $userId = Auth::id();
+
+        $babySitter = User::where('id', $userId)->first();
+
+        $posts = DB::table('posts')
+            ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
+            ->leftJoin('reactions', function ($join) use ($userId) {
+                $join->on('posts.id', '=', 'reactions.post_id')
+                    ->where('reactions.user_id', '=', $userId);
+            })
+            ->select(
+                'posts.*',
+                'users.name',
+                'users.profile',
+                'users.id as user_id',
+                'reactions.id as react_id',
+                DB::raw('(SELECT COUNT(*) FROM reactions WHERE reactions.post_id = posts.id) as reactCount'),
+                DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as commentCount '),
+                DB::raw('(SELECT GROUP_CONCAT(comment SEPARATOR " || ") FROM comments WHERE comments.post_id = posts.id) as comment'),
+                DB::raw('(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = posts.babysitter_id) as followerCountBS')
+                )
+            ->selectRaw(
+                '(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = posts.babysitter_id AND follows.follower_user_id = ?) as followingCount',
+                [$userId]
+            )
+            ->orderBy('created_at', 'desc')->get();
+
+
+
+        foreach ($posts as $p) {
+            $p->created_at = Carbon::parse($p->created_at)->diffForHumans();
+            $p->userCountSession = Reaction::where('user_id', $userId)->where('post_id', $p->id)->count();
+        }
+
+        return response()->json($posts);
     }
 
 

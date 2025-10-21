@@ -42,6 +42,7 @@ import {
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 import { useIsMobile } from '@/hooks/use-mobile';
+import axios from "axios"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -72,15 +73,15 @@ interface PageProps extends InertiaPageProps {
     flash: {
         message?: string;
     }
-    posts: Posts[];
     useCountSession: [];
 }
 
 export default function Index() {
-    const { posts, useCountSession, flash } = usePage<PageProps>().props;
+    const { useCountSession, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [commentText, setCommentText] = useState('');
     const userId = auth.user.id;
+    const user = auth.user;
 
     const { data, setData, post, put, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
@@ -164,6 +165,20 @@ export default function Index() {
 
     const isMobile = useIsMobile();
 
+ const [posts, setPosts] = useState<Posts[]>([]);
+
+ useEffect(() => {
+    const fetchPosts = () => {
+        axios.get(route("babysitter.indexJson"), {})
+        .then((response: any) => {
+            setPosts(response.data);
+        })
+    }
+
+    fetchPosts()
+    const interval = setInterval(fetchPosts, 1000);
+    return () => clearInterval(interval);
+ }, []);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
