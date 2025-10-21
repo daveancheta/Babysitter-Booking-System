@@ -35,20 +35,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/babysitters', [BabysitterController::class, 'postJson'])->name('babysitter.indexJson');
     Route::post('/babysitter', [BabysitterController::class, 'store'])->name('babysitter.store');
     Route::delete('/delete/{id}', [BabysitterController::class, 'destroy'])->name('babysitter.delete');
+    Route::put('/post/{id}', [BabysitterController::class, 'update'])->name('edit.post');
+
+    // React
     Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
     Route::delete('/reaction/{id}{postId}', [ReactController::class, 'destroy'])->name('react.delete');
+
+    // Comment
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
-    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
-    Route::get('/bookings', [NotificationController::class, 'bookingJson'])->name('notification.bookingJson');
-    Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
-    Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
-    Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
-    Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
-    Route::delete('/follow/{followId}', [FollowController::class, 'destroy'])->name('follow.destroy');
-    Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
+
+    // Search
     Route::get('/search', SearchController::class)->name('result.search');
+
+    // Rating
     Route::post('/ratings', [RatingsController::class, 'store'])->name('rating.store');
-    Route::put('/post/{id}', [BabysitterController::class, 'update'])->name('edit.post');
+
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
@@ -57,11 +58,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/bookingStatus', [ParentController::class, 'updateStatus'])->name('bookings_status.update');
 
 
-    //Admin
+    // Admin
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
+
+    // Notification
+    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
+    Route::get('/bookings', [NotificationController::class, 'bookingJson'])->name('notification.bookingJson');
+    Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
+
+    // Follow
+    Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
+    Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
+    Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
+    Route::delete('/follow/{followId}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
 });
 
- Route::get('/ban', BanningController::class)->name('ban.index');
+Route::get('/ban', BanningController::class)->name('ban.index');
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
