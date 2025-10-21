@@ -593,7 +593,7 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.</div>)}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No declined bookings yet.</div>)}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
@@ -637,7 +637,7 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No declined bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                     </div>
                 )}
             </div>
@@ -694,7 +694,7 @@ export default function Notification() {
                                         </div>
                                     ))}
                                 </div>
-                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.</div>)}
+                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No pending bookings yet.</div>)}
                         </div>
                     ) : (
                         <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
@@ -738,7 +738,7 @@ export default function Notification() {
                                         </div>
                                     ))}
                                 </div>
-                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No pending bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                         </div>
                     )}
                     </div>
@@ -783,7 +783,7 @@ export default function Notification() {
                                         </div>
                                     ))}
                                 </div>
-                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.</div>)}
+                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No approved bookings yet.</div>)}
                         </div>
                     ) : (
                         <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
@@ -827,7 +827,7 @@ export default function Notification() {
                                         </div>
                                     ))}
                                 </div>
-                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                            ) : (<div className='text-muted-foreground flex justify-center mt-5'>No approved bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
                         </div>
                     )}
                     </div>

@@ -92,4 +92,10 @@ class FollowController extends Controller
     {
         $followId->delete();
     }
+
+    // Destroy by Following and Follower Id
+    public function destroyByAuth($followingId, $AuthId)
+    {
+        Follow::where('following_user_id', $followingId)->where('follower_user_id', $AuthId)->delete();
+    }
 }

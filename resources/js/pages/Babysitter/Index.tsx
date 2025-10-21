@@ -129,10 +129,9 @@ export default function Index() {
         post(route('follow.store'));
     }
 
-    const handleUnfollowUser = (id: number, sessionID: number) => {
-        destroy(route('follow.destroy', { id, sessionID }));
+    const handleUnfollowUser = (followingId: number, AuthId: number) => {
+        destroy(route('follow.destroyByAuth', { followingId, AuthId }));
     }
-
 
     const getInitials = useInitials();
 

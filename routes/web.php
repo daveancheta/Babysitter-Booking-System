@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/followProfileStore', [FollowController::class, 'followProfileStore'])->name('follow_profile.store');
     Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
     Route::delete('/follow/{followId}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
     Route::get('/search', SearchController::class)->name('result.search');
     Route::post('/ratings', [RatingsController::class, 'store'])->name('rating.store');
     Route::put('/post/{id}', [BabysitterController::class, 'update'])->name('edit.post');
