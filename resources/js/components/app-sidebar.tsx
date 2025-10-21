@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Baby, UserPlus, Megaphone } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Baby, UserPlus, Megaphone, Calendar } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -32,9 +32,9 @@ export function AppSidebar() {
             },
         ]),
         {
-            title: 'Notification',
+            title: 'Bookings History',
             href: '/notification',
-            icon: Megaphone,
+            icon: Calendar,
         },
     ];
 
