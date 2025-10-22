@@ -17,4 +17,13 @@ class NotificationController extends Controller
 
         return response()->json($count);
     }
+
+    public function notification()
+    {
+         $notification = Notification::where('user_id', Auth::id())
+        ->where('is_read', false)
+        ->get();
+
+        return response()->json($notification);
+    }
 }

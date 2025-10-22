@@ -9,10 +9,15 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 
+interface Notification {
+    id: number;
+    notification: string;
+}
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
     const { auth } = usePage<SharedData>().props;
     const [newCount, setNewCount] = useState<number>(0);
+    const [notification, setNotification] = useState<Notification[]>([]);
 
     useEffect(() => {
         const fetchCountData = () => {
@@ -26,6 +31,19 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         const countInterval = setInterval(fetchCountData, 1000);
         return () => clearInterval(countInterval);
     }, [])
+
+    useEffect(() => {
+        const fetchNotificationData = () => {
+            axios.get(route('notification'), {})
+            .then((response: any) => {
+                setNotification(response.data);
+            })
+        }
+
+        fetchNotificationData()
+        const notificationInterval = setInterval(fetchNotificationData, 1000);
+        return () => clearInterval(notificationInterval);
+    })
 
     const isMobile = useIsMobile();
 
@@ -126,7 +144,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <Button variant='outline' className='cursor-pointer'><Bell /></Button>
                             <div className='absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
                                 <span className='text-lg font-medium'>Notification</span>
-                                <hr className='mt-2 mb-2'/>
+                                <hr className='mt-2 mb-2' />
+                                {notification.map(n => (
+                                    <div>{n.notification}</div>
+                                ))}
                             </div>
                         </div>
                     </div>

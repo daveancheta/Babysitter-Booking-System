@@ -73,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Notification
     Route::get('/countJson', [NotificationController::class, 'notificationCount'])->name('notification.count');
+    Route::get('/notificationJson', [NotificationController::class, 'notification'])->name('notification');
 });
 
 Route::get('/ban', BanningController::class)->name('ban.index');
