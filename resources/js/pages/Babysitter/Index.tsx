@@ -296,10 +296,10 @@ export default function Index() {
                                                                                 </div>
                                                                                 <div className='flex flex-col gap-2 items-start'>
                                                                                     <div className='whitespace-nowrap dark:text-white text-black font-bold text-sm truncate'>{p.name}</div>
-                                                                                    <div className='whitespace-nowrap dark:text-white text-black flex flex-row items-center text-sm'>
-                                                                                        <BookmarkCheck className='h-4 w-4 text-muted-foreground' />
+                                                                                    <div className='whitespace-nowrap flex flex-row items-center text-muted-foreground'>
+                                                                                        <BookmarkCheck className='h-3 w-3' />
                                                                                         &nbsp;
-                                                                                        <span className=''>{p.followerCountBS}&nbsp;{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span>
+                                                                                        <span className='text-xs'>{p.followerCountBS}&nbsp;{p.followerCountBS > 1 ? 'Followers' : 'Follower'}</span>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
