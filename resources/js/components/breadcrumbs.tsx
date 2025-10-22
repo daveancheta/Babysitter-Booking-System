@@ -172,7 +172,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button onClick={handleShowNotification} variant='outline' className='cursor-pointer'><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 w-auto max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 {notification.length > 0 ?
@@ -207,7 +207,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span className={cn('absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={handleShowNotification}><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-background dark:bg-neutral-900 w-auto max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 {notification.length > 0 ? <div>
