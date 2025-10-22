@@ -158,7 +158,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span className='absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={handleShowNotification}><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 {notification.map(n => (
