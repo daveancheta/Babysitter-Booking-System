@@ -121,7 +121,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     :
                     <div className='relative'>
-                        <span className='absolute bg-red-500 rounded-full -top-1.5 -right-1.5 w-5 text-white  text-center text-sm'>{newCount}</span>
+                        <span className='absolute bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
                         <Button variant='outline' className='cursor'><Bell /></Button>
                     </div>
                 }
