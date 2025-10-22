@@ -55,6 +55,7 @@ interface PageProps extends InertiaPageProps {
     followerCount: number;
     followingUser: followingUser[];
     followerUser: followerUser[];
+    rateAverage: [];
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
@@ -65,7 +66,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const rate = auth.user.rate;
     const rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
     const rateValue = "$" + rateFormatted;
-    const { followingCount, followerCount, followingUser, followerUser } = usePage<PageProps>().props;
+    const { followingCount, followerCount, followingUser, followerUser, rateAverage } = usePage<PageProps>().props;
 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
@@ -203,7 +204,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </Dialog>
                             <div className={auth?.user.is_babysitter ? 'border-l h-10' : 'hidden'}></div>
                             <div className={auth?.user.is_babysitter ? 'flex flex-col items-center' : 'hidden'}>
-                                <p className="text-sm text-muted-foreground">5/5</p>
+                                <p className="text-sm text-muted-foreground">{rateAverage}</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Rate</h3>
                             </div>
                             <div className={auth?.user.is_babysitter ? 'border-l h-10' : 'hidden'}></div>

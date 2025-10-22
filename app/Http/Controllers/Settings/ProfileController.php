@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
 use App\Models\Follow;
+use App\Models\Rating;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,8 +53,18 @@ class ProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->where('following_user_id', $userId)
             ->get();
-            
-        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser'), [
+
+        $rate = Rating::select('ratings')->get();
+
+        $total = 0;
+        $ratingCount = $rate->Count();
+        foreach ($rate as $r) {
+            $total += $r->ratings;
+        }
+
+        $rateAverage = $total / $ratingCount;
+
+        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser', 'rateAverage'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
