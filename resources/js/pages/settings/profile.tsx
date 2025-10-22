@@ -201,13 +201,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                     </div>
                                 </DialogContent>
                             </Dialog>
-                            <div className={auth?.user.isBabysitter ? 'border-l h-10' : 'hidden'}></div>
-                            <div className={auth?.user.isBabysitter ? 'flex flex-col items-center' : 'hidden'}>
+                            <div className={auth?.user.is_babysitter ? 'border-l h-10' : 'hidden'}></div>
+                            <div className={auth?.user.is_babysitter ? 'flex flex-col items-center' : 'hidden'}>
                                 <p className="text-sm text-muted-foreground">5/5</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Rate</h3>
                             </div>
-                            <div className={auth?.user.isBabysitter ? 'border-l h-10' : 'hidden'}></div>
-                            <div className={auth?.user.isBabysitter ? 'flex flex-col items-center' : 'hidden'}>
+                            <div className={auth?.user.is_babysitter ? 'border-l h-10' : 'hidden'}></div>
+                            <div className={auth?.user.is_babysitter ? 'flex flex-col items-center' : 'hidden'}>
                                 <p className="text-sm text-muted-foreground">12</p>
                                 <h3 className="mb-0.5 text-sm font-medium">Hires</h3>
                             </div>
