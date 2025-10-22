@@ -121,8 +121,14 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     :
                     <div className='relative'>
-                        <span className='absolute bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
-                        <Button variant='outline' className='cursor'><Bell /></Button>
+                        <span className='absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
+                        <div className='relative'>
+                            <Button variant='outline' className='cursor-pointer'><Bell /></Button>
+                            <div className='absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
+                                <span className='text-lg font-medium'>Notification</span>
+                                <hr className='mt-2 mb-2'/>
+                            </div>
+                        </div>
                     </div>
                 }
                 <div id='searchIcon'>
