@@ -80,10 +80,18 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const handleShowNotification = () => {
         let notificationContainer = document.getElementById('notificationContainer');
 
-        if(notificationContainer?.classList.contains('hidden')) {
+        if (notificationContainer?.classList.contains('hidden')) {
             notificationContainer?.classList.remove("hidden")
+            setTimeout(() => {
+                notificationContainer?.classList.remove("scale-0", "opacity-0")
+                notificationContainer?.classList.add("scale-100", "opacity-100")
+            }, 10)
         } else {
-            notificationContainer?.classList.add("hidden")
+            notificationContainer?.classList.remove("scale-100", "opacity-100")
+            notificationContainer?.classList.add("scale-0", "opacity-0")
+            setTimeout(() => {
+                notificationContainer?.classList.add("hidden")
+            }, 300)
         }
     }
 
@@ -150,34 +158,59 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
                 {isMobile ?
                     <div id='hideNotification' className='relative'>
-                        <span className='absolute bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs'>{newCount}</span>
-                        <Button variant='outline' className='cursor-pointer'><Bell /></Button>
+                        <span className='absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs'>{newCount}</span>
+                        <div className='relative'>
+                            <Button onClick={handleShowNotification} variant='outline' className='cursor-pointer'><Bell /></Button>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
+                                <span className='text-lg font-medium'>Notification</span>
+                                <hr className='mt-4 mb-4' />
+                                {notification.map(n => (
+                                    <div>
+                                        <div className='flex flex-row gap-1 items-center'>
+                                            <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                    {getInitials(systemName)}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className='flex flex-col'>
+                                                <span className='text-sm'>{n.notification}</span>
+                                                <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                                    <History className='w-3 h-3' />
+                                                    <span className='text-xs'>{n.created_date}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr className='mt-4 mb-4' />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                     :
                     <div className='relative'>
                         <span className='absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={handleShowNotification}><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 {notification.map(n => (
                                     <div>
                                         <div className='flex flex-row gap-1 items-center'>
-                                        <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                {getInitials(systemName)}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className='flex flex-col'>
-                                        <span className='text-sm'>{n.notification}</span>
-                                        <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
-                                            <History className='w-3 h-3'/>
-                                            <span className='text-xs'>{n.created_date}</span>
+                                            <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                    {getInitials(systemName)}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className='flex flex-col'>
+                                                <span className='text-sm'>{n.notification}</span>
+                                                <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                                    <History className='w-3 h-3' />
+                                                    <span className='text-xs'>{n.created_date}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
-                                        <hr className='mt-4 mb-4'/>
+                                        <hr className='mt-4 mb-4' />
                                     </div>
                                 ))}
                             </div>
