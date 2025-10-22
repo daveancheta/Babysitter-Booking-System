@@ -10,7 +10,10 @@ class NotificationController extends Controller
 {
     public function notificationCount() 
     {
-        $count = Notification::where('user_id', Auth::id())->get()->count();
+        $count = Notification::where('user_id', Auth::id())
+        ->where('is_read', false)
+        ->get()
+        ->count();
 
         return response()->json($count);
     }
