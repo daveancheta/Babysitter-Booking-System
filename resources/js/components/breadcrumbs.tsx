@@ -3,7 +3,7 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Search, X } from 'lucide-react';
+import { Bell, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -32,6 +32,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById("linkMessage")?.classList.add("hidden");
         document.getElementById("searchIcon")?.classList.add("hidden");
         document.getElementById("BreadcrumbList")?.classList.add("hidden");
+        document.getElementById("hideNotification")?.classList.add("hidden");
     }
 
     const handleSearchInput = () => {
@@ -39,6 +40,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById("searchIcon")?.classList.remove("hidden");
         document.getElementById("BreadcrumbList")?.classList.remove("hidden");
         document.getElementById("linkMessage")?.classList.remove("hidden");
+         document.getElementById("hideNotification")?.classList.remove("hidden");
     }
 
     const { data, setData, get, processing, errors } = useForm({
@@ -110,7 +112,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
-                
+                {isMobile ? <div id='hideNotification'><Button variant='outline' className='cursor-pointer'><Bell /></Button></div>
+                    :
+                    <div><Button variant='outline' className='cursor'><Bell /></Button>  </div>
+                }
                 <div id='searchIcon'>
                     <Button onClick={handleSearch} variant='outline' className="">
                         <Search />
