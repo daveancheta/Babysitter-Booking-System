@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
 
     // Notification
-    Route::get('/notificationJson', SearchController::class)->name('notification.newJson');
+    Route::get('/notificationJson', [SearchController::class, 'notification'])->name('notification.newJson');
 });
 
 Route::get('/ban', BanningController::class)->name('ban.index');
