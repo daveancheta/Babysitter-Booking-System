@@ -9,6 +9,7 @@ use App\Mail\Babysitter\CancelBookingMail as BabysitterCancelBookingMail;
 use App\Mail\Babysitter\BookingStatusMail;
 use App\Models\Booking;
 use App\Models\Notification;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,11 +29,37 @@ class ParentController extends Controller
             ->orderBy('id')
             ->paginate(2);
 
+        $userSessionId = Auth::id();
+
         foreach ($users as $u) {
             $u->rate = number_format($u->rate, 2);
-        }
 
-        $userSessionId = Auth::id();
+            $rate = Rating::select('ratings')
+                ->where('babysitter_id', $u->id)
+                ->get();
+
+            $total = 0;
+
+            foreach ($rate as $r) {
+                $total += $r->ratings;
+            }
+
+            $ratingCount = $rate->Count();
+
+            if($ratingCount) {
+                if ($ratingCount === 0) {
+                    $u->rateAverage = NULL;
+                } else {
+                    $u->rateAverage = $total / $ratingCount;
+                }
+            }
+            
+
+            $u->hireCount = Booking::where('babysitter_id', $u->id)
+                ->whereIn('status', ['approved', 'done'])
+                ->get()
+                ->count();
+        }
 
         return Inertia::render('Parents/Index', compact('users'));
     }

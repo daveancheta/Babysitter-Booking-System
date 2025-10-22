@@ -85,6 +85,8 @@ interface Users {
     rate: number;
     book_status: string;
     user_id: number;
+    rateAverage: number;
+    hireCount: number
 }
 
 
@@ -93,7 +95,6 @@ interface PageProps extends InertiaPageProps {
         message?: string;
     }
     users: Pagination<Users>;
-
 }
 
 export default function Index() {
@@ -156,23 +157,23 @@ export default function Index() {
                                 <div className='flex flex-col p-6'>
                                     <Badge className='mb-5'>Babysitter</Badge>
                                     <div className='flex justify-between'>
-                                    <div>
-                                        <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
-                                        <span className='font-bold'>Hourly Rate:</span>
-                                        <span className='text-green-700 font-bold dark:text-green-500'> ${u.rate}</span>
-                                    </div>
-                                    <div>
-                                        <div className='flex flex-col items-start'>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Briefcase size={20} className='dark:text-stone-500 text-stone-500' />
-                                                <span>2</span>
-                                            </div>
-                                            <div className='flex flex-row gap-1 item-center'>
-                                                <Star size={20} className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                <span>5/5</span>
+                                        <div>
+                                            <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
+                                            <span className='font-bold'>Hourly Rate:</span>
+                                            <span className='text-green-700 font-bold dark:text-green-500'> ${u.rate}</span>
+                                        </div>
+                                        <div>
+                                            <div className='flex flex-col items-start'>
+                                                <div className='flex flex-row gap-1 items-center'>
+                                                    <Briefcase size={20} className='dark:text-stone-500 text-stone-500' />
+                                                    <span className='font-medium'>{u.hireCount || '0'}</span>
+                                                </div>
+                                                <div className='flex flex-row gap-1 items-center'>
+                                                    <Star size={20} className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                    <span className='font-medium'>{u.rateAverage || '0'}/5</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                                 <div className='m-6'>
