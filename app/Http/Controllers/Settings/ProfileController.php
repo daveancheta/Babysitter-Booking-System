@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Models\Booking;
 use App\Models\Follow;
 use App\Models\Rating;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -54,7 +55,9 @@ class ProfileController extends Controller
             ->where('following_user_id', $userId)
             ->get();
 
-        $rate = Rating::select('ratings')->get();
+        $rate = Rating::select('ratings')
+        ->where('id', $userId)
+        ->get();
 
         $total = 0;
         $ratingCount = $rate->Count();
@@ -64,7 +67,12 @@ class ProfileController extends Controller
 
         $rateAverage = $total / $ratingCount;
 
-        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser', 'rateAverage'), [
+        $hireCount = Booking::where('babysitter_id', $userId)
+        ->whereIn('status', ['approved', 'done'])
+        ->get()
+        ->count();
+
+        return Inertia::render('settings/profile', compact('followingCount', 'followerCount', 'followingUser', 'followerUser', 'rateAverage', 'hireCount'), [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
