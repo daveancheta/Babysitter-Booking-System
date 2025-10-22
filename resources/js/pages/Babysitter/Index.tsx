@@ -1,5 +1,4 @@
 import { Input } from '@/components/ui/input';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
@@ -13,32 +12,21 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Plus, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen, Pen, Trash, EyeClosed, EyeOff } from 'lucide-react';
-import { UserDisplay } from '@/components/user-display';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, Send, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen, Pen, Trash, EyeOff } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
-import moment from 'moment';
-import { useState, useEffect, use } from "react";
-import { parse } from 'path';
+import { useState, useEffect } from "react";
 import { Textarea } from '@/components/ui/textarea';
 import {
     ContextMenu,
     ContextMenuCheckboxItem,
     ContextMenuContent,
     ContextMenuItem,
-    ContextMenuLabel,
-    ContextMenuRadioGroup,
-    ContextMenuRadioItem,
     ContextMenuSeparator,
     ContextMenuShortcut,
-    ContextMenuSub,
-    ContextMenuSubContent,
-    ContextMenuSubTrigger,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -79,9 +67,6 @@ interface PageProps extends InertiaPageProps {
 export default function Index() {
     const { useCountSession, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
-    const [commentText, setCommentText] = useState('');
-    const userId = auth.user.id;
-    const user = auth.user;
 
     const { data, setData, post, put, processing, errors } = useForm({
         babysitter_id: auth.user?.id,
