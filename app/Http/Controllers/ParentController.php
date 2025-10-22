@@ -82,7 +82,7 @@ class ParentController extends Controller
                 'user_id' => Auth::id(),
                 'notification' => 'You successfully booked ' . $babysitterName . '.'
             ]
-            );
+        );
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
@@ -156,7 +156,16 @@ class ParentController extends Controller
         $parent = User::where('id', $booking->user_id)->first();
         Mail::to($parent->email)
             ->send(new BookingStatusMail($booking_id));
-            
+
+        $userId = Booking::where('id', $booking_id)->value('user_id');
+        $babysitterNameNotification = User::where('id', $babysitter_id)->value('name');
+
+        Notification::create([
+            'user_id' => $userId,
+            'notification' => $status === "done" ? 'Your booking with ' .  $babysitterNameNotification . ' has now ended' :
+                $babysitterNameNotification . ' has ' . $status . ' your request.',
+        ]);
+
         return redirect()->route('notification.index');
     }
 
