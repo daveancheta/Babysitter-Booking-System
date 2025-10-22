@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,10 @@ class NotificationController extends Controller
          $notification = Notification::where('user_id', Auth::id())
         ->where('is_read', false)
         ->get();
+
+        foreach ($notification as $n) {
+            $n->created_date = Carbon::parse($n->created_at)->diffForHumans();
+        }
 
         return response()->json($notification);
     }

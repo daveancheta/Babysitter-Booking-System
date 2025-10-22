@@ -3,21 +3,26 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Bell, Search, X } from 'lucide-react';
+import { Bell, History, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInitials } from '@/hooks/use-initials';
 
 interface Notification {
     id: number;
     notification: string;
+    created_date: string;
 }
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
     const { auth } = usePage<SharedData>().props;
     const [newCount, setNewCount] = useState<number>(0);
     const [notification, setNotification] = useState<Notification[]>([]);
+    const getInitials = useInitials();
+    const systemName = 'SitterLy';
 
     useEffect(() => {
         const fetchCountData = () => {
@@ -35,9 +40,9 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     useEffect(() => {
         const fetchNotificationData = () => {
             axios.get(route('notification'), {})
-            .then((response: any) => {
-                setNotification(response.data);
-            })
+                .then((response: any) => {
+                    setNotification(response.data);
+                })
         }
 
         fetchNotificationData()
@@ -71,6 +76,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         e.preventDefault();
         get(route('result.search'));
     }
+
 
     return (
         <>
@@ -144,9 +150,25 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <Button variant='outline' className='cursor-pointer'><Bell /></Button>
                             <div className='absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
                                 <span className='text-lg font-medium'>Notification</span>
-                                <hr className='mt-2 mb-2' />
+                                <hr className='mt-4 mb-4' />
                                 {notification.map(n => (
-                                    <div>{n.notification}</div>
+                                    <div>
+                                        <div className='flex flex-row gap-1 items-center'>
+                                        <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                {getInitials(systemName)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className='flex flex-col'>
+                                        <span className='text-sm'>{n.notification}</span>
+                                        <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                            <History className='w-3 h-3'/>
+                                            <span className='text-xs'>{n.created_date}</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <hr className='mt-4 mb-4'/>
+                                    </div>
                                 ))}
                             </div>
                         </div>
