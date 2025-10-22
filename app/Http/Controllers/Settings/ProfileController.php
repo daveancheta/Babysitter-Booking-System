@@ -56,7 +56,7 @@ class ProfileController extends Controller
             ->get();
 
         $rate = Rating::select('ratings')
-        ->where('id', $userId)
+        ->where('babysitter_id', $userId)
         ->get();
 
         $total = 0;
