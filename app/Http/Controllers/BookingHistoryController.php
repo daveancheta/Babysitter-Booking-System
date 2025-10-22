@@ -16,6 +16,11 @@ class BookingHistoryController extends Controller
      */
     public function index()
     {
+        return Inertia::render('Main/Notification');
+    }
+
+    public function bookJson()
+    {
         $userId = Auth::id();
 
         $books = DB::table('bookings')
@@ -37,7 +42,7 @@ class BookingHistoryController extends Controller
             $b->date = $start->diffInDays($end);
         }
 
-        return Inertia::render('Main/Notification', compact('books'));
+        return response()->json($books);
     }
 
     public function bookingJson()

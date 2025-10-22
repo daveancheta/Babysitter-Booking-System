@@ -62,24 +62,33 @@ interface Books {
 
 }
 
-interface PageProps extends InertiaPageProps {
-    books: Books[];
-}
-
 export default function Notification() {
     const { auth } = usePage<SharedData>().props;
-    const { books } = usePage<PageProps>().props;
     const [bookingsNavigation, setBookingNavigation] = useState(
         localStorage.getItem("bookingsNavigation") || ""
     )
 
     const [bookings, setBookings] = useState<Bookings[]>([]);
+    const [books, setBooks] = useState<Books[]>([]);
 
     useEffect(() => {
         const fetchData = () => {
             axios.get(route("notification.bookingJson"), {})
             .then((response: any) => {
                 setBookings(response.data);
+            })
+        }
+
+        fetchData()
+        const interval = setInterval(fetchData, 1000);
+        return () => clearInterval(interval);
+    })
+
+     useEffect(() => {
+        const fetchData = () => {
+            axios.get(route("notification.bookJson"), {})
+            .then((response: any) => {
+                setBooks(response.data);
             })
         }
 
@@ -216,8 +225,19 @@ export default function Notification() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
-            <div className={isMobile ? "flex justify-center mt-4" : "flex justify-start mt-4 ml-4"}>
+            <div className={isMobile ? "hidden" : "flex justify-start mt-4 ml-4"}>
                 <div className='inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800'>
+                    <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" || bookingsNavigation === "" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">All</span></button>
+                    <button onClick={handlePendingNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "pending" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Pending</span></button>
+                    <button onClick={handleApprovedNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "approved" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Approved</span></button>
+                    <button onClick={handleDeclinedNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "declined" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Declined</span></button>
+                    <button onClick={handleDoneNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "done" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BadgeCheckIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Done</span></button>
+                    <button onClick={handleCancelledNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "cancelled" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Cancelled</span></button>
+                </div>
+            </div>
+
+            <div className={isMobile ? "flex justify-start m-4" : "hidden"}>
+                <div className='inline-flex gap-1 rounded-md bg-neutral-100 p-1 dark:bg-neutral-800 w-auto overflow-auto scrollbar-hide'>
                     <button onClick={handleAllNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "all" || bookingsNavigation === "" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><ListIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">All</span></button>
                     <button onClick={handlePendingNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "pending" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Pending</span></button>
                     <button onClick={handleApprovedNavigation} className={cn('flex items-center rounded-md px-3.5 py-1.5 transition-colors', bookingsNavigation === "approved" ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60')}><BanIcon className="-ml-1 h-4 w-4" /><span className="ml-1.5 text-sm">Approved</span></button>

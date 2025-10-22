@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Bookings History
     Route::get('/notification', [BookingHistoryController::class, 'index'])->name('notification.index');
+    Route::get('/books', [BookingHistoryController::class, 'bookJson'])->name('notification.bookJson');
     Route::get('/bookings', [BookingHistoryController::class, 'bookingJson'])->name('notification.bookingJson');
     Route::post('/action', [BookingHistoryController::class, 'store'])->name('action.store');
 
