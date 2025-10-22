@@ -152,15 +152,28 @@ export default function Index() {
     const handleOnMouseOverProfile = (id: number) => {
         document.getElementById(`profileContainer${id}`)?.classList.remove("hidden")
         setInterval(handleOnMouseOutProfile, 2000)
+        setTimeout(() => {
+            document.getElementById(`profileContainer${id}`)?.classList.remove("scale-0", "opacity-0")
+            document.getElementById(`profileContainer${id}`)?.classList.add("scale-100", "opacity-100")
+        }, 10)
+    }
 
+     const handleOnMouseOverProfile2 = (id: number) => {
+        document.getElementById(`profileContainer${id}`)?.classList.remove("hidden")
+        document.getElementById(`profileContainer${id}`)?.classList.remove("scale-0", "opacity-0")
     }
 
     const handleOnMouseOutProfile = (id: number) => {
-        document.getElementById(`profileContainer${id}`)?.classList.add("hidden")
+         document.getElementById(`profileContainer${id}`)?.classList.add("scale-0", "opacity-0")
+            document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
     }
 
     const closeOnMouseOverProfile = (id: number) => {
+        document.getElementById(`profileContainer${id}`)?.classList.add("scale-0", "opacity-0")
+            document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
+         setTimeout(() => {
         document.getElementById(`profileContainer${id}`)?.classList.add("hidden");
+        }, 300)
     }
 
     const isMobile = useIsMobile();
@@ -268,7 +281,7 @@ export default function Index() {
                                                                 : <div className='relative w-full'>
                                                                     <span className="truncate font-medium cursor-pointer hover:underline" onMouseOver={() => handleOnMouseOverProfile(p.id)}>{p.name}</span>
 
-                                                                    <div onMouseOver={() => handleOnMouseOverProfile(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden min-w-[300px] absolute top-5 xl:-left-20.5 -left-18 flex items-center z-50 rounded-lg border shadow-lg dark:bg-neutral-900 bg-background'>
+                                                                    <div onMouseOver={() => handleOnMouseOverProfile2(p.id)} onMouseOut={() => handleOnMouseOutProfile(p.id)} id={`profileContainer${p.id}`} className='hidden min-w-[300px] absolute top-5 xl:-left-20.5 -left-18 flex items-center z-50 rounded-lg border shadow-lg dark:bg-neutral-900 bg-background transition-all transform ease-in-out duration-300 origin-top scale-0 opacity-0'>
                                                                         <button className='dark:bg-gray-800 bg-gray-200 absolute top-5 right-2 rounded-full p-1 cursor-pointer' onClick={() => closeOnMouseOverProfile(p.id)}>
                                                                             <X className='w-5 h-5' />
                                                                         </button>
