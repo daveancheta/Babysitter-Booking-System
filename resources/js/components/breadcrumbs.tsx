@@ -59,14 +59,24 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById("searchIcon")?.classList.add("hidden");
         document.getElementById("BreadcrumbList")?.classList.add("hidden");
         document.getElementById("hideNotification")?.classList.add("hidden");
+        setTimeout(() => {
+            document.getElementById("search-input")?.classList.remove("scale-0", 'opacity-0');
+            document.getElementById("search-input")?.classList.add("scale-100", 'opacity-190');
+
+        }, 10)
     }
 
     const handleSearchInput = () => {
-        document.getElementById("search-input")?.classList.add("hidden");
-        document.getElementById("searchIcon")?.classList.remove("hidden");
-        document.getElementById("BreadcrumbList")?.classList.remove("hidden");
-        document.getElementById("linkMessage")?.classList.remove("hidden");
-        document.getElementById("hideNotification")?.classList.remove("hidden");
+
+        document.getElementById("search-input")?.classList.add("scale-0", 'opacity-0');
+        document.getElementById("search-input")?.classList.remove("scale-100", 'opacity-190');
+        setTimeout(() => {
+            document.getElementById("search-input")?.classList.add("hidden");
+            document.getElementById("searchIcon")?.classList.remove("hidden");
+            document.getElementById("BreadcrumbList")?.classList.remove("hidden");
+            document.getElementById("linkMessage")?.classList.remove("hidden");
+            document.getElementById("hideNotification")?.classList.remove("hidden");
+        }, 300)
     }
 
     const { data, setData, get, processing, errors } = useForm({
@@ -228,11 +238,11 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                 }
                 <div id='searchIcon'>
-                    <Button onClick={handleSearch} variant='outline' className="">
+                    <Button onClick={handleSearch} variant='outline' className="cursor-pointer">
                         <Search />
                     </Button>
                 </div>
-                <div className='flex flex-row hidden gap-2 items-center' id='search-input'>
+                <div className='flex flex-row hidden gap-2 items-center transition-all transform ease-in-out duration-300 origin-right scale-0 opacity-0' id='search-input'>
                     <div className='relative'>
                         <form onSubmit={handleSearchResult}>
                             <Search className='absolute left-3 top-1/2 p-1 -translate-y-1/2 text-gray-400 w-5 h-5' />
