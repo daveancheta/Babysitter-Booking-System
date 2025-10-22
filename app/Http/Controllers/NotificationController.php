@@ -32,4 +32,9 @@ class NotificationController extends Controller
 
         return response()->json($notification);
     }
+
+    public function update() 
+    {
+        Notification::where('user_id', Auth::id())->update(['is_read' => true]);
+    }
 }
