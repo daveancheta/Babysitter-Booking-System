@@ -178,7 +178,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 {notification.length > 0 ?
                                     <div>
                                         {notification.map(n => (
-                                            <div>
+                                            <div key={n.id}>
                                                 <div className='flex flex-row gap-1 items-center'>
                                                     <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
@@ -212,7 +212,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 <hr className='mt-4 mb-4' />
                                 {notification.length > 0 ? <div>
                                     {notification.map(n => (
-                                        <div>
+                                        <div key={n.id}>
                                             <div className='flex flex-row gap-1 items-center'>
                                                 <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                     <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
