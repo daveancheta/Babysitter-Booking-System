@@ -23,7 +23,6 @@ class NotificationController extends Controller
     {
         $notification = Notification::where('user_id', Auth::id())
             ->latest()
-            ->where('is_read', false)
             ->get();
 
         foreach ($notification as $n) {
