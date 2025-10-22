@@ -3,7 +3,7 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Bell, History, Search, X } from 'lucide-react';
+import { Bell, Divide, History, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
@@ -165,25 +165,30 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
-                                {notification.map(n => (
+                                {notification.length > 0 ?
                                     <div>
-                                        <div className='flex flex-row gap-1 items-center'>
-                                            <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                    {getInitials(systemName)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div className='flex flex-col'>
-                                                <span className='text-sm'>{n.notification}</span>
-                                                <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
-                                                    <History className='w-3 h-3' />
-                                                    <span className='text-xs'>{n.created_date}</span>
+                                        {notification.map(n => (
+                                            <div>
+                                                <div className='flex flex-row gap-1 items-center'>
+                                                    <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                        <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                            {getInitials(systemName)}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div className='flex flex-col'>
+                                                        <span className='text-sm'>{n.notification}</span>
+                                                        <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                                            <History className='w-3 h-3' />
+                                                            <span className='text-xs'>{n.created_date}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <hr className='mt-4 mb-4' />
                                             </div>
-                                        </div>
-                                        <hr className='mt-4 mb-4' />
+                                        ))}
                                     </div>
-                                ))}
+                                    : <div className='flex justify-center text-muted-foreground'>No notifications yet
+                                    </div>}
                             </div>
                         </div>
                     </div>
@@ -195,25 +200,29 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
-                                {notification.map(n => (
-                                    <div>
-                                        <div className='flex flex-row gap-1 items-center'>
-                                            <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                                                <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                    {getInitials(systemName)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div className='flex flex-col'>
-                                                <span className='text-sm'>{n.notification}</span>
-                                                <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
-                                                    <History className='w-3 h-3' />
-                                                    <span className='text-xs'>{n.created_date}</span>
+                                {notification.length > 0 ? <div>
+                                    {notification.map(n => (
+                                        <div>
+                                            <div className='flex flex-row gap-1 items-center'>
+                                                <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                                                    <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                                        {getInitials(systemName)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className='flex flex-col'>
+                                                    <span className='text-sm'>{n.notification}</span>
+                                                    <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                                        <History className='w-3 h-3' />
+                                                        <span className='text-xs'>{n.created_date}</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <hr className='mt-4 mb-4' />
                                         </div>
-                                        <hr className='mt-4 mb-4' />
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                                    : <div className='flex justify-center text-muted-foreground'>No notifications yet
+                                    </div>}
                             </div>
                         </div>
                     </div>
