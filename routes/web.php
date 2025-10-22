@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/addBalance', [AddBalanceController::class, 'index'])->name('balance.index');
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
 
-    // Notification
+    // Bookings History
     Route::get('/notification', [BookingHistoryController::class, 'index'])->name('notification.index');
     Route::get('/bookings', [BookingHistoryController::class, 'bookingJson'])->name('notification.bookingJson');
     Route::post('/action', [BookingHistoryController::class, 'store'])->name('action.store');
@@ -69,6 +69,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/followProfileStoreSearch', [FollowController::class, 'followProfileStoreSearch'])->name('follow_profile_search.store');
     Route::delete('/follow/{followId}', [FollowController::class, 'destroy'])->name('follow.destroy');
     Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
+
+    // Notification
+    Route::get('/notificationJson', SearchController::class)->name('notification.newJson');
 });
 
 Route::get('/ban', BanningController::class)->name('ban.index');
