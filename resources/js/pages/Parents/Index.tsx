@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Briefcase } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -155,16 +155,24 @@ export default function Index() {
 
                                 <div className='flex flex-col p-6'>
                                     <Badge className='mb-5'>Babysitter</Badge>
-                                    <div className='flex justify-between items-center'>
+                                    <div className='flex justify-between'>
+                                    <div>
                                         <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
-                                        <div className='flex flex-row gap-1 item-center'>
-                                            <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                            <span>5/5</span>
-                                        </div>
-                                    </div>
-                                    <div className=''>
                                         <span className='font-bold'>Hourly Rate:</span>
                                         <span className='text-green-700 font-bold dark:text-green-500'> ${u.rate}</span>
+                                    </div>
+                                    <div>
+                                        <div className='flex flex-col items-start'>
+                                            <div className='flex flex-row gap-1 item-center'>
+                                                <Briefcase size={20} className='dark:text-stone-500 text-stone-500' />
+                                                <span>2</span>
+                                            </div>
+                                            <div className='flex flex-row gap-1 item-center'>
+                                                <Star size={20} className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                <span>5/5</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div className='m-6'>
@@ -247,7 +255,7 @@ export default function Index() {
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                                                                 <Calendar
-                                                                onDayClick={() => handleEndDate(u.id)}
+                                                                    onDayClick={() => handleEndDate(u.id)}
                                                                     mode="single"
                                                                     selected={dateStart}
                                                                     captionLayout="dropdown"
