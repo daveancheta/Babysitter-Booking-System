@@ -6,24 +6,26 @@ import { Button } from './ui/button';
 import { Bell, Search, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
+import axios from "axios";
+import { PageProps as InertiaPageProps } from '@inertiajs/core'
 
-interface User {
-    id: number;
-    name: string;
-    profile: string;
-    following_user_id: number;
-}
-
-interface Chat {
-    id: number;
-    chat_id: number;
-    receiver_id: number;
-    sender_id: number;
-    message: string;
-}
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
     const { auth } = usePage<SharedData>().props;
+    const [newCount, setNewCount] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchCountData = () => {
+            axios.get(route('notification.count'), {})
+                .then(response => {
+                    setNewCount(response.data);
+                })
+        }
+
+        fetchCountData()
+        const countInterval = setInterval(fetchCountData, 1000);
+        return () => clearInterval(countInterval);
+    }, [])
 
     const isMobile = useIsMobile();
 
@@ -40,7 +42,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById("searchIcon")?.classList.remove("hidden");
         document.getElementById("BreadcrumbList")?.classList.remove("hidden");
         document.getElementById("linkMessage")?.classList.remove("hidden");
-         document.getElementById("hideNotification")?.classList.remove("hidden");
+        document.getElementById("hideNotification")?.classList.remove("hidden");
     }
 
     const { data, setData, get, processing, errors } = useForm({
@@ -112,9 +114,16 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
-                {isMobile ? <div id='hideNotification'><Button variant='outline' className='cursor-pointer'><Bell /></Button></div>
+                {isMobile ?
+                    <div id='hideNotification' className='relative'>
+                        <span className='absolute bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs'>{newCount}</span>
+                        <Button variant='outline' className='cursor-pointer'><Bell /></Button>
+                    </div>
                     :
-                    <div><Button variant='outline' className='cursor'><Bell /></Button>  </div>
+                    <div className='relative'>
+                        <span className='absolute bg-red-500 rounded-full -top-1.5 -right-1.5 w-5 text-white  text-center text-sm'>{newCount}</span>
+                        <Button variant='outline' className='cursor'><Bell /></Button>
+                    </div>
                 }
                 <div id='searchIcon'>
                     <Button onClick={handleSearch} variant='outline' className="">

@@ -6,6 +6,7 @@ use App\Http\Controllers\BanningController;
 use App\Http\Controllers\BookingHistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
@@ -71,7 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/followAuth/{followingId}{AuthId}', [FollowController::class, 'destroyByAuth'])->name('follow.destroyByAuth');
 
     // Notification
-    Route::get('/notificationJson', [SearchController::class, 'notification'])->name('notification.newJson');
+    Route::get('/countJson', [NotificationController::class, 'notificationCount'])->name('notification.count');
 });
 
 Route::get('/ban', BanningController::class)->name('ban.index');
