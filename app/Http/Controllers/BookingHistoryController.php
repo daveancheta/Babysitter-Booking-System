@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class NotificationController extends Controller
+class BookingHistoryController extends Controller
 {
     /**
      * Display a listing of the resource.

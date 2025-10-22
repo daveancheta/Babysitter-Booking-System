@@ -3,13 +3,9 @@
 use App\Http\Controllers\AddBalanceController;
 use App\Http\Controllers\BabysitterController;
 use App\Http\Controllers\BanningController;
-use App\Http\Controllers\bookingsDoneController;
-use App\Http\Controllers\CancelledBookingsController;
+use App\Http\Controllers\BookingHistoryController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DoneBookingsController;
 use App\Http\Controllers\FollowController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
@@ -63,9 +59,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/balance', [AddBalanceController::class, 'update'])->name('balance.update');
 
     // Notification
-    Route::get('/notification', [NotificationController::class, 'index'])->name('notification.index');
-    Route::get('/bookings', [NotificationController::class, 'bookingJson'])->name('notification.bookingJson');
-    Route::post('/action', [NotificationController::class, 'store'])->name('action.store');
+    Route::get('/notification', [BookingHistoryController::class, 'index'])->name('notification.index');
+    Route::get('/bookings', [BookingHistoryController::class, 'bookingJson'])->name('notification.bookingJson');
+    Route::post('/action', [BookingHistoryController::class, 'store'])->name('action.store');
 
     // Follow
     Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
