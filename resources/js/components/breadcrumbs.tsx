@@ -77,6 +77,16 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         get(route('result.search'));
     }
 
+    const handleShowNotification = () => {
+        let notificationContainer = document.getElementById('notificationContainer');
+
+        if(notificationContainer?.classList.contains('hidden')) {
+            notificationContainer?.classList.remove("hidden")
+        } else {
+            notificationContainer?.classList.add("hidden")
+        }
+    }
+
 
     return (
         <>
@@ -147,8 +157,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <div className='relative'>
                         <span className='absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
                         <div className='relative'>
-                            <Button variant='outline' className='cursor-pointer'><Bell /></Button>
-                            <div className='absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
+                            <Button variant='outline' className='cursor-pointer' onClick={handleShowNotification}><Bell /></Button>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-neutral-900 min-w-[400px] min-h-[500px] p-5'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 {notification.map(n => (
