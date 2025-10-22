@@ -159,7 +159,7 @@ export default function Index() {
                                         <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
                                         <div className='flex flex-row gap-1 item-center'>
                                             <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                            <span>5/10</span>
+                                            <span>5/5</span>
                                         </div>
                                     </div>
                                     <div className=''>
