@@ -10,6 +10,7 @@ import axios from "axios";
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
+import { cn } from '@/lib/utils';
 
 interface Notification {
     id: number;
@@ -158,7 +159,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
                 {isMobile ?
                     <div id='hideNotification' className='relative'>
-                        <span className='absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs'>{newCount}</span>
+                        <span className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button onClick={handleShowNotification} variant='outline' className='cursor-pointer'><Bell /></Button>
                             <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
@@ -188,7 +189,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     :
                     <div className='relative'>
-                        <span className='absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm'>{newCount}</span>
+                        <span className={cn('absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={handleShowNotification}><Bell /></Button>
                             <div id='notificationContainer' className='hidden absolute z-50 -left-90 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
