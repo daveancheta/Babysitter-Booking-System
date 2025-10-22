@@ -28,15 +28,6 @@ class BabysitterController extends Controller
 
         $babySitter = User::where('id', $userId)->first();
 
-        return Inertia::render('Babysitter/Index', compact('babySitter'));
-    }
-
-     public function postJson()
-    {
-        $userId = Auth::id();
-
-        $babySitter = User::where('id', $userId)->first();
-
         $posts = DB::table('posts')
             ->leftJoin('users', 'posts.babysitter_id', '=', 'users.id')
             ->leftJoin('reactions', function ($join) use ($userId) {
@@ -67,9 +58,8 @@ class BabysitterController extends Controller
             $p->userCountSession = Reaction::where('user_id', $userId)->where('post_id', $p->id)->count();
         }
 
-        return response()->json($posts);
+        return Inertia::render('Babysitter/Index', compact('babySitter', 'posts'));
     }
-
 
     /**
      * Show the form for creating a new resource.

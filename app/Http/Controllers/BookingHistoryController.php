@@ -16,12 +16,19 @@ class BookingHistoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Main/Notification');
-    }
-
-    public function bookJson()
-    {
         $userId = Auth::id();
+
+        $bookings = DB::table('bookings')
+            ->latest()
+            ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
+            ->select(
+                'bookings.*',
+                'users.profile',
+                'users.name',
+                DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
+            )
+            ->where('babysitter_id', $userId)
+            ->get();
 
         $books = DB::table('bookings')
             ->latest()
@@ -42,32 +49,13 @@ class BookingHistoryController extends Controller
             $b->date = $start->diffInDays($end);
         }
 
-        return response()->json($books);
-    }
-
-    public function bookingJson()
-    {
-        $userId = Auth::id();
-
-        $bookings = DB::table('bookings')
-            ->latest()
-            ->leftJoin('users', 'bookings.user_id', '=', 'users.id')
-            ->select(
-                'bookings.*',
-                'users.profile',
-                'users.name',
-                DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
-            )
-            ->where('babysitter_id', $userId)
-            ->get();
-
         foreach ($bookings as $b) {
             $start = Carbon::parse($b->start_date);
             $end = Carbon::parse($b->end_date);
             $b->date = $start->diffInDays($end);
         }
 
-        return response()->json($bookings);
+        return Inertia::render('Main/Notification', compact('books', 'bookings'));
     }
 
     /**

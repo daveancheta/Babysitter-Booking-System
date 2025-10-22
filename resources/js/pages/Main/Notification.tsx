@@ -14,12 +14,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {  Star, ListIcon, BanIcon, BadgeCheckIcon } from 'lucide-react';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Badge } from '@/components/ui/badge';
 import * as React from "react"
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import axios from "axios";
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -62,40 +61,16 @@ interface Books {
 
 }
 
+interface PageProps extends InertiaPageProps {
+    bookings: Bookings[];
+    books: Books[];
+}
 export default function Notification() {
+    const { books, bookings } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [bookingsNavigation, setBookingNavigation] = useState(
         localStorage.getItem("bookingsNavigation") || ""
     )
-
-    const [bookings, setBookings] = useState<Bookings[]>([]);
-    const [books, setBooks] = useState<Books[]>([]);
-
-    useEffect(() => {
-        const fetchData = () => {
-            axios.get(route("notification.bookingJson"), {})
-            .then((response: any) => {
-                setBookings(response.data);
-            })
-        }
-
-        fetchData()
-        const interval = setInterval(fetchData, 1000);
-        return () => clearInterval(interval);
-    })
-
-     useEffect(() => {
-        const fetchData = () => {
-            axios.get(route("notification.bookJson"), {})
-            .then((response: any) => {
-                setBooks(response.data);
-            })
-        }
-
-        fetchData()
-        const interval = setInterval(fetchData, 1000);
-        return () => clearInterval(interval);
-    })
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,
@@ -323,7 +298,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>{b.ratings}/5</span>
+                                                    <span>{b.ratings || '0'}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>

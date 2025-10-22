@@ -34,7 +34,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         }
 
         fetchCountData()
-        const countInterval = setInterval(fetchCountData, 1000);
+        const countInterval = setInterval(fetchCountData, 10000);
         return () => clearInterval(countInterval);
     }, [])
 
@@ -47,9 +47,9 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         }
 
         fetchNotificationData()
-        const notificationInterval = setInterval(fetchNotificationData, 1000);
+        const notificationInterval = setInterval(fetchNotificationData, 10000);
         return () => clearInterval(notificationInterval);
-    })
+    }, [])
 
     const isMobile = useIsMobile();
 

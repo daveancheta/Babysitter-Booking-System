@@ -62,10 +62,11 @@ interface PageProps extends InertiaPageProps {
         message?: string;
     }
     useCountSession: [];
+    posts: Posts[];
 }
 
 export default function Index() {
-    const { useCountSession, flash } = usePage<PageProps>().props;
+    const { posts, useCountSession, flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, put, processing, errors } = useForm({
@@ -162,21 +163,6 @@ export default function Index() {
     }
 
     const isMobile = useIsMobile();
-
- const [posts, setPosts] = useState<Posts[]>([]);
-
- useEffect(() => {
-    const fetchPosts = () => {
-        axios.get(route("babysitter.indexJson"), {})
-        .then((response: any) => {
-            setPosts(response.data);
-        })
-    }
-
-    fetchPosts()
-    const interval = setInterval(fetchPosts, 1000);
-    return () => clearInterval(interval);
- }, []);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
