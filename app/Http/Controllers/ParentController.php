@@ -11,6 +11,7 @@ use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\Rating;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,14 +47,14 @@ class ParentController extends Controller
 
             $ratingCount = $rate->Count();
 
-            if($ratingCount) {
+            if ($ratingCount) {
                 if ($ratingCount === 0) {
                     $u->rateAverage = NULL;
                 } else {
                     $u->rateAverage = $total / $ratingCount;
                 }
             }
-            
+
 
             $u->hireCount = Booking::where('babysitter_id', $u->id)
                 ->whereIn('status', ['approved', 'done'])
@@ -111,6 +112,12 @@ class ParentController extends Controller
             ]
         );
 
+        $start_date = Carbon::parse($request->input('start_date'));
+        $end_date = Carbon::parse($request->input('end_date'));
+        $durationDays = $start_date->diffInDays($end_date);
+        
+      
+
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
 
@@ -156,6 +163,13 @@ class ParentController extends Controller
         Mail::to($babysitter->email)
             ->send(new BabysitterCancelBookingMail($booking_id));
 
+            $parentId = Booking::where('id', $booking_id)->value('user_id');
+            $parentName = User::where('id', $parentId)->value('name');
+
+        Notification::create([
+            'user_id' => $babysitterId,
+            'notification' => $parentName . ' has cancelled the booking.',
+        ]);
         return redirect()->route('notification.index');
     }
 
