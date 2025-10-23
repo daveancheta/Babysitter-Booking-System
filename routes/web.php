@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Parents/Index.tsx
     Route::get('/parent', [ParentController::class, 'index'])->name('parent.index');
-    Route::post('/parent', [ParentController::class, 'store'])->name('booking.store');
+    Route::post('/parentStore', [ParentController::class, 'store'])->name('booking.store');
     Route::post('/booking', [ParentController::class, 'update'])->name('booking.update');
     Route::post('/bookingStatus', [ParentController::class, 'updateStatus'])->name('bookings_status.update');
 
