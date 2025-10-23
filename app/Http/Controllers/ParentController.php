@@ -116,7 +116,12 @@ class ParentController extends Controller
         $end_date = Carbon::parse($request->input('end_date'));
         $durationDays = $start_date->diffInDays($end_date);
         
-      
+        Notification::create(
+            [
+                'user_id' => $babysitterId,
+                'notification' => Auth::user()->name . ' booked you for ' . $durationDays . ' days.',
+            ]
+        );
 
         return redirect()->route('parent.index')->with('message', 'Booked Successfully!');
     }
