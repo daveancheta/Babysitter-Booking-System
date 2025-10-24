@@ -175,13 +175,18 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         }, 10)
     }
 
+    const handleOpenSearchContainer2 = () => {
+        let displayContainer = document.getElementById("displaySavedSearch");
+        displayContainer?.classList.remove("hidden");
+        displayContainer?.classList.remove("opacity-0", "scale-0")
+    }
+
     const handleCloseSearchContainer = () => {
         let displayContainer = document.getElementById("displaySavedSearch");
         displayContainer?.classList.add("opacity-0", "scale-0")
         displayContainer?.classList.remove("opacity-100", "scale-100")
 
         setTimeout(() => {
-
             displayContainer?.classList.add("hidden");
         }, 300)
     }
@@ -349,23 +354,24 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 <div
                                     className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-neutral-100 border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3 hidden transition-all ease-in-out origin-top transform opacity-0 scale-0'}
                                     id='displaySavedSearch'
-                                    onMouseOver={handleOpenSearchContainer} onMouseOut={handleCloseSearchContainer}>
+                                    onMouseOver={handleOpenSearchContainer2}>
                                     <div className='flex flex-col gap-2'>
                                         <div className='flex justify-between items-center'>
                                             <span className='text-lg font-medium'>Search History</span>
-                                            <button type='button' className='cursor-pointer text-red-500' onClick={() => handleClearSearch()}><Trash2 size={18} /></button>
+                                            <button type='button' className='cursor-pointer text-black dark:text-white' onClick={handleCloseSearchContainer}><X size={18} /></button>
                                         </div>
                                         <hr />
                                         <div className='flex flex-wrap gap-2' id='searchItems'>
                                             {savedSearch.map((item: any, index) => (
                                                 <span key={index} className='dark:bg-neutral-800 bg-white px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
                                                     <div className='text-black dark:text-white'>{item}</div>
-                                                    <button type='button' className='absolute -top-2 -right-2 dark:bg-neutral-500 bg-neutral-500 rounded-full cursor-pointer p-1' onClick={() => { handledDeleteSearch(item); }}>
+                                                    <button type='button' className='absolute -top-2 -right-2 bg-neutral-500 rounded-full cursor-pointer p-1' onClick={() => { handledDeleteSearch(item); }}>
                                                         <X className='text-white' size={12} />
                                                     </button>
                                                 </span>
                                             ))}
                                         </div>
+                                        <button type='button' onClick={handleClearSearch} className='absolute bottom-0 right-0 p-4 text-red-500'><Trash2 size={18}/></button>
                                     </div>
                                 </div>
                             </div>
