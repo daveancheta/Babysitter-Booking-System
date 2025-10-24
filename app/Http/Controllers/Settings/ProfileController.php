@@ -65,7 +65,15 @@ class ProfileController extends Controller
             $total += $r->ratings;
         }
 
-        $rateAverage = $total / $ratingCount;
+        $rateAverage = 0;
+        if ($ratingCount) {
+            if($ratingCount === 0) {
+                $rateAverage = NULL;
+            } else {
+                  $rateAverage = $total / $ratingCount;
+            }
+        }
+      
 
         $hireCount = Booking::where('babysitter_id', $userId)
         ->whereIn('status', ['approved', 'done'])
