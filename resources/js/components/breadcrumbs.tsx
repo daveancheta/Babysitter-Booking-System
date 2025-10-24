@@ -162,6 +162,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     const handleClearSearch = () => {
          localStorage.setItem("search", JSON.stringify([]));
+         document.getElementById("searchItems")?.classList.add("hidden");
     }
 
     return (
@@ -329,7 +330,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                         <button type='button' className='cursor-pointer text-red-500' onClick={() => handleClearSearch()}><Trash2 size={18}/></button>
                                         </div>
                                         <hr/>
-                                        <div className='flex flex-wrap gap-2'>
+                                        <div className='flex flex-wrap gap-2' id='searchItems'>
                                             {savedSearch.map((item: any, index) => (
                                                 <span key={index} className='dark:bg-neutral-800 bg-white px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
                                                     <div className='text-black dark:text-white'>{item}</div>
