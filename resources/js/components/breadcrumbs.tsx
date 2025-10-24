@@ -123,6 +123,9 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             notificationContainer?.classList.add("scale-0", "opacity-0")
             setTimeout(() => {
                 notificationContainer?.classList.add("hidden")
+                skeleton?.classList.add("hidden");
+                emptyStateNotification?.classList.remove("hidden")
+                notification?.classList.remove("hidden")
             }, 300)
         }
     }
@@ -199,13 +202,13 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
-                                  <div className="flex items-center space-x-4" id='skeletonNotification'>
+                                <div className="flex items-center space-x-4" id='skeletonNotification'>
                                     <Skeleton className="h-15 w-15 rounded-full" />
                                     <div className="space-y-2">
                                         <Skeleton className="h-4 w-[230px]" />
                                         <Skeleton className="h-4 w-[75px]" />
                                     </div>
-                                    </div>
+                                </div>
                                 {notification.length > 0 ?
                                     <div>
                                         {notification.map(n => (
