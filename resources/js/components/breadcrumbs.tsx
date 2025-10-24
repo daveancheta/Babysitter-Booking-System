@@ -147,7 +147,18 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         let displaySavedSearch: string[] = stored ? JSON.parse(stored) : [];
 
         setSavedSearch(displaySavedSearch);
+
     }, [])
+
+    const handledDeleteSearch = (deleteSearch: string) => {
+        let savedSearch = JSON.parse(localStorage.getItem("search") || "[]");
+
+        let updatedSearch = savedSearch.filter((item: string) => item !== deleteSearch);
+
+        localStorage.setItem("search", JSON.stringify(updatedSearch));
+
+        document.getElementById(`search${deleteSearch}`)?.classList.add("hidden")
+    }
 
     return (
         <>
@@ -299,7 +310,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <Search />
                     </Button>
                 </div>
-                <div className='flex flex-row hidden gap-2 items-center transition-all transform ease-in-out duration-300 origin-right scale-0 opacity-0' id='search-input'>
+                <div className='flex flex-row hidden gap-2 items-center transition-all transform ease-in-out duration-300 origin-right scale-0 opacity-0 z-50' id='search-input'>
                     <div className='relative'>
                         <form onSubmit={handleSearchResult}>
                             <Search className='absolute left-3 top-1/2 p-1 -translate-y-1/2 text-gray-400 w-5 h-5' />
@@ -310,10 +321,14 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 <div className={savedSearch.length === 0 ? 'hidden' : 'bg-neutral-900 rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3'} id='displaySavedSearch'>
                                     <div className='flex flex-col gap-2'>
                                         <span className='text-lg font-medium'>Search History</span>
+                                        <hr/>
                                         <div className='flex flex-wrap gap-2'>
-                                            {savedSearch.map((item, index) => (
-                                                <span key={index} className='bg-neutral-800 px-3 py-1 text-sm rounded-md text-sm'>
-                                                    {item}
+                                            {savedSearch.map((item: any, index) => (
+                                                <span key={index} className='bg-neutral-800 px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
+                                                    <div>{item}</div>
+                                                    <button type='button' className='absolute -top-2 -right-2 bg-neutral-500 rounded-full cursor-pointer' onClick={() => { handledDeleteSearch(item); }}>
+                                                        <X size={18} />
+                                                    </button>
                                                 </span>
                                             ))}
                                         </div>
