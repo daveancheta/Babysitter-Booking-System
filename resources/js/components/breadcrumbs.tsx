@@ -95,17 +95,22 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById('notificationCount')?.classList.add('hidden')
         let skeleton = document.getElementById("skeletonNotification")
         let notification = document.getElementById("notification");
+        let emptyStateNotification = document.getElementById("emptyStateNotification");
+        skeleton?.classList.remove("hidden");
+        emptyStateNotification?.classList.add("hidden")
+        notification?.classList.add("hidden")
 
         setTimeout(() => {
             skeleton?.classList.add("hidden");
-             if(skeleton?.classList.contains("hidden")) {
-            notification?.classList.remove("hidden")
-        } else {
-            notification?.classList.add("hidden")
-        }
-        }, 3000);
 
-        
+            if (skeleton?.classList.contains("hidden")) {
+                notification?.classList.remove("hidden")
+                emptyStateNotification?.classList.remove("hidden")
+            } else {
+                notification?.classList.add("hidden")
+                emptyStateNotification?.classList.add("hidden")
+            }
+        }, 3000);
 
         if (notificationContainer?.classList.contains('hidden')) {
             notificationContainer?.classList.remove("hidden")
@@ -125,6 +130,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const handleNotificationCount = () => {
         axios.post(route('notification.emptyCount'), {});
     }
+    
     return (
         <>
             {isMobile ?
@@ -215,7 +221,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                             </div>
                                         ))}
                                     </div>
-                                    : <div className='flex justify-center text-muted-foreground'>No notifications yet
+                                    : <div className='flex justify-center text-muted-foreground hidden' id='emptyStateNotification'>No notifications yet
                                     </div>}
                             </div>
                         </div>
@@ -256,7 +262,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                         </div>
                                     ))}
                                 </div>
-                                    : <div className='flex justify-center text-muted-foreground'>No notifications yet
+                                    : <div className='flex justify-center text-muted-foreground hidden' id='emptyStateNotification'>No notifications yet
                                     </div>}
                             </div>
                         </div>
