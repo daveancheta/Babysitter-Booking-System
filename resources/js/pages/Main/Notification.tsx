@@ -69,9 +69,7 @@ interface PageProps extends InertiaPageProps {
 export default function Notification() {
     const { books, bookings } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
-    const [bookingsNavigation, setBookingNavigation] = useState(
-        localStorage.getItem("bookingsNavigation") || ""
-    )
+    const [category, setCategory] = useState(String);
 
     const { data, setData, post, processing, errors } = useForm({
         booking_id: 0,
@@ -94,36 +92,6 @@ export default function Notification() {
     const handleStatusUpdate = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('bookings_status.update'));
-    }
-
-    const handleAllNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "all");
-        setBookingNavigation("all")
-    }
-
-    const handlePendingNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "pending");
-        setBookingNavigation("pending")
-    }
-
-    const handleApprovedNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "approved");
-        setBookingNavigation("approved")
-    }
-
-    const handleCancelledNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "cancelled");
-        setBookingNavigation("cancelled")
-    }
-
-    const handleDeclinedNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "declined");
-        setBookingNavigation("declined")
-    }
-
-    const handleDoneNavigation = () => {
-        localStorage.setItem("bookingsNavigation", "done");
-        setBookingNavigation("done")
     }
 
     const isMobile = useIsMobile();
@@ -202,7 +170,7 @@ export default function Notification() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Notification" />
             <div className='flex justify-start mt-4 ml-4'>
-                <Select>
+                <Select onValueChange={(value) => setCategory(value)}>
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder={
                             <>
@@ -215,19 +183,19 @@ export default function Notification() {
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Category</SelectLabel>
-                            <SelectItem value="All"><ListFilterIcon className="h-4 w-4" /> All</SelectItem>
-                            <SelectItem value="Pending"><Loader2Icon className="h-4 w-4" /> Pending</SelectItem>
-                            <SelectItem value="Approved"><CheckCircle2Icon className="h-4 w-4" /> Approved</SelectItem>
-                            <SelectItem value="Done"><BadgeCheckIcon className="h-4 w-4" /> Done</SelectItem>
-                            <SelectItem value="Declined"><XCircleIcon className="h-4 w-4" /> Declined</SelectItem>
-                            <SelectItem value="Cancelled"><Ban className="h-4 w-4" /> Cancelled</SelectItem>
+                            <SelectItem value="all"><ListFilterIcon className="h-4 w-4" /> All</SelectItem>
+                            <SelectItem value="pending"><Loader2Icon className="h-4 w-4" /> Pending</SelectItem>
+                            <SelectItem value="approved"><CheckCircle2Icon className="h-4 w-4" /> Approved</SelectItem>
+                            <SelectItem value="done"><BadgeCheckIcon className="h-4 w-4" /> Done</SelectItem>
+                            <SelectItem value="declined"><XCircleIcon className="h-4 w-4" /> Declined</SelectItem>
+                            <SelectItem value="cancelled"><Ban className="h-4 w-4" /> Cancelled</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
             </div>
 
             {/* All */}
-            <div id='allContainer' className={bookingsNavigation === 'all' || bookingsNavigation === "" ? '' : 'hidden'}>
+            <div id='allContainer' className={category === 'all' || category === "" ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
@@ -338,7 +306,7 @@ export default function Notification() {
             </div>
 
             {/* Cancelled */}
-            <div id='doneContainer' className={bookingsNavigation === 'cancelled' ? '' : 'hidden'}>
+            <div id='doneContainer' className={category === 'cancelled' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
@@ -422,7 +390,7 @@ export default function Notification() {
             </div>
 
             {/* done */}
-            <div id='doneContainer' className={bookingsNavigation === 'done' ? '' : 'hidden'}>
+            <div id='doneContainer' className={category === 'done' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
@@ -550,7 +518,7 @@ export default function Notification() {
                 )}
             </div>
             {/* declined */}
-            <div className={bookingsNavigation === 'declined' ? '' : 'hidden'}>
+            <div className={category === 'declined' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
@@ -633,7 +601,7 @@ export default function Notification() {
                 )}
             </div>
             {/* pending */}
-            <div className={bookingsNavigation === 'pending' ? '' : 'hidden'}>
+            <div className={category === 'pending' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
@@ -734,7 +702,7 @@ export default function Notification() {
                 )}
             </div>
             {/* approved */}
-            <div className={bookingsNavigation === 'approved' ? '' : 'hidden'}>
+            <div className={category === 'approved' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 ? (
