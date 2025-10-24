@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
-import { Star, ListIcon, BanIcon, BadgeCheckIcon, ListFilterIcon, Loader2Icon, CheckCircle2Icon, XCircleIcon, Ban, ClipboardListIcon } from 'lucide-react';
+import { Star, ListIcon, BanIcon, BadgeCheckIcon, ListFilterIcon, Loader2Icon, CheckCircle2Icon, XCircleIcon, Ban, ClipboardListIcon, CalendarDays } from 'lucide-react';
 import { useState } from "react";
 import { Badge } from '@/components/ui/badge';
 import * as React from "react"
@@ -309,82 +309,103 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'cancelled' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {bookings.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
-                                        </div>
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                        {bookings.length > 0 && (
+                            (() => {
+                                const cancelledBookings = bookings.filter((b) => b.status === "cancelled");
+
+                                return cancelledBookings.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {cancelledBookings.map((b) => (
+                                            <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
+                                                </div>
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                                    <Button variant='secondary' disabled>Approve</Button>
+                                                    <Button variant='secondary' disabled>Decline</Button>
+                                                    <Button variant='secondary' disabled>Done</Button>
+                                                </div>
                                             </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className='text-muted-foreground flex justify-center mt-5'>
+                                        <div className='flex flex-col items-center gap-4'>
+                                            <CalendarDays size={50} />
+                                            <div className='truncate'>
+                                                No bookings yet.&nbsp;
+                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
                                             </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
-                                        </div>
-                                        <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
-                                            <Button variant='secondary' disabled>Approve</Button>
-                                            <Button variant='secondary' disabled>Decline</Button>
-                                            <Button variant='secondary' disabled>Done</Button>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.</div>)}
+                                )
+                            })()
+                        )}
                     </div>
                 ) : (
-                    <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {books.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'cancelled' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
-                                        </div>
+                    <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
+                        {books.length > 0 && (
+                            (() => {
+                                const cancelledBookings = books.filter((b) => b.status === "cancelled");
 
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
+                                return cancelledBookings.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {cancelledBookings.map((b) => (
+                                            <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='booked'><span className='uppercase'>Cancelled</span></Badge>
+                                                </div>
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <Button className='m-6 flex flex-row gap-2' variant='secondary' disabled>Cancel</Button>
+                                                </div>
                                             </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
-                                        </div>
-                                        <div className='m-6 flex flex-row gap-2'>
-                                            <form onSubmit={handleCancelStatus}>
-                                                <Button type='submit' onClick={() => {
-                                                    setData('status', 'cancelled');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
-                                                }
-                                                } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
-                                                    Cancel
-                                                </Button>
-                                            </form>
-                                        </div>
-
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No cancelled bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                                ) : (
+                                    <div className='text-muted-foreground flex justify-center mt-5'>
+                                        <div className='flex flex-col items-center gap-4'>
+                                            <CalendarDays size={50} />
+                                            <div className='truncate'>
+                                                No bookings yet.&nbsp;
+                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })()
+                        )}
                     </div>
                 )}
             </div>
@@ -393,130 +414,164 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'done' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {bookings.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='available'><span className='uppercase'>Done</span></Badge>
-                                        </div>
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>{b.ratings || '0'}/5</span>
+                        {bookings.length > 0 && (
+                            (() => {
+                                const doneBookings = bookings.filter((b) => b.status == "done");
+
+                                return doneBookings.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {doneBookings.map((b) => (
+                                            <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='available'><span className='uppercase'>Done</span></Badge>
+                                                </div>
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                                                        <div className='flex flex-row gap-1 item-center'>
+                                                            <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                            <span>{b.ratings || '0'}/5</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                                    <Button variant='secondary' disabled>Approve</Button>
+                                                    <Button variant='secondary' disabled>Decline</Button>
+                                                    <Button variant='secondary' disabled>Done</Button>
                                                 </div>
                                             </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className='text-muted-foreground flex justify-center mt-5'>
+                                        <div className='flex flex-col items-center gap-4'>
+                                            <CalendarDays size={50} />
+                                            <div className='truncate'>
+                                                No bookings yet.&nbsp;
+                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
                                             </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
-                                        </div>
-                                        <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
-                                            <Button variant='secondary' disabled>Approve</Button>
-                                            <Button variant='secondary' disabled>Decline</Button>
-                                            <Button variant='secondary' disabled>Done</Button>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No done bookings yet.</div>)}
+                                );
+                            })()
+                        )}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {books.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='available'><span className='uppercase'>Done</span></Badge>
-                                        </div>
+                        {books.length > 0 && (
+                            (() => {
+                                const doneBookings = books.filter((b) => b.status === "done");
 
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                                <div className='flex flex-row gap-1 item-center'>
-                                                    <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>{b.ratings || '0'}/5</span>
+                                return doneBookings.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {doneBookings.map((b) => (
+                                            <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'done' ? '' : 'hidden')} key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='available'><span className='uppercase'>Done</span></Badge>
+                                                </div>
+
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
+                                                        <div className='flex flex-row gap-1 item-center'>
+                                                            <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
+                                                            <span>{b.ratings || '0'}/5</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div className='m-6 flex flex-row gap-2'>
+                                                    <form onSubmit={handleCancelStatus}>
+                                                        <Button type='submit' onClick={() => {
+                                                            setData('status', 'cancelled');
+                                                            setData('booking_id', b.id)
+                                                            setData('babysitter_id', b.babysitter_id)
+                                                        }
+                                                        } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
+                                                            Cancel
+                                                        </Button>
+                                                    </form>
+                                                    <Dialog>
+                                                        <form>
+                                                            <DialogTrigger asChild>
+                                                                <Button variant='secondary' className='cursor-pointer' onClick={() => {
+                                                                    setData('parent_id', auth?.user.id);
+                                                                    setData('babysitter_id', b.babysitter_id);
+                                                                    setData('booking_id', b.id);
+                                                                }}
+                                                                    disabled={processing || b.ratings > 0}>Rate</Button>
+                                                            </DialogTrigger>
+                                                            <DialogContent className="sm:max-w-[425px]">
+                                                                <form onSubmit={handleSubmitRating}>
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>Rate</DialogTitle>
+                                                                        <DialogDescription>
+                                                                            Give a rating for {b.name}, his/her wonderful work nicely done.
+                                                                        </DialogDescription>
+                                                                    </DialogHeader>
+                                                                    <div className="grid gap-4">
+                                                                        <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <DialogFooter>
+                                                                        <DialogClose asChild>
+                                                                            <Button variant="outline" disabled={processing}>Cancel</Button>
+                                                                        </DialogClose>
+                                                                        <Button type="submit" disabled={processing || b.ratings > 0}>Submit Rating</Button>
+                                                                    </DialogFooter>
+                                                                </form>
+                                                            </DialogContent>
+                                                        </form>
+                                                    </Dialog>
+                                                </div>
+
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) :
+                                    (
+                                        <div className='text-muted-foreground flex justify-center mt-5'>
+                                            <div className='flex flex-col items-center gap-4'>
+                                                <CalendarDays size={50} />
+                                                <div className='truncate'>
+                                                    No bookings yet.&nbsp;
+                                                    <Link href={route('parent.index')} className='underline'>Book Now</Link>
                                                 </div>
                                             </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
                                         </div>
-                                        <div className='m-6 flex flex-row gap-2'>
-                                            <form onSubmit={handleCancelStatus}>
-                                                <Button type='submit' onClick={() => {
-                                                    setData('status', 'cancelled');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
-                                                }
-                                                } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
-                                                    Cancel
-                                                </Button>
-                                            </form>
-                                            <Dialog>
-                                                <form>
-                                                    <DialogTrigger asChild>
-                                                        <Button variant='secondary' className='cursor-pointer' onClick={() => {
-                                                            setData('parent_id', auth?.user.id);
-                                                            setData('babysitter_id', b.babysitter_id);
-                                                            setData('booking_id', b.id);
-                                                        }}
-                                                            disabled={processing || b.ratings > 0}>Rate</Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent className="sm:max-w-[425px]">
-                                                        <form onSubmit={handleSubmitRating}>
-                                                            <DialogHeader>
-                                                                <DialogTitle>Rate</DialogTitle>
-                                                                <DialogDescription>
-                                                                    Give a rating for {b.name}, his/her wonderful work nicely done.
-                                                                </DialogDescription>
-                                                            </DialogHeader>
-                                                            <div className="grid gap-4">
-                                                                <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
-                                                                </div>
-                                                            </div>
-                                                            <DialogFooter>
-                                                                <DialogClose asChild>
-                                                                    <Button variant="outline" disabled={processing}>Cancel</Button>
-                                                                </DialogClose>
-                                                                <Button type="submit" disabled={processing || b.ratings > 0}>Submit Rating</Button>
-                                                            </DialogFooter>
-                                                        </form>
-                                                    </DialogContent>
-                                                </form>
-                                            </Dialog>
-                                        </div>
-
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No done bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                                    )
+                            })()
+                        )}
                     </div>
                 )}
             </div>
+            
             {/* declined */}
             <div className={category === 'declined' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
