@@ -167,12 +167,24 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     const handleOpenSearchContainer = () => {
         let displayContainer = document.getElementById("displaySavedSearch");
-        displayContainer?.classList.remove("hidden");
 
-        setTimeout(() => {
-            displayContainer?.classList.remove("opacity-0", "scale-0")
-            displayContainer?.classList.add("opacity-100", "scale-100")
-        }, 10)
+
+        if (savedSearch.length === 0) {
+            displayContainer?.classList.add("hidden");
+
+            setTimeout(() => {
+                displayContainer?.classList.add("opacity-0", "scale-0")
+                displayContainer?.classList.remove("opacity-100", "scale-100")
+            }, 10)
+        } else {
+            displayContainer?.classList.remove("hidden");
+
+            setTimeout(() => {
+                displayContainer?.classList.remove("opacity-0", "scale-0")
+                displayContainer?.classList.add("opacity-100", "scale-100")
+            }, 10)
+        }
+
     }
 
     const handleOpenSearchContainer2 = () => {
@@ -256,7 +268,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button onClick={() => { handleShowNotification(); handleNotificationCount(); }} variant='outline' className='cursor-pointer'><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-neutral-100 dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 <div className="flex items-center space-x-4" id='skeletonNotification'>
@@ -298,7 +310,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={() => { handleShowNotification(); handleNotificationCount(); }}><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-neutral-100 dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 <div className="flex items-center space-x-4" id='skeletonNotification'>
@@ -371,7 +383,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                                 </span>
                                             ))}
                                         </div>
-                                        <button type='button' onClick={handleClearSearch} className='absolute bottom-0 right-0 p-4 text-red-500'><Trash2 size={18}/></button>
+                                        <button type='button' onClick={handleClearSearch} className='absolute bottom-0 right-0 p-4 text-red-500'><Trash2 size={18} /></button>
                                     </div>
                                 </div>
                             </div>
