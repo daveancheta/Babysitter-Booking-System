@@ -11,7 +11,7 @@ import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Notification {
     id: number;
@@ -93,6 +93,19 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const handleShowNotification = () => {
         let notificationContainer = document.getElementById('notificationContainer');
         document.getElementById('notificationCount')?.classList.add('hidden')
+        let skeleton = document.getElementById("skeletonNotification")
+        let notification = document.getElementById("notification");
+
+        setTimeout(() => {
+            skeleton?.classList.add("hidden");
+             if(skeleton?.classList.contains("hidden")) {
+            notification?.classList.remove("hidden")
+        } else {
+            notification?.classList.add("hidden")
+        }
+        }, 3000);
+
+        
 
         if (notificationContainer?.classList.contains('hidden')) {
             notificationContainer?.classList.remove("hidden")
@@ -112,7 +125,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const handleNotificationCount = () => {
         axios.post(route('notification.emptyCount'), {});
     }
-
     return (
         <>
             {isMobile ?
@@ -216,10 +228,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
+                                <div className="flex items-center space-x-4" id='skeletonNotification'>
+                                    <Skeleton className="h-15 w-15 rounded-full" />
+                                    <div className="space-y-2">
+                                        <Skeleton className="h-4 w-[240px]" />
+                                        <Skeleton className="h-4 w-[80px]" />
+                                    </div>
+                                </div>
                                 {notification.length > 0 ? <div>
                                     {notification.map(n => (
                                         <div key={n.id}>
-                                            <div className='flex flex-row gap-1 items-center'>
+                                            <div className='flex flex-row gap-1 items-center hidden' id='notification'>
                                                 <Avatar className="h-15 w-15 overflow-hidden rounded-full">
                                                     <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                                         {getInitials(systemName)}
