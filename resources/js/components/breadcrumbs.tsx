@@ -160,6 +160,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById(`search${deleteSearch}`)?.classList.add("hidden")
     }
 
+    const handleClearSearch = () => {
+         localStorage.setItem("search", JSON.stringify([]));
+    }
+
     return (
         <>
             {isMobile ?
@@ -322,7 +326,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                     <div className='flex flex-col gap-2'>
                                         <div className='flex justify-between items-center'>
                                         <span className='text-lg font-medium'>Search History</span>
-                                        <button className='cursor-pointer text-red-500'><Trash2 size={18}/></button>
+                                        <button type='button' className='cursor-pointer text-red-500' onClick={() => handleClearSearch()}><Trash2 size={18}/></button>
                                         </div>
                                         <hr/>
                                         <div className='flex flex-wrap gap-2'>
