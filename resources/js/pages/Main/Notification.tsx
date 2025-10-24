@@ -326,7 +326,7 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'cancelled' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length >= 0 && (
                             (() => {
                                 const cancelledBookings = bookings.filter((b) => b.status === "cancelled");
 
@@ -376,7 +376,7 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length >= 0 && (
                             (() => {
                                 const cancelledBookings = books.filter((b) => b.status === "cancelled");
 
@@ -430,7 +430,7 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'done' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length >= 0 && (
                             (() => {
                                 const doneBookings = bookings.filter((b) => b.status == "done");
 
@@ -484,7 +484,7 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length >= 0 && (
                             (() => {
                                 const doneBookings = books.filter((b) => b.status === "done");
 
@@ -591,7 +591,7 @@ export default function Notification() {
             <div className={category === 'declined' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length >= 0 && (
                             (() => {
                                 const declinedBookings = bookings.filter((b) => b.status === "declined");
 
@@ -641,7 +641,7 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length >= 0 && (
                             (() => {
                                 const declinedBooks = books.filter((b) => b.status === "declined");
 
@@ -706,7 +706,7 @@ export default function Notification() {
             <div className={category === 'pending' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length >= 0 && (
                             (() => {
                                 const pendingBookings = bookings.filter((b) => b.status === "pending");
 
@@ -774,7 +774,7 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length >= 0 && (
                             (() => {
                                 const pendingBooks = books.filter((b) => b.status === "pending");
 
@@ -840,7 +840,7 @@ export default function Notification() {
             <div className={category === 'approved' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 && (
+                        {bookings.length >= 0 && (
                             (() => {
                                 const approvedBookings = bookings.filter((b) => b.status === "approved");
 
@@ -896,7 +896,7 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 && (
+                        {books.length >= 0 && (
                             (() => {
                                 const approvedBooks = books.filter((b) => b.status === 'approved');
 
