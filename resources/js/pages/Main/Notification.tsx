@@ -571,87 +571,119 @@ export default function Notification() {
                     </div>
                 )}
             </div>
-            
+
             {/* declined */}
             <div className={category === 'declined' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {bookings.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'declined' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='booked'><span className='uppercase'>Declined</span></Badge>
-                                        </div>
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                        {bookings.length > 0 && (
+                            (() => {
+                                const declinedBookings = bookings.filter((b) => b.status === "declined");
+
+                                return declinedBookings.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {declinedBookings.map((b) => (
+                                            <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'declined' ? '' : 'hidden')} key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='booked'><span className='uppercase'>Declined</span></Badge>
+                                                </div>
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
+                                                    <Button variant='secondary' disabled>Approve</Button>
+                                                    <Button variant='secondary' disabled>Decline</Button>
+                                                    <Button variant='secondary' disabled>Done</Button>
+                                                </div>
                                             </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className='text-muted-foreground flex justify-center mt-5'>
+                                        <div className='flex flex-col items-center gap-4'>
+                                            <CalendarDays size={50} />
+                                            <div className='truncate'>
+                                                No bookings yet.&nbsp;
+                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
                                             </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>{b.payment_method === 'hour' ? 'Per Hour' : (b.payment_method === 'week' ? 'Per Week' : 'Per Month')}</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
-                                        </div>
-                                        <div className={cn('m-6 flex flex-row gap-2', isMobile ? 'justify-center' : '')}>
-                                            <Button variant='secondary' disabled>Approve</Button>
-                                            <Button variant='secondary' disabled>Decline</Button>
-                                            <Button variant='secondary' disabled>Done</Button>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No declined bookings yet.</div>)}
+                                )
+                            })()
+                        )}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {books.map((b) => (
-                                    <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'declined' ? '' : 'hidden')} key={b.id}>
-                                        <div className='relative'>
-                                            <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant='booked'><span className='uppercase'>Declined</span></Badge>
-                                        </div>
+                        {books.length > 0 && (
+                            (() => {
+                                const declinedBooks = books.filter((b) => b.status === "declined");
 
-                                        <div className='flex flex-col p-6'>
-                                            <div className='flex justify-between items-center'>
-                                                <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
-                                            </div>
-                                            <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
-                                            </div>
-                                            <div>
-                                                <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
-                                            </div>
-                                        </div>
-                                        <div className='m-6 flex flex-row gap-2'>
-                                            <form onSubmit={handleCancelStatus}>
-                                                <Button type='submit' onClick={() => {
-                                                    setData('status', 'cancelled');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
-                                                }
-                                                } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
-                                                    Cancel
-                                                </Button>
-                                            </form>
-                                        </div>
+                                return declinedBooks.length > 0 ? (
+                                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                                        {declinedBooks.map((b) => (
+                                            <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'declined' ? '' : 'hidden')} key={b.id}>
+                                                <div className='relative'>
+                                                    <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
+                                                    <Badge variant='booked'><span className='uppercase'>Declined</span></Badge>
+                                                </div>
 
+                                                <div className='flex flex-col p-6'>
+                                                    <div className='flex justify-between items-center'>
+                                                        <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
+                                                    </div>
+                                                    <div>
+                                                        <h1 className='font-bold'>Babysitting Duration: <span className='font-normal'>{b.date} {b.date > 1 ? 'days' : 'day'}</span></h1>
+                                                    </div>
+                                                </div>
+                                                <div className='m-6 flex flex-row gap-2'>
+                                                    <form onSubmit={handleCancelStatus}>
+                                                        <Button type='submit' onClick={() => {
+                                                            setData('status', 'cancelled');
+                                                            setData('booking_id', b.id)
+                                                            setData('babysitter_id', b.babysitter_id)
+                                                        }
+                                                        } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
+                                                            Cancel
+                                                        </Button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No declined bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                                ) : (
+                                    <div className='text-muted-foreground flex justify-center mt-5'>
+                                        <div className='flex flex-col items-center gap-4'>
+                                            <CalendarDays size={50} />
+                                            <div className='truncate'>
+                                                No bookings yet.&nbsp;
+                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })()
+                        )}
                     </div>
                 )}
             </div>
