@@ -252,7 +252,15 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No bookings yet.</div>)}
+                        ) : (
+                            <div className='text-muted-foreground flex justify-center mt-5'>
+                                <div className='flex flex-col items-center gap-4'>
+                                    <CalendarDays size={50} />
+                                    <div className='truncate'>
+                                        No bookings yet.
+                                    </div>
+                                </div>
+                            </div>)}
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
@@ -300,7 +308,16 @@ export default function Notification() {
                                     </div>
                                 ))}
                             </div>
-                        ) : (<div className='text-muted-foreground flex justify-center mt-5'>No bookings yet.&nbsp;<Link href={route('parent.index')} className='underline'>Book Now</Link></div>)}
+                        ) : (
+                            <div className='text-muted-foreground flex justify-center mt-5'>
+                                <div className='flex flex-col items-center gap-4'>
+                                    <CalendarDays size={50} />
+                                    <div className='truncate'>
+                                        No bookings yet.&nbsp;
+                                        <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                    </div>
+                                </div>
+                            </div>)}
                     </div>
                 )}
             </div>
@@ -349,8 +366,7 @@ export default function Notification() {
                                         <div className='flex flex-col items-center gap-4'>
                                             <CalendarDays size={50} />
                                             <div className='truncate'>
-                                                No bookings yet.&nbsp;
-                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                                No bookings yet.
                                             </div>
                                         </div>
                                     </div>
@@ -458,8 +474,7 @@ export default function Notification() {
                                         <div className='flex flex-col items-center gap-4'>
                                             <CalendarDays size={50} />
                                             <div className='truncate'>
-                                                No bookings yet.&nbsp;
-                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                                No bookings yet.
                                             </div>
                                         </div>
                                     </div>
@@ -616,8 +631,7 @@ export default function Notification() {
                                         <div className='flex flex-col items-center gap-4'>
                                             <CalendarDays size={50} />
                                             <div className='truncate'>
-                                                No bookings yet.&nbsp;
-                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                                No bookings yet.
                                             </div>
                                         </div>
                                     </div>
@@ -750,8 +764,7 @@ export default function Notification() {
                                         <div className='flex flex-col items-center gap-4'>
                                             <CalendarDays size={50} />
                                             <div className='truncate'>
-                                                No bookings yet.&nbsp;
-                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                                No bookings yet.
                                             </div>
                                         </div>
                                     </div>
@@ -873,8 +886,7 @@ export default function Notification() {
                                         <div className='flex flex-col items-center gap-4'>
                                             <CalendarDays size={50} />
                                             <div className='truncate'>
-                                                No bookings yet.&nbsp;
-                                                <Link href={route('parent.index')} className='underline'>Book Now</Link>
+                                                No bookings yet.
                                             </div>
                                         </div>
                                     </div>
