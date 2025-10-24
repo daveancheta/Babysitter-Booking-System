@@ -708,7 +708,7 @@ export default function Notification() {
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
                         {bookings.length > 0 && (
                             (() => {
-                                const pendingBookings = bookings.filter((b) => b.status === "done");
+                                const pendingBookings = bookings.filter((b) => b.status === "pending");
 
                                 return pendingBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
