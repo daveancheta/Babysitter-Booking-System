@@ -3,7 +3,7 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
-import { Bell, Divide, History, Search, X } from 'lucide-react';
+import { Bell, Divide, History, Search, Trash2, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
@@ -318,16 +318,19 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                 <input type="text" className="pl-10 border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm -mr-2"
                                     placeholder='Search...'
                                     onChange={(e) => { setData('search', e.target.value); setSearch(e.target.value) }} value={data.search} />
-                                <div className={savedSearch.length === 0 ? 'hidden' : 'bg-neutral-900 rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3'} id='displaySavedSearch'>
+                                <div className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-neutral-100 border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3'} id='displaySavedSearch'>
                                     <div className='flex flex-col gap-2'>
+                                        <div className='flex justify-between items-center'>
                                         <span className='text-lg font-medium'>Search History</span>
+                                        <button className='cursor-pointer text-red-500'><Trash2 size={18}/></button>
+                                        </div>
                                         <hr/>
                                         <div className='flex flex-wrap gap-2'>
                                             {savedSearch.map((item: any, index) => (
-                                                <span key={index} className='bg-neutral-800 px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
-                                                    <div>{item}</div>
-                                                    <button type='button' className='absolute -top-2 -right-2 bg-neutral-500 rounded-full cursor-pointer' onClick={() => { handledDeleteSearch(item); }}>
-                                                        <X size={18} />
+                                                <span key={index} className='dark:bg-neutral-800 bg-white px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
+                                                    <div className='text-black dark:text-white'>{item}</div>
+                                                    <button type='button' className='absolute -top-2 -right-2 dark:bg-neutral-500 bg-neutral-500 rounded-full cursor-pointer p-1' onClick={() => { handledDeleteSearch(item); }}>
+                                                        <X className='text-white' size={12} />
                                                     </button>
                                                 </span>
                                             ))}
