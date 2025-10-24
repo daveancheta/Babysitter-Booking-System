@@ -11,11 +11,15 @@ import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
+import { Badge } from "@/components/ui/badge"
 
 interface Notification {
     id: number;
     notification: string;
     created_date: string;
+    created_at: string;
+    current_time_advance: string;
+    is_read: boolean;
 }
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
@@ -175,7 +179,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <div id='hideNotification' className='relative'>
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
-                            <Button onClick={() => {handleShowNotification(); handleNotificationCount();}} variant='outline' className='cursor-pointer'><Bell /></Button>
+                            <Button onClick={() => { handleShowNotification(); handleNotificationCount(); }} variant='outline' className='cursor-pointer'><Bell /></Button>
                             <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
@@ -190,10 +194,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                                         </AvatarFallback>
                                                     </Avatar>
                                                     <div className='flex flex-col'>
-                                                        <span className='text-sm'>{n.notification}</span>
+                                                        <span className='text-sm truncate'>{n.notification}</span>
                                                         <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
                                                             <History className='w-3 h-3' />
-                                                            <span className='text-xs'>{n.created_date}</span>
+                                                            <span className='text-xs truncate'>{n.created_date}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,7 +214,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <div className='relative'>
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
-                            <Button variant='outline' className='cursor-pointer' onClick={() => {handleShowNotification(); handleNotificationCount();}}><Bell /></Button>
+                            <Button variant='outline' className='cursor-pointer' onClick={() => { handleShowNotification(); handleNotificationCount(); }}><Bell /></Button>
                             <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-background dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
@@ -223,11 +227,12 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                                         {getInitials(systemName)}
                                                     </AvatarFallback>
                                                 </Avatar>
-                                                <div className='flex flex-col'>
-                                                    <span className='text-sm'>{n.notification}</span>
-                                                    <div className='flex flex-row items-center gap-0.5 text-muted-foreground'>
+                                                <div className='flex flex-col gap-1'>
+                                                    <span className='text-sm truncate'>{n.notification}</span>
+                                                    <div className='flex flex-row items-center gap-1 text-muted-foreground'>
                                                         <History className='w-3 h-3' />
-                                                        <span className='text-xs'>{n.created_date}</span>
+                                                        <span className='text-xs truncate'>{n.created_date}</span>
+                                                            <Badge className={n.created_at > n.current_time_advance ? 'hidden' : 'ml-1'}>New</Badge>
                                                     </div>
                                                 </div>
                                             </div>

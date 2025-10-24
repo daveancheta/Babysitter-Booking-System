@@ -27,6 +27,7 @@ class NotificationController extends Controller
 
         foreach ($notification as $n) {
             $n->created_date = Carbon::parse($n->created_at)->diffForHumans();
+            $n->current_time_advance = Carbon::now()->addHours();
         }
 
         return response()->json($notification);
