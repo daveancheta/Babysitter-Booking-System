@@ -165,6 +165,14 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
          document.getElementById("searchItems")?.classList.add("hidden");
     }
 
+    const handleOpenSearchContainer = () => {
+        document.getElementById("displaySavedSearch")?.classList.remove("hidden")
+    }
+
+    const handleCloseSearchContainer = () => {
+            document.getElementById("displaySavedSearch")?.classList.add("hidden")
+    }
+
     return (
         <>
             {isMobile ?
@@ -320,10 +328,15 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <form onSubmit={handleSearchResult}>
                             <Search className='absolute left-3 top-1/2 p-1 -translate-y-1/2 text-gray-400 w-5 h-5' />
                             <div className='relative'>
-                                <input type="text" className="pl-10 border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm -mr-2"
+                                <input type="text" 
+                                className="pl-10 border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm -mr-2"
                                     placeholder='Search...'
-                                    onChange={(e) => { setData('search', e.target.value); setSearch(e.target.value) }} value={data.search} />
-                                <div className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-neutral-100 border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3'} id='displaySavedSearch'>
+                                    onChange={(e) => { setData('search', e.target.value); setSearch(e.target.value) }} value={data.search} 
+                                    onMouseOver={handleOpenSearchContainer}/>
+                                <div 
+                                className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-neutral-100 border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3 hidden'} 
+                                id='displaySavedSearch'
+                                onMouseOver={handleOpenSearchContainer} onMouseOut={handleCloseSearchContainer}>
                                     <div className='flex flex-col gap-2'>
                                         <div className='flex justify-between items-center'>
                                         <span className='text-lg font-medium'>Search History</span>
