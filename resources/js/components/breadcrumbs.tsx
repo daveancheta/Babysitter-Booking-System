@@ -110,7 +110,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 notification?.classList.add("hidden")
                 emptyStateNotification?.classList.add("hidden")
             }
-        }, 3000);
+        }, 5000);
 
         if (notificationContainer?.classList.contains('hidden')) {
             notificationContainer?.classList.remove("hidden")
