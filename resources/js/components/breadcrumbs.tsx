@@ -18,8 +18,6 @@ interface Notification {
     notification: string;
     created_date: string;
     created_at: string;
-    current_time_advance: string;
-    is_read: boolean;
 }
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
@@ -232,7 +230,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                                     <div className='flex flex-row items-center gap-1 text-muted-foreground'>
                                                         <History className='w-3 h-3' />
                                                         <span className='text-xs truncate'>{n.created_date}</span>
-                                                            <Badge className={n.created_at > n.current_time_advance ? 'hidden' : 'ml-1'}>New</Badge>
                                                     </div>
                                                 </div>
                                             </div>
