@@ -11,6 +11,7 @@ use App\Http\Controllers\ParentController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\SearchController;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,6 +25,7 @@ Route::get('login', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
+        Gate::authorize('is_admin');
         return Inertia::render('dashboard');
     })->name('dashboard');
 
