@@ -10,8 +10,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { Wallet } from "lucide-react";
+import { Megaphone, Wallet } from "lucide-react";
 import { use, useEffect } from 'react';
+import { PageProps as InertiaPageProps } from '@inertiajs/core'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -20,7 +23,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+
+interface PageProps extends InertiaPageProps {
+    flash: {
+        message?: string;
+    }
+}
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+    const { flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
@@ -41,6 +51,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                 <div className="space-y-6">
                     <HeadingSmall title="Add Balance" description="Update your name and email address" />
                     <form onSubmit={updateBalance} className='space-y-6'>
+                        {flash.message && <Alert>
+                            <Megaphone />
+                            <AlertTitle>Notification!</AlertTitle>
+                            <AlertDescription>
+                                {flash.message}
+                            </AlertDescription>
+                        </Alert>}
                         {Object.keys(errors).length > 0 && (
                             <div className='mt-2'>
 
@@ -69,7 +86,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                         </div>
 
-                        <Button type='submit' className='cursor-pointer'><Wallet />Cash In</Button>
+                        <Button type='submit' className='cursor-pointer' disabled={processing || !data.balance.trim() || !data.account_id}><Wallet />Cash In</Button>
                     </form>
                 </div>
 

@@ -62,10 +62,11 @@ class AddBalanceController extends Controller
         $balance = $request->input('balance');
         $currentBalance = User::where('account_id', $accountID)->first();
 
-        User::where('account_id', $accountID)->update(['balance' => (int)$currentBalance->balance + $balance]); 
+        User::where('account_id', $accountID)->update(['balance' => (int)$currentBalance->balance + $balance]);
 
+        $name = User::where('account_id', $accountID)->value('name');
 
-        return redirect()->route('balance.index');
+        return redirect()->route('balance.index')->with('message', '₱' . number_format($balance, 2) . ' has been added to ' . $name . "'s balance");
     }
 
     /**
