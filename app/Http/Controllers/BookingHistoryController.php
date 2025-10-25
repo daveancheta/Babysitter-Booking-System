@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BookingHistoryController extends Controller
@@ -16,6 +17,9 @@ class BookingHistoryController extends Controller
      */
     public function index()
     {
+
+        Gate::authorize('admin-denied');
+        
         $userId = Auth::id();
 
         $bookings = DB::table('bookings')
