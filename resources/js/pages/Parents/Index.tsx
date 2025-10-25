@@ -160,7 +160,7 @@ export default function Index() {
                                         <div>
                                             <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
                                             <span className='font-bold'>Hourly Rate:</span>
-                                            <span className='text-green-700 font-bold dark:text-green-500'> ${u.rate}</span>
+                                            <span className='text-green-700 font-bold dark:text-green-500'> ₱{u.rate}</span>
                                         </div>
                                         <div>
                                             <div className='flex flex-col items-start'>

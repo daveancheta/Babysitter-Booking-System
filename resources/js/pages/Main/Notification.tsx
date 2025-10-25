@@ -283,7 +283,7 @@ export default function Notification() {
                                             </div>
                                             <div className=''>
                                                 <span className='font-bold'>Hourly Rate:</span>
-                                                <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
+                                                <span className='text-green-700 font-bold dark:text-green-500'> ₱{b.rate}</span>
                                             </div>
                                             <div>
                                                 <h1 className='font-bold'>Payment Method: <span className='font-normal'>Per Hour</span></h1>
