@@ -200,8 +200,9 @@ class ParentController extends Controller
 
         $booking = Booking::where('id', $booking_id)->first();
         $parent = User::where('id', $booking->user_id)->first();
+        $babysitter = Auth::user();
         Mail::to($parent->email)
-            ->send(new BookingStatusMail($booking_id));
+            ->queue(new BookingStatusMail($booking_id, $babysitter->name));
 
         $userId = Booking::where('id', $booking_id)->value('user_id');
         $babysitterNameNotification = User::where('id', $babysitter_id)->value('name');
