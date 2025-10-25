@@ -105,8 +105,8 @@ export default function Index() {
         data.comment = '';
     }
 
-    const handleDeleteReact = (id: number, postId: number) => {
-        destroy(route('react.delete', { id, postId }));
+    const handleDeleteReact = (id: number) => {
+        destroy(route('react.delete', { id }));
     }
     const deletePost = (id: number) => {
         destroy(route('babysitter.delete', { id }));
@@ -307,7 +307,7 @@ export default function Index() {
                                             {p.userCountSession ?
                                                 <div className='flex flex-row items-center gap-1'>
                                                     <span>{useCountSession}</span>
-                                                    <button disabled={processingDelete} onClick={() => handleDeleteReact(p.react_id, p.id)}>
+                                                    <button disabled={processingDelete} onClick={() => handleDeleteReact(p.react_id)}>
                                                         <Heart className='w-5 h-5 text-red-400 fill-red-400  transition delay-50 duration-300 cursor-pointer' />
                                                     </button>
                                                     <span className='text-sm'>{p.reactCount}</span>

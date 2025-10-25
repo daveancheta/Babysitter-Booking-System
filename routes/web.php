@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // React
     Route::post('/reaction', [ReactController::class, 'store'])->name('react.store');
-    Route::delete('/reaction/{id}{postId}', [ReactController::class, 'destroy'])->name('react.delete');
+    Route::delete('/reaction/{id}', [ReactController::class, 'destroy'])->name('react.delete');
 
     // Comment
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');

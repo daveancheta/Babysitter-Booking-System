@@ -69,7 +69,7 @@ class ReactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reaction $id, $postId)
+    public function destroy(Reaction $id)
     {
         
         $id->delete();
