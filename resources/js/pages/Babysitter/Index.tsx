@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, Send, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen, Pen, Trash, EyeOff } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, Send, UserPlus, BriefcaseBusiness, X, UserCheck, BookmarkCheck, NotebookPen, Pen, Trash, EyeOff, InboxIcon } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { useState, useEffect } from "react";
@@ -432,7 +432,12 @@ export default function Index() {
                         ))}
 
                     </div>
-                    : <div className='mt-5 text-center text-muted-foreground'>No babysitter posts available right now — check back later</div>}
+                    : <div className='mt-5 text-center text-muted-foreground flex flex-col items-center'>
+                        <div className='mb-5 animate-bounce'>
+                        <InboxIcon size={80}/>
+                        </div>
+                        <span>No babysitter posts available right now — check back later</span>
+                        </div>}
             </div>
         </AppLayout >
     );
