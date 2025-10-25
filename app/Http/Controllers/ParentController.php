@@ -97,11 +97,11 @@ class ParentController extends Controller
 
         $user = Auth::user();
         Mail::to($user->email)
-            ->send(new ParentBookingMail($bookings));
+            ->queue(new ParentBookingMail($bookings, $user->name));
 
         $babysitter = User::where('id', $babysitterId)->first();
         Mail::to($babysitter->email)
-            ->send(new BabysitterBookingMail($bookings));
+            ->queue(new BabysitterBookingMail($bookings, $user->name));
 
         $babysitterName = User::where('id', $request->input('babysitter_id'))->value('name');
 

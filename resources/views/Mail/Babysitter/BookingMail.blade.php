@@ -95,7 +95,7 @@ $total = $booking->rate * $duration;
                                 </tr>
 
                                  <tr>
-                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{ Auth::user()->name }}</td>
+                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{ $username }}</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
                                         ₱{{ number_format($booking->rate, 2) }} per day</td>
