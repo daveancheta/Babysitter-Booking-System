@@ -27,7 +27,6 @@ class ParentController extends Controller
     public function index()
     {
 
-        Gate::authorize('babysitter-allowed');
         Gate::authorize('admin-denied');
         
         $users = User::where('is_babysitter', 1)
