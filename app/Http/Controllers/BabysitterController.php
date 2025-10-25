@@ -27,7 +27,7 @@ class BabysitterController extends Controller
     {
 
         Gate::authorize('admin-denied');
-        
+
         $userId = Auth::id();
 
         $babySitter = User::where('id', $userId)->first();
@@ -121,9 +121,11 @@ class BabysitterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $id)
+    public function destroy($id)
     {
-        $id->delete();
+       Post::where('id', $id)->delete();
+       Reaction::where('post_id', $id)->delete();
+       Comment::where('post_id', $id)->delete();
 
         return redirect()->route('babysitter.index');
     }
