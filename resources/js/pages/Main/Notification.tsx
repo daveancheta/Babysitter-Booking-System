@@ -255,7 +255,7 @@ export default function Notification() {
                         ) : (
                             <div className='text-muted-foreground flex justify-center mt-5'>
                                 <div className='flex flex-col items-center gap-4'>
-                                    <CalendarDays size={50} />
+                                    <CalendarDays size={80} className='animate-bounce' />
                                     <div className='truncate'>
                                         No bookings yet.
                                     </div>
@@ -311,7 +311,7 @@ export default function Notification() {
                         ) : (
                             <div className='text-muted-foreground flex justify-center mt-5'>
                                 <div className='flex flex-col items-center gap-4'>
-                                    <CalendarDays size={50} />
+                                    <CalendarDays size={80} className='animate-bounce' />
                                     <div className='truncate'>
                                         No bookings yet.&nbsp;
                                         <Link href={route('parent.index')} className='underline'>Book Now</Link>
@@ -364,7 +364,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.
                                             </div>
@@ -412,7 +412,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.&nbsp;
                                                 <Link href={route('parent.index')} className='underline'>Book Now</Link>
@@ -472,7 +472,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.
                                             </div>
@@ -573,7 +573,7 @@ export default function Notification() {
                                     (
                                         <div className='text-muted-foreground flex justify-center mt-5'>
                                             <div className='flex flex-col items-center gap-4'>
-                                                <CalendarDays size={50} />
+                                                <CalendarDays size={80} className='animate-bounce' />
                                                 <div className='truncate'>
                                                     No bookings yet.&nbsp;
                                                     <Link href={route('parent.index')} className='underline'>Book Now</Link>
@@ -629,7 +629,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.
                                             </div>
@@ -688,7 +688,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.&nbsp;
                                                 <Link href={route('parent.index')} className='underline'>Book Now</Link>
@@ -762,7 +762,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.
                                             </div>
@@ -822,7 +822,7 @@ export default function Notification() {
                                     (
                                         <div className='text-muted-foreground flex justify-center mt-5'>
                                             <div className='flex flex-col items-center gap-4'>
-                                                <CalendarDays size={50} />
+                                                <CalendarDays size={80} className='animate-bounce' />
                                                 <div className='truncate'>
                                                     No bookings yet.&nbsp;
                                                     <Link href={route('parent.index')} className='underline'>Book Now</Link>
@@ -884,7 +884,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.
                                             </div>
@@ -943,7 +943,7 @@ export default function Notification() {
                                 ) : (
                                     <div className='text-muted-foreground flex justify-center mt-5'>
                                         <div className='flex flex-col items-center gap-4'>
-                                            <CalendarDays size={50} />
+                                            <CalendarDays size={80} className='animate-bounce' />
                                             <div className='truncate'>
                                                 No bookings yet.&nbsp;
                                                 <Link href={route('parent.index')} className='underline'>Book Now</Link>
