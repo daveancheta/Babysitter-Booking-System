@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -25,6 +26,10 @@ class ParentController extends Controller
      */
     public function index()
     {
+
+        Gate::authorize('booking-page-babysitter');
+        Gate::authorize('booking-page-admin');
+        
         $users = User::where('is_babysitter', 1)
             ->whereNot('rate', 0.00)
             ->orderBy('id')
