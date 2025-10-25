@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Briefcase } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Briefcase, HourglassIcon } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -333,7 +333,12 @@ export default function Index() {
                         ))}
                         <div className="flex justify-center mt-4 space-x-2">
                         </div> </div>
-                    : <div className='mt-5 text-center text-muted-foreground'>No babysitters available right now</div>}
+                    : <div className='mt-5 text-center text-muted-foreground flex flex-col items-center'>
+                        <div className='mb-4 animate-bounce'>
+                            <HourglassIcon size={80}/>
+                        </div>
+                        <span>No babysitters available right now — check back later</span>
+                        </div>}
             </div>
             <div className={cn('-mt-10 mb-10', isMobile ? "" : "ml-5")}>
                 {users.links && users.links.length > 0 && (
