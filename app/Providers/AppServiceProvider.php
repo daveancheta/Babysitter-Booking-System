@@ -22,23 +22,31 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        Gate::define('admin-dashboard', function ($user) {
+        Gate::define('admin-allowed', function ($user) {
             return $user->is_admin
             ? Response::allow()
             : Response::denyAsNotFound();
         });
 
-        Gate::define('booking-page-babysitter', function ($user) {
+        
+        Gate::define('admin-denied', function ($user) {
+            return $user->is_admin
+            ? Response::denyAsNotFound()
+            : Response::allow();
+        });
+
+        Gate::define('babysitter-allowed', function ($user) {
+            return $user->is_babysitter
+            ? Response::allow()
+            : Response::denyAsNotFound();
+        });
+
+        Gate::define('babysitter-denied', function ($user) {
             return $user->is_babysitter
             ? Response::denyAsNotFound()
             : Response::allow();
         });
 
-        Gate::define('booking-page-admin', function ($user) {
-            return $user->is_admin
-            ? Response::denyAsNotFound()
-            : Response::allow();
-        });
 
     }
 }

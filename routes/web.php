@@ -25,7 +25,7 @@ Route::get('login', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
-        Gate::authorize('admin-dashboard');
+        Gate::authorize('admin-allowed');
         return Inertia::render('dashboard');
     })->name('dashboard');
 
