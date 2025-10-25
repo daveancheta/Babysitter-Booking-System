@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, UserRound, Baby, Divide } from 'lucide-react';
+import { CircleAlert, Megaphone, History, Heart, MessageCircleMore, EllipsisVertical, Send, Star, ChevronDownIcon, Trash2, UserRound, Baby, Divide, Search } from 'lucide-react';
 import { UserDisplay } from '@/components/user-display';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -107,7 +107,14 @@ export default function Result() {
                             </div>
                         ))}
                     </div>
-                ) : <div className='mt-5 text-center text-muted-foreground'>We couldn&rsquo;t find any results for that.</div>}
+                ) : <div className='mt-5 text-center text-muted-foreground flex flex-col items-center'>
+                    <div className='mb-5 animate-bounce'>
+                        <Search size={80}/>
+                    </div>
+                    <span>
+                        We couldn&rsquo;t find any results for that.
+                        </span>
+                    </div>}
 
             </div>
         </AppLayout >
