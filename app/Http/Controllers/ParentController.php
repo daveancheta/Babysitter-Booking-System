@@ -162,11 +162,11 @@ class ParentController extends Controller
 
         $user = Auth::user();
         Mail::to($user->email)
-            ->send(new ParentCancelBookingMail($booking_id));
+            ->send(new ParentCancelBookingMail($booking_id, $user->name));
 
         $babysitter = User::where('id', $babysitterId)->first();
         Mail::to($babysitter->email)
-            ->send(new BabysitterCancelBookingMail($booking_id));
+            ->send(new BabysitterCancelBookingMail($booking_id, $user->name));
 
             $parentId = Booking::where('id', $booking_id)->value('user_id');
             $parentName = User::where('id', $parentId)->value('name');

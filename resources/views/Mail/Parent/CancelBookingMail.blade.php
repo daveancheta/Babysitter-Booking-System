@@ -41,7 +41,7 @@ $total = $booking->rate * $duration;
                     <!-- Intro -->
                     <tr>
                         <td style="padding:20px;">
-                            <p style="margin:0 0 10px;">Hi {{ Auth::user()->name }},</p>
+                            <p style="margin:0 0 10px;">Hi {{ $parentName }},</p>
                             <p style="margin:0 0 20px;">
                                 This is an automated booking cancellation notice — please do not reply.
                             </p>
