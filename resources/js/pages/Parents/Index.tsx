@@ -340,7 +340,7 @@ export default function Index() {
                         <span>No babysitters available right now — check back later</span>
                         </div>}
             </div>
-            <div className={cn('-mt-10 mb-10', isMobile ? "" : "ml-5")}>
+            <div className={cn('-mt-10 mb-10', isMobile ? "" : "ml-5", users.data.length === 0 ? 'hidden' : '')}>
                 {users.links && users.links.length > 0 && (
                     <Pagination className="mt-6">
                         <PaginationContent>
