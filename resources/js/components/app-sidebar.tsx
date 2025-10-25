@@ -49,7 +49,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href={auth?.user.is_admin ? '/dashboard' : 'babysitter'} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
