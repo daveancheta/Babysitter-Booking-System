@@ -20,7 +20,15 @@ import * as React from "react"
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -59,12 +67,25 @@ interface Books {
     end_date: string;
     date: number;
     ratings: number;
-
 }
 
+type Pagination<T> = {
+    data: T[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    meta: {
+        current: number;
+        last: number;
+        total: number;
+    }
+};
+
 interface PageProps extends InertiaPageProps {
-    bookings: Bookings[];
-    books: Books[];
+    bookings: Pagination<Bookings>;
+    books: Pagination<Books>;
 }
 export default function Notification() {
     const { books, bookings } = usePage<PageProps>().props;
@@ -198,9 +219,9 @@ export default function Notification() {
             <div id='allContainer' className={category === 'all' || category === "" ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length > 0 ? (
+                        {bookings.data.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {bookings.map((b) => (
+                                {bookings.data.map((b) => (
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
@@ -264,9 +285,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length > 0 ? (
+                        {books.data.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                                {books.map((b) => (
+                                {books.data.map((b) => (
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
@@ -326,9 +347,9 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'cancelled' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length >= 0 && (
+                        {bookings.data.length >= 0 && (
                             (() => {
-                                const cancelledBookings = bookings.filter((b) => b.status === "cancelled");
+                                const cancelledBookings = bookings.data.filter((b) => b.status === "cancelled");
 
                                 return cancelledBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -376,9 +397,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length >= 0 && (
+                        {books.data.length >= 0 && (
                             (() => {
-                                const cancelledBookings = books.filter((b) => b.status === "cancelled");
+                                const cancelledBookings = books.data.filter((b) => b.status === "cancelled");
 
                                 return cancelledBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -430,9 +451,9 @@ export default function Notification() {
             <div id='doneContainer' className={category === 'done' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length >= 0 && (
+                        {bookings.data.length >= 0 && (
                             (() => {
-                                const doneBookings = bookings.filter((b) => b.status == "done");
+                                const doneBookings = bookings.data.filter((b) => b.status == "done");
 
                                 return doneBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -484,9 +505,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length >= 0 && (
+                        {books.data.length >= 0 && (
                             (() => {
-                                const doneBookings = books.filter((b) => b.status === "done");
+                                const doneBookings = books.data.filter((b) => b.status === "done");
 
                                 return doneBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -591,9 +612,9 @@ export default function Notification() {
             <div className={category === 'declined' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length >= 0 && (
+                        {bookings.data.length >= 0 && (
                             (() => {
-                                const declinedBookings = bookings.filter((b) => b.status === "declined");
+                                const declinedBookings = bookings.data.filter((b) => b.status === "declined");
 
                                 return declinedBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -641,9 +662,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length >= 0 && (
+                        {books.data.length >= 0 && (
                             (() => {
-                                const declinedBooks = books.filter((b) => b.status === "declined");
+                                const declinedBooks = books.data.filter((b) => b.status === "declined");
 
                                 return declinedBooks.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -706,9 +727,9 @@ export default function Notification() {
             <div className={category === 'pending' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length >= 0 && (
+                        {bookings.data.length >= 0 && (
                             (() => {
-                                const pendingBookings = bookings.filter((b) => b.status === "pending");
+                                const pendingBookings = bookings.data.filter((b) => b.status === "pending");
 
                                 return pendingBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -774,9 +795,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length >= 0 && (
+                        {books.data.length >= 0 && (
                             (() => {
-                                const pendingBooks = books.filter((b) => b.status === "pending");
+                                const pendingBooks = books.data.filter((b) => b.status === "pending");
 
                                 return pendingBooks.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -840,9 +861,9 @@ export default function Notification() {
             <div className={category === 'approved' ? '' : 'hidden'}>
                 {auth.user.is_babysitter ? (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {bookings.length >= 0 && (
+                        {bookings.data.length >= 0 && (
                             (() => {
-                                const approvedBookings = bookings.filter((b) => b.status === "approved");
+                                const approvedBookings = bookings.data.filter((b) => b.status === "approved");
 
                                 return approvedBookings.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -896,9 +917,9 @@ export default function Notification() {
                     </div>
                 ) : (
                     <div id='ajax' className="flex h-full flex-1 flex-col gap-6 rounded-xl p-4 overflow-x-auto">
-                        {books.length >= 0 && (
+                        {books.data.length >= 0 && (
                             (() => {
-                                const approvedBooks = books.filter((b) => b.status === 'approved');
+                                const approvedBooks = books.data.filter((b) => b.status === 'approved');
 
                                 return approvedBooks.length > 0 ? (
                                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
@@ -956,6 +977,86 @@ export default function Notification() {
                     </div>
                 )}
             </div>
-        </AppLayout >
+            <div className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", books.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? 'hidden' : '')}>
+                {books.links && books.links.length > 0 && (
+                    <Pagination>
+                        <PaginationContent>
+                            {books.links.map((link, index) => {
+                                if (link.label.includes('Previous')) {
+                                    return (
+                                        <PaginationItem key={index}>
+                                            <PaginationPrevious
+                                                href={link.url || "#"}
+                                                className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                            />
+                                        </PaginationItem>
+                                    )
+                                }
+
+                                if (link.label.includes("Next")) {
+                                    return (
+                                        <PaginationItem key={index}>
+                                            <PaginationNext
+                                                href={link.url || "#"}
+                                                className={!link.url ? 'pointer-events-none opacity-50' : ''} />
+                                        </PaginationItem>
+                                    )
+                                }
+
+                                return (
+                                    <PaginationItem key={index}>
+                                        <PaginationLink
+                                            href={link.url || "#"}
+                                            isActive={link.active}
+                                            dangerouslySetInnerHTML={{ __html: link.label }} />
+                                    </PaginationItem>
+                                )
+                            })}
+                        </PaginationContent>
+                    </Pagination>
+                )}
+            </div>
+
+            <div className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", bookings.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? '' : 'hidden')}>
+                {bookings.links && bookings.links.length > 0 && (
+                    <Pagination>
+                        <PaginationContent>
+                            {bookings.links.map((links, index) => {
+                                if (links.label.includes("Previous")) {
+                                    return (
+                                        <PaginationItem key={index}>
+                                            <PaginationPrevious
+                                                href={links.url || "#"}
+                                                className={!links.url ? 'pointer-events-none opacity-50' : ''}
+                                            />
+                                        </PaginationItem>
+                                    )
+                                }
+                                if (links.label.includes("Next")) {
+                                    return (
+                                        <PaginationItem>
+                                            <PaginationNext
+                                                href={links.url || "#"}
+                                                className={!links.url ? 'pointer-events-none opacity-50' : ''}
+                                            />
+                                        </PaginationItem>
+                                    )
+                                }
+
+                                return (
+                                    <PaginationItem>
+                                        <PaginationLink
+                                            href={links.url || "#"}
+                                            isActive={links.active}
+                                            dangerouslySetInnerHTML={{ __html: links.label }}
+                                        />
+                                    </PaginationItem>
+                                )
+                            })}
+                        </PaginationContent>
+                    </Pagination>
+                )}
+            </div>
+        </AppLayout>
     );
 }

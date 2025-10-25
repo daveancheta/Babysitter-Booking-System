@@ -28,7 +28,7 @@ class BookingHistoryController extends Controller
                 DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
             )
             ->where('babysitter_id', $userId)
-            ->get();
+            ->paginate(6);
 
         $books = DB::table('bookings')
             ->latest()
@@ -41,7 +41,7 @@ class BookingHistoryController extends Controller
                 DB::raw('(SELECT ratings FROM ratings WHERE ratings.booking_id = bookings.id) as ratings')
             )
             ->where('user_id', $userId)
-            ->get();
+            ->paginate(6);
 
         foreach ($books as $b) {
             $start = Carbon::parse($b->start_date);
