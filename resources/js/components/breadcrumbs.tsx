@@ -71,6 +71,9 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleSearchInput = () => {
+        let displayContainer = document.getElementById("displaySavedSearch");
+        displayContainer?.classList.add("opacity-0", "scale-0")
+        displayContainer?.classList.remove("opacity-100", "scale-100")
 
         document.getElementById("search-input")?.classList.add("scale-0", 'opacity-0');
         document.getElementById("search-input")?.classList.remove("scale-100", 'opacity-190');
@@ -80,7 +83,10 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             document.getElementById("BreadcrumbList")?.classList.remove("hidden");
             document.getElementById("linkMessage")?.classList.remove("hidden");
             document.getElementById("hideNotification")?.classList.remove("hidden");
+            displayContainer?.classList.add("hidden");
         }, 300)
+
+
     }
 
     const { data, setData, get, processing, errors } = useForm({
@@ -268,7 +274,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button onClick={() => { handleShowNotification(); handleNotificationCount(); }} variant='outline' className='cursor-pointer'><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-neutral-100 dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -left-60 top-10 rounded-md border bg-background shadow-lg dark:bg-neutral-900 min-w-[345px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide m-1 transition-all ease-in-out origin-top duration-300 transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 <div className="flex items-center space-x-4" id='skeletonNotification'>
@@ -310,7 +316,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-2 -right-2 w-5 text-white  text-center text-sm', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
                         <div className='relative'>
                             <Button variant='outline' className='cursor-pointer' onClick={() => { handleShowNotification(); handleNotificationCount(); }}><Bell /></Button>
-                            <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-neutral-100 dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
+                            <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-background shadow-lg dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
                                 <div className="flex items-center space-x-4" id='skeletonNotification'>
@@ -364,7 +370,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                     onChange={(e) => { setData('search', e.target.value); setSearch(e.target.value) }} value={data.search}
                                     onMouseOver={handleOpenSearchContainer} />
                                 <div
-                                    className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-neutral-100 border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3 hidden transition-all ease-in-out origin-top transform opacity-0 scale-0'}
+                                    className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-background shadow-lg border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3 hidden transition-all ease-in-out origin-top transform opacity-0 scale-0'}
                                     id='displaySavedSearch'
                                     onMouseOver={handleOpenSearchContainer2}>
                                     <div className='flex flex-col gap-2'>
@@ -375,7 +381,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                         <hr />
                                         <div className='flex flex-wrap gap-2' id='searchItems'>
                                             {savedSearch.map((item: any, index) => (
-                                                <span key={index} className='dark:bg-neutral-800 bg-white px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
+                                                <span key={index} className='dark:bg-neutral-800 bg-neutral-200 px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
                                                     <div className='text-black dark:text-white'>{item}</div>
                                                     <button type='button' className='absolute -top-2 -right-2 bg-neutral-500 rounded-full cursor-pointer p-1' onClick={() => { handledDeleteSearch(item); }}>
                                                         <X className='text-white' size={12} />
@@ -383,7 +389,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                                 </span>
                                             ))}
                                         </div>
-                                        <button type='button' onClick={handleClearSearch} className='absolute bottom-0 right-0 p-4 text-red-500'><Trash2 size={18} /></button>
+                                        <button type='button' onClick={handleClearSearch} className='absolute bottom-0 right-0 p-4 text-red-500 cursor-pointer'><Trash2 size={18} /></button>
                                     </div>
                                 </div>
                             </div>
