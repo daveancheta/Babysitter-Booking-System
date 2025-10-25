@@ -63,10 +63,10 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const { auth } = usePage<SharedData>().props;
     const balance = auth.user.balance;
     const balanceFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(balance);
-    const balanceValue = '$' + balanceFormatted;
+    const balanceValue = '₱' + balanceFormatted;
     const rate = auth.user.rate;
     const rateFormatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(rate);
-    const rateValue = "$" + rateFormatted;
+    const rateValue = "₱" + rateFormatted;
     const { followingCount, followerCount, followingUser, followerUser, rateAverage, hireCount } = usePage<PageProps>().props;
 
     const { delete: destroy, processing: processingDelete } = useForm({});
