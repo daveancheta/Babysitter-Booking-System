@@ -977,7 +977,7 @@ export default function Notification() {
                     </div>
                 )}
             </div>
-            <div className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", books.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? 'hidden' : '')}>
+            <div id='pagination' className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", books.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? 'hidden' : '', category === "all" || category === "" ? '' : 'hidden')}>
                 {books.links && books.links.length > 0 && (
                     <Pagination>
                         <PaginationContent>
@@ -1017,7 +1017,7 @@ export default function Notification() {
                 )}
             </div>
 
-            <div className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", bookings.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? '' : 'hidden')}>
+            <div id='pagination' className={cn('mt-10 mb-10', isMobile ? "" : "ml-5", bookings.data.length === 0 ? 'hidden' : '', auth?.user.is_babysitter ? '' : 'hidden', category === "all" || category === "" ? '' : 'hidden')}>
                 {bookings.links && bookings.links.length > 0 && (
                     <Pagination>
                         <PaginationContent>
