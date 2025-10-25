@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\select;
@@ -24,6 +25,9 @@ class BabysitterController extends Controller
      */
     public function index()
     {
+
+        Gate::authorize('admin-denied');
+        
         $userId = Auth::id();
 
         $babySitter = User::where('id', $userId)->first();
