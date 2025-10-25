@@ -18,24 +18,29 @@ export function AppSidebar() {
                 icon: LayoutGrid,
             },
         ] : []),
-        
-        {
-            title: 'Find a Babysitter',
-            href: '/babysitter',
-            icon: Baby,
-        },
-        ...(auth?.user.is_babysitter ? [] : [
+
+        ...(auth?.user.is_admin ? [] : [
+            {
+                title: 'Find a Babysitter',
+                href: '/babysitter',
+                icon: Baby,
+            },
+        ]),
+
+        ...(auth?.user.is_babysitter || auth?.user.is_admin ? [] : [
             {
                 title: 'Book Now',
                 href: '/parent',
                 icon: UserPlus,
             },
         ]),
-        {
-            title: 'Bookings History',
-            href: '/notification',
-            icon: Calendar,
-        },
+        ...(auth?.user.is_admin ? [] : [
+            {
+                title: 'Bookings History',
+                href: '/notification',
+                icon: Calendar,
+            },
+        ])
     ];
 
     return (
