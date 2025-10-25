@@ -417,16 +417,12 @@ export default function Index() {
                                             </DialogContent>
                                         </form>
                                     </Dialog>
+                                    <ContextMenuSeparator/>
                                     <ContextMenuItem inset>
                                         <div className='flex flex-row gap-2 items-center'>
                                         <EyeOff size={15}/> Hide post</div>
                                         <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                                     </ContextMenuItem>
-                                    <ContextMenuSeparator />
-                                    <ContextMenuCheckboxItem checked>
-                                        Report
-                                    </ContextMenuCheckboxItem>
-                                    <ContextMenuCheckboxItem>Share</ContextMenuCheckboxItem>
                                 </ContextMenuContent>
                             </ContextMenu>
                         ))}
