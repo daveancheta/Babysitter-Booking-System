@@ -32,11 +32,11 @@ export default function Dashboard() {
                             <span className='text-muted-foreground font-medium tracking-wide'>Total Revenue</span>
                             {currentRevenue > pastRevenue ?
                                 <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-green-600 dark:text-green-400'>
-                                    <TrendingUp className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(revenuePercentage)}
+                                    <TrendingUp className="mr-1 size-4" /> +{new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(revenuePercentage)}%
                                 </Badge>
                                 :
                                 <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-red-600 dark:text-red-400'>
-                                    <TrendingDown className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(revenuePercentage)}
+                                    <TrendingDown className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(revenuePercentage)}% 
                                 </Badge>}
                         </div>
                         <div>
