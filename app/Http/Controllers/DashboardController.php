@@ -92,7 +92,14 @@ class DashboardController extends Controller
 
         $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
 
-        return Inertia::render('dashboard', compact('currentRevenue', 'pastRevenue', 
+        $users = User::whereNot('is_admin', true)
+        ->get();
+
+        foreach($users as $u) {
+            $u->formattedBalance = number_format($u->balance, 2);
+        }
+
+        return Inertia::render('dashboard', compact('users', 'currentRevenue', 'pastRevenue', 
         'revenuePercentage', 'newParents', 'previousParents',  'parentPercentage', 'newBabysitters', 'previousBabysitters', 'babysitterPercentage'));
     }
 

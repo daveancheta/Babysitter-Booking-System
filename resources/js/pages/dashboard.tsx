@@ -3,7 +3,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
-import { EllipsisVertical, Minus, TrendingDown, TrendingUp } from 'lucide-react';
+import { Bookmark, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
     Table,
@@ -15,6 +15,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,6 +40,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 
 ];
+
+interface Users {
+    id: number;
+    account_id: number;
+    name: string;
+    is_babysitter: boolean;
+    formattedBalance: number;
+}
 
 interface PageProps extends InertiaPageProps {
     currentRevenue: number;
@@ -34,12 +59,19 @@ interface PageProps extends InertiaPageProps {
     babysitterPercentage: number;
     newBabysitters: number;
     previousBabysitters: number;
+    users: Users[];
 }
 
 export default function Dashboard() {
-    const { currentRevenue, pastRevenue, revenuePercentage,
+    const { users, currentRevenue, pastRevenue, revenuePercentage,
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
+    const [actionId, setActionId] = useState(Number);
+
+    const handleOpenAction = (id: number) => {
+        document.getElementById(`action${id}`)?.classList.remove("hidden")
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -172,9 +204,8 @@ export default function Dashboard() {
                     </div>
 
                 </div>
+                <div className="relative overflow-x-auto rounded-md scrollbar-hide">
 
-
-                <div className="relative overflow-x-auto rounded-md">
                     <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
                         <thead className="text-xs text-black background-bg uppercase bg-v-50 dark:bg-neutral-900 dark:text-white border">
                             <tr>
@@ -198,28 +229,68 @@ export default function Dashboard() {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr className="bg-background dark:bg-background border">
-                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    kZRVIP32He
-                                </th>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    John Doe
-                                </th>
-                                <td className="px-6 py-4">
-                                    Active
-                                </td>
-                                <td className="px-6 py-4">
-                                    ₱120.00
-                                </td>
-                                <td className="px-6 py-4">
-                                    Babysitter
-                                </td>
-                                  <td className="px-6 py-4 flex justify-center">
-                                    <EllipsisVertical/>
-                                </td>
-                            </tr>
-                        </tbody>
+                        {users.length > 0 ?
+                            <tbody>
+                                {users.map((u) => (
+                                    <tr className="bg-background dark:bg-background border ">
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {u.account_id}
+                                        </th>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {u.name}
+                                        </th>
+                                        <td className="px-6 py-4">
+                                            Active
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            ₱{u.formattedBalance}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {u.is_babysitter ? "Babysitter" : "Parent"}
+                                        </td>
+                                        <td className="px-6 py-4 flex justify-center relative">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <button className='cursor-pointer'>
+                                                        <EllipsisVertical />
+                                                    </button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end">
+                                                    <DropdownMenuGroup>
+                                                        <DropdownMenuItem>
+                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
+                                                            Edit
+                                                            <DropdownMenuShortcut><Pen/></DropdownMenuShortcut>
+                                                            </button>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
+                                                            Make a copy
+                                                            <DropdownMenuShortcut><Layers2/></DropdownMenuShortcut>
+                                                            </button>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
+                                                            Favorite
+                                                            <DropdownMenuShortcut><Bookmark/></DropdownMenuShortcut>
+                                                            </button>
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuGroup>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuGroup>
+                                                         <DropdownMenuItem>
+                                                            <button className='text-red-600 dark:text-red-400 cursor-pointer w-full text-start flex justify-between'>Delete
+                                                            <DropdownMenuShortcut><Trash2/></DropdownMenuShortcut>
+                                                            </button>
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuGroup>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            : <div></div>}
                     </table>
                 </div>
 
