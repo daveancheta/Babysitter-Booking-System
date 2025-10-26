@@ -34,7 +34,7 @@ export default function Dashboard() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-                <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
                     <div className='dark:bg-neutral-900 bg-background min-h-[200px] rounded-md p-7 shadow-lg flex flex-col gap-2 border'>
                         <div className='flex justify-between items-center'>
                             <span className='text-muted-foreground font-medium tracking-wide'>Total Revenue</span>
@@ -59,15 +59,15 @@ export default function Dashboard() {
                         </div>
                         <div className='mt-5 space-y-1'>
                             {currentRevenue > pastRevenue ?
-                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide truncate'>
+                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide '>
                                     Revenue up this month <TrendingUp className="size-4" />
                                 </span>
                                 :
                                 currentRevenue === pastRevenue
-                                    ? <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide truncate'>
+                                    ? <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide '>
                                         Revenue equal this month <Minus className="size-4" />
                                     </span>
-                                    : <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide truncate'>
+                                    : <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide '>
                                         Revenue down this month <TrendingDown className="size-4" />
                                     </span>
                             }
@@ -87,7 +87,7 @@ export default function Dashboard() {
                                     <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-blue-600 dark:text-blue-400'>
                                         <Minus className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(parentPercentage)}%
                                     </Badge>
-                                    : <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-red-600 dark:text-red-400 truncate'>
+                                    : <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-red-600 dark:text-red-400 '>
                                         <TrendingDown className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(parentPercentage)}%
                                     </Badge>
                             }
@@ -99,17 +99,17 @@ export default function Dashboard() {
                         </div>
                         <div className='mt-5 space-y-1'>
                             {newParents > previousParents ?
-                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide truncate'>
-                                    Parents increased from last month. <TrendingUp className="size-4" />
+                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide '>
+                                    Parents increased from last month <TrendingUp className="size-4" />
                                 </span>
                                 : newParents === previousParents
                                     ?
-                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide truncate'>
-                                        Parent count remains the same as last month.. <Minus className="size-4" />
+                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide '>
+                                        Same as the last month <Minus className="size-4" />
                                     </span>
                                     :
-                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide truncate'>
-                                        Parents decreased from last month. <TrendingDown className="size-4" />
+                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide '>
+                                        Parents decreased from last month <TrendingDown className="size-4" />
                                     </span>
 
                             }
@@ -129,7 +129,7 @@ export default function Dashboard() {
                                     <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-blue-600 dark:text-blue-400'>
                                         <Minus className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(babysitterPercentage)}%
                                     </Badge>
-                                    : <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-red-600 dark:text-red-400 truncate'>
+                                    : <Badge variant='secondary' className='rounded-lg tracking-wide border dark:border-neutral-700 border-neutral-400 text-red-600 dark:text-red-400 '>
                                         <TrendingDown className="mr-1 size-4" /> {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(babysitterPercentage)}%
                                     </Badge>
                             }
@@ -141,17 +141,17 @@ export default function Dashboard() {
                         </div>
                         <div className='mt-5 space-y-1'>
                             {newBabysitters > previousBabysitters ?
-                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide truncate'>
-                                    Babysitter increased from last month. <TrendingUp className="size-4" />
+                                <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide '>
+                                    Babysitter increased from last month <TrendingUp className="size-4" />
                                 </span>
                                 : newBabysitters === previousBabysitters
                                     ?
-                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide truncate'>
-                                        Babysitter count remains the same as last month.. <Minus className="size-4" />
+                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-blue-600 dark:text-blue-400 tracking-wide '>
+                                        Same as the last month <Minus className="size-4" />
                                     </span>
                                     :
-                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide truncate'>
-                                        Babysitter decreased from last month. <TrendingDown className="size-4" />
+                                    <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide '>
+                                        Babysitter decreased from last month <TrendingDown className="size-4" />
                                     </span>
 
                             }
@@ -160,7 +160,7 @@ export default function Dashboard() {
                             </span>
                         </div>
                     </div>
-                 
+                    
                 </div>
                 <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
