@@ -32,6 +32,19 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -44,9 +57,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Users {
     id: number;
     account_id: number;
+    ip_address: number;
     name: string;
     is_babysitter: boolean;
     formattedBalance: number;
+    address: string;
+    contact_number: number;
+    profile: string;
+    rate: number;
+    balance: number;
+    book_status: number;
+    email_verified_at: string;
+    created_at: string;
+    updated_at: string;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -208,6 +231,9 @@ export default function Dashboard() {
                                     Account Id
                                 </th>
                                 <th scope="col" className="px-6 py-3">
+                                    IP Address
+                                </th>
+                                <th scope="col" className="px-6 py-3">
                                     Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
@@ -232,6 +258,9 @@ export default function Dashboard() {
                                             {u.account_id}
                                         </th>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {u.ip_address}
+                                        </th>
+                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {u.name}
                                         </th>
                                         <td className="px-6 py-4">
@@ -246,36 +275,105 @@ export default function Dashboard() {
                                         <td className="px-6 py-4 flex justify-center relative">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <button className='cursor-pointer'> 
-                                                        <EllipsisVertical/>
+                                                    <button className='cursor-pointer'>
+                                                        <EllipsisVertical />
                                                     </button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end" key={u.id}>
                                                     <DropdownMenuGroup>
+
+
+                                                        <Dialog>
+                                                            <DialogTrigger asChild>
+                                                                <div className='rounded-sm px-2 py-1.5 text-sm  hover:bg-neutral-800 w-full gap-2"'>
+                                                                    <button className="cursor-pointer w-full text-start flex justify-between">
+                                                                        Edit
+                                                                        <DropdownMenuShortcut><Pen /></DropdownMenuShortcut>
+                                                                    </button>
+                                                                </div>
+                                                            </DialogTrigger>
+                                                            <DialogContent className="sm:max-w-[600px]">
+                                                                <DialogHeader>
+                                                                    <DialogTitle>Edit Data - {u.name}</DialogTitle>
+                                                                    <DialogDescription>
+                                                                        Make changes to {u.name}&apos;s data here. Click <b>Save</b> when you&apos;re done.
+                                                                    </DialogDescription>
+                                                                </DialogHeader>
+                                                                <div className="grid gap-4">
+                                                                    <div className='flex justify-between space-x-2'>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='account_id'>Account Id</Label>
+                                                                            <Input id='account_id' value={u.account_id} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='name'>Name</Label>
+                                                                            <Input id='name' value={u.name} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='ip_address'>IP Address</Label>
+                                                                            <Input id='ip_address' value={u.ip_address} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                 <div className="grid gap-4">
+                                                                    <div className='flex justify-between space-x-2'>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='address'>Address</Label>
+                                                                            <Input id='address' value={u.address || "NULL"} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='contact_number'>Contact Number</Label>
+                                                                            <Input id='contact_number' value={u.contact_number || "NULL"} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='profile'>Profile</Label>
+                                                                            <Input id='profile' value={u.profile || "NULL"} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                                                                                 <div className="grid gap-4">
+                                                                    <div className='flex justify-between space-x-2'>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='balance'>Balance</Label>
+                                                                            <Input id='balance' value={u.balance} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='rate'>Rate</Label>
+                                                                            <Input id='rate' value={u.rate || "NULL"} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
+                                                                            <Label htmlFor='profile'>Book Status</Label>
+                                                                            <Input id='profile' value={u.book_status} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <DialogFooter>
+                                                                    <DialogClose asChild>
+                                                                        <Button variant="outline">Cancel</Button>
+                                                                    </DialogClose>
+                                                                    <Button type="submit">Save changes</Button>
+                                                                </DialogFooter>
+                                                            </DialogContent>
+                                                        </Dialog>
+
                                                         <DropdownMenuItem>
                                                             <button className='cursor-pointer w-full text-start flex justify-between'>
-                                                            Edit
-                                                            <DropdownMenuShortcut><Pen/></DropdownMenuShortcut>
+                                                                Make a copy
+                                                                <DropdownMenuShortcut><Layers2 /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem>
                                                             <button className='cursor-pointer w-full text-start flex justify-between'>
-                                                            Make a copy
-                                                            <DropdownMenuShortcut><Layers2/></DropdownMenuShortcut>
-                                                            </button>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem>
-                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
-                                                            Favorite
-                                                            <DropdownMenuShortcut><Bookmark/></DropdownMenuShortcut>
+                                                                Favorite
+                                                                <DropdownMenuShortcut><Bookmark /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                         <DropdownMenuItem>
+                                                        <DropdownMenuItem>
                                                             <button className='text-red-600 dark:text-red-400 cursor-pointer w-full text-start flex justify-between'>Delete
-                                                            <DropdownMenuShortcut><Trash2/></DropdownMenuShortcut>
+                                                                <DropdownMenuShortcut><Trash2 /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
