@@ -66,11 +66,6 @@ export default function Dashboard() {
     const { users, currentRevenue, pastRevenue, revenuePercentage,
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
-    const [actionId, setActionId] = useState(Number);
-
-    const handleOpenAction = (id: number) => {
-        document.getElementById(`action${id}`)?.classList.remove("hidden")
-    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -251,8 +246,8 @@ export default function Dashboard() {
                                         <td className="px-6 py-4 flex justify-center relative">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <button className='cursor-pointer'>
-                                                        <EllipsisVertical />
+                                                    <button className='cursor-pointer'> 
+                                                        <EllipsisVertical/>
                                                     </button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end">
