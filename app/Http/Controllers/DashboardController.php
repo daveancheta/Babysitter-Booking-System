@@ -19,8 +19,9 @@ class DashboardController extends Controller
         Gate::authorize('admin-allowed');
 
         $currentMonth = Carbon::now()->format('m');
+        $previousMonth = Carbon::now()->subMonth()->format('m');
 
-        $bookings = DB::table('bookings')
+        $current = DB::table('bookings')
             ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
             ->select(
                 'bookings.*',
@@ -30,18 +31,42 @@ class DashboardController extends Controller
             ->whereIn('status', ['done', 'approved'])
             ->get();
 
-        $duration = 0;
-        $totalSales = 0;
+        $past = DB::table('bookings')
+            ->leftJoin('users', 'bookings.babysitter_id', '=', 'users.id')
+            ->select(
+                'bookings.*',
+                'users.rate'
+            )
+            ->whereMonth('bookings.created_at', $previousMonth)
+            ->whereIn('status', ['done', 'approved'])
+            ->get();
+
+        $currentSales = 0;
         $currentRevenue = 0;
-        foreach ($bookings as $b) {
-            $b->start_date = Carbon::parse($b->start_date);
-            $b->end_date = Carbon::parse($b->end_date);
-            $duration = $b->start_date->diffInDays($b->end_date);
-            $totalSales += $b->rate * $duration;    
-            $currentRevenue = $totalSales * 0.10;
+        foreach ($current as $c) {
+            $c->start_date = Carbon::parse($c->start_date);
+            $c->end_date = Carbon::parse($c->end_date);
+            $duration = $c->start_date->diffInDays($c->end_date);
+            $currentSales += $c->rate * $duration;
+            $currentRevenue = $currentSales * 0.10;
         }
 
-        return Inertia::render('dashboard', compact('currentRevenue'));
+        $pastSales = 0;
+        $pastRevenue = 0;
+        foreach ($past as $p) {
+            $p->start_date = Carbon::parse($p->start_date);
+            $p->end_date = Carbon::parse($p->end_date);
+            $duration = $p->start_date->diffInDays($p->end_date);
+            $pastSales += $p->rate * $duration;
+            $pastRevenue = $pastSales * 0.10;
+        }
+
+        $calculationPercentage = (($currentRevenue - $pastRevenue) / $pastRevenue) * 100;
+        $revenuePercentage = $calculationPercentage;
+
+
+
+        return Inertia::render('dashboard', compact('currentRevenue', 'pastRevenue', 'revenuePercentage'));
     }
 
     /**
