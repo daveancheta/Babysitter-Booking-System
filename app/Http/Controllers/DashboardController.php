@@ -62,45 +62,63 @@ class DashboardController extends Controller
             $pastRevenue = $pastSales * 0.10;
         }
 
-        $revenuePercentage = (($currentRevenue - $pastRevenue) / $pastRevenue) * 100;
+        if ($pastRevenue > 0) {
+            $revenuePercentage = (($currentRevenue - $pastRevenue) / $pastRevenue) * 100;
+        } else {
+            $revenuePercentage = 0.00;
+        }
 
         $newParents = User::whereNot('is_admin', true)
-        ->whereNot('is_babysitter', true)
-        ->whereMonth('created_at',  $currentMonth)
-        ->get()
-        ->count();
+            ->whereNot('is_babysitter', true)
+            ->whereMonth('created_at',  $currentMonth)
+            ->get()
+            ->count();
 
         $previousParents = User::whereNot('is_admin', true)
-        ->whereNot('is_babysitter', true)
-        ->whereMonth('created_at',  $previousMonth)
-        ->get()
-        ->count();
+            ->whereNot('is_babysitter', true)
+            ->whereMonth('created_at',  $previousMonth)
+            ->get()
+            ->count();
 
-        $parentPercentage = (($newParents - $previousParents) / $previousParents) * 100;
+        if ($previousParents > 0) {
+            $parentPercentage = (($newParents - $previousParents) / $previousParents) * 100;
+        } else {
+            $parentPercentage = 0.00;
+        }
 
         $newBabysitters = User::whereNot('is_admin', true)
-        ->where('is_babysitter', true)
-        ->whereMonth('created_at',  $currentMonth)
-        ->get()
-        ->count();
+            ->where('is_babysitter', true)
+            ->whereMonth('created_at',  $currentMonth)
+            ->get()
+            ->count();
 
         $previousBabysitters = User::whereNot('is_admin', true)
-        ->where('is_babysitter', true)
-        ->whereMonth('created_at',  $previousMonth)
-        ->get()
-        ->count();
+            ->where('is_babysitter', true)
+            ->whereMonth('created_at',  $previousMonth)
+            ->get()
+            ->count();
 
         $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
 
         $users = User::whereNot('is_admin', true)
-        ->get();
+            ->get();
 
-        foreach($users as $u) {
+        foreach ($users as $u) {
             $u->formattedBalance = number_format($u->balance, 2);
         }
 
-        return Inertia::render('dashboard', compact('users', 'currentRevenue', 'pastRevenue', 
-        'revenuePercentage', 'newParents', 'previousParents',  'parentPercentage', 'newBabysitters', 'previousBabysitters', 'babysitterPercentage'));
+        return Inertia::render('dashboard', compact(
+            'users',
+            'currentRevenue',
+            'pastRevenue',
+            'revenuePercentage',
+            'newParents',
+            'previousParents',
+            'parentPercentage',
+            'newBabysitters',
+            'previousBabysitters',
+            'babysitterPercentage'
+        ));
     }
 
     /**
