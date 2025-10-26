@@ -78,8 +78,22 @@ class DashboardController extends Controller
 
         $parentPercentage = (($newParents - $previousParents) / $previousParents) * 100;
 
+        $newBabysitters = User::whereNot('is_admin', true)
+        ->where('is_babysitter', true)
+        ->whereMonth('created_at',  $currentMonth)
+        ->get()
+        ->count();
+
+        $previousBabysitters = User::whereNot('is_admin', true)
+        ->where('is_babysitter', true)
+        ->whereMonth('created_at',  $previousMonth)
+        ->get()
+        ->count();
+
+        $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
+
         return Inertia::render('dashboard', compact('currentRevenue', 'pastRevenue', 
-        'revenuePercentage', 'newParents', 'parentPercentage', 'previousParents'));
+        'revenuePercentage', 'newParents', 'previousParents',  'parentPercentage', 'newBabysitters', 'previousBabysitters', 'babysitterPercentage'));
     }
 
     /**
