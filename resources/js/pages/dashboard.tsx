@@ -95,7 +95,7 @@ export default function Dashboard() {
                         <div className='mt-5 space-y-1'>
                             {newParents > previousParents ?
                                 <span className='text-sm font-medium flex flex-row gap-1 items-center text-green-600 dark:text-green-400 tracking-wide truncate'>
-                                    Parent increased from last month. <TrendingUp className="size-4" />
+                                    Parents increased from last month. <TrendingUp className="size-4" />
                                 </span>
                                 : newParents === previousParents 
                                 ?
@@ -104,7 +104,7 @@ export default function Dashboard() {
                                 </span> 
                                 :
                                 <span className='text-sm font-medium flex flex-row gap-1 items-center text-red-600 dark:text-red-400 tracking-wide truncate'>
-                                    Parent decreased from last month. <TrendingDown className="size-4" />
+                                    Parents decreased from last month. <TrendingDown className="size-4" />
                                 </span>
                                 
                             }
