@@ -250,7 +250,7 @@ export default function Dashboard() {
                                                         <EllipsisVertical/>
                                                     </button>
                                                 </DropdownMenuTrigger>
-                                                <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end">
+                                                <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end" key={u.id}>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem>
                                                             <button className='cursor-pointer w-full text-start flex justify-between'>
