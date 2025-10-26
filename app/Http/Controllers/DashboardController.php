@@ -87,7 +87,7 @@ class DashboardController extends Controller
         if ($previousParents > 0) {
             $parentPercentage = (($newParents - $previousParents) / $previousParents) * 100;
         } else {
-            $parentPercentage = 0.00;
+            $parentPercentage = 100.00;
         }
 
         $newBabysitters = User::whereNot('is_admin', true)
@@ -105,7 +105,7 @@ class DashboardController extends Controller
         if ($previousBabysitters > 0) {
             $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
         } else {
-            $babysitterPercentage = 0.00;
+            $babysitterPercentage = 100.00;
         }
 
         $users = User::whereNot('is_admin', true)
