@@ -3,8 +3,18 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
-import { Minus, TrendingDown, TrendingUp } from 'lucide-react';
+import { EllipsisVertical, Minus, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -160,11 +170,59 @@ export default function Dashboard() {
                             </span>
                         </div>
                     </div>
-                    
+
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+
+                <div className="relative overflow-x-auto rounded-md">
+                    <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
+                        <thead className="text-xs text-black background-bg uppercase bg-v-50 dark:bg-neutral-900 dark:text-white border">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Account Id
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Balance
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Role
+                                </th>
+                                <th scope="col" className="px-6 py-3 flex justify-center">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr className="bg-background dark:bg-background border">
+                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    kZRVIP32He
+                                </th>
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    John Doe
+                                </th>
+                                <td className="px-6 py-4">
+                                    Active
+                                </td>
+                                <td className="px-6 py-4">
+                                    ₱120.00
+                                </td>
+                                <td className="px-6 py-4">
+                                    Babysitter
+                                </td>
+                                  <td className="px-6 py-4 flex justify-center">
+                                    <EllipsisVertical/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+
             </div>
         </AppLayout>
     );
