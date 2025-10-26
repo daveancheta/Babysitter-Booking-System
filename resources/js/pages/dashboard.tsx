@@ -288,10 +288,8 @@ export default function Dashboard() {
                                                         <EllipsisVertical />
                                                     </button>
                                                 </DropdownMenuTrigger>
-                                                <DropdownMenuContent className="w-56 m-2 bg-neutral-900 border" align="end" key={u.id}>
+                                                <DropdownMenuContent className="w-56 m-2 bg-background shadow-lg dark:bg-neutral-900 border" align="end" key={u.id}>
                                                     <DropdownMenuGroup>
-
-
                                                         <Dialog>
                                                             <DialogTrigger asChild>
                                                                 <div className='rounded-sm px-2 py-1.5 text-sm  hover:bg-neutral-800 w-full gap-2"'>
