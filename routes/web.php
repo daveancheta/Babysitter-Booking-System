@@ -5,6 +5,7 @@ use App\Http\Controllers\BabysitterController;
 use App\Http\Controllers\BanningController;
 use App\Http\Controllers\BookingHistoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
@@ -24,10 +25,7 @@ Route::get('login', function () {
 })->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        Gate::authorize('admin-allowed');
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Babysitter/Index.tsx
     Route::get('/babysitter', [BabysitterController::class, 'index'])->name('babysitter.index');

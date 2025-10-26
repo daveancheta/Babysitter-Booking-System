@@ -2,9 +2,9 @@ import { Badge } from '@/components/ui/badge';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { TrendingUp } from 'lucide-react';
-
+import { PageProps as InertiaPageProps } from '@inertiajs/core'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,7 +14,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 ];
 
+interface PageProps extends InertiaPageProps {
+    currentRevenue: number;
+}
+
 export default function Dashboard() {
+    const { currentRevenue } = usePage<PageProps>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -29,7 +34,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <h3 className='text-3xl font-medium mt-1 tracking-wide'>
-                                ₱1,650.00
+                                ₱{ new Intl.NumberFormat('en-us', {minimumFractionDigits: 2}).format(currentRevenue)}
                             </h3>
                         </div>
                         <div className='mt-5 space-y-1'>
