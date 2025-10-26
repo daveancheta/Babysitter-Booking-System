@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -61,12 +62,24 @@ class DashboardController extends Controller
             $pastRevenue = $pastSales * 0.10;
         }
 
-        $calculationPercentage = (($currentRevenue - $pastRevenue) / $pastRevenue) * 100;
-        $revenuePercentage = $calculationPercentage;
+        $revenuePercentage = (($currentRevenue - $pastRevenue) / $pastRevenue) * 100;
 
+        $newParents = User::whereNot('is_admin', true)
+        ->whereNot('is_babysitter', true)
+        ->whereMonth('created_at',  $currentMonth)
+        ->get()
+        ->count();
 
+        $previousParents = User::whereNot('is_admin', true)
+        ->whereNot('is_babysitter', true)
+        ->whereMonth('created_at',  $previousMonth)
+        ->get()
+        ->count();
 
-        return Inertia::render('dashboard', compact('currentRevenue', 'pastRevenue', 'revenuePercentage'));
+        $parentPercentage = (($newParents - $previousParents) / $previousParents) * 100;
+
+        return Inertia::render('dashboard', compact('currentRevenue', 'pastRevenue', 
+        'revenuePercentage', 'newParents', 'parentPercentage', 'previousParents'));
     }
 
     /**
