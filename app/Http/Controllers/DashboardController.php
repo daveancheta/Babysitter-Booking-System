@@ -98,7 +98,11 @@ class DashboardController extends Controller
             ->get()
             ->count();
 
-        $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
+        if($previousBabysitters > 0) {
+            $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
+        } else {
+            $babysitterPercentage = 0.00;
+        }
 
         $users = User::whereNot('is_admin', true)
             ->get();
