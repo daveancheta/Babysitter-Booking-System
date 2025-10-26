@@ -25,7 +25,9 @@ Route::get('login', function () {
 })->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('dashboard/{id}', [DashboardController::class, 'destroy'])->name('delete.user');
 
     // Babysitter/Index.tsx
     Route::get('/babysitter', [BabysitterController::class, 'index'])->name('babysitter.index');

@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { Bookmark, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
@@ -98,6 +98,13 @@ export default function Dashboard() {
     const { users, currentRevenue, pastRevenue, revenuePercentage,
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
+
+        const { data, setData, delete: destroy, processing} = useForm([
+
+        ])
+        const handleDeleteUser = (id: number) => {
+            destroy(route('delete.user', { id }))
+        }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -398,7 +405,7 @@ export default function Dashboard() {
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem>
-                                                            <button className='text-red-600 dark:text-red-400 cursor-pointer w-full text-start flex justify-between'>Delete
+                                                            <button className='text-red-600 dark:text-red-400 cursor-pointer w-full text-start flex justify-between' onClick={() => handleDeleteUser(u.id)}>Delete
                                                                 <DropdownMenuShortcut><Trash2 size={15} /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
