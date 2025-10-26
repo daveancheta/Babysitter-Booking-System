@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Follow;
+use App\Models\Post;
+use App\Models\Reaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -98,7 +102,7 @@ class DashboardController extends Controller
             ->get()
             ->count();
 
-        if($previousBabysitters > 0) {
+        if ($previousBabysitters > 0) {
             $babysitterPercentage = (($newBabysitters - $previousBabysitters) / $previousBabysitters) * 100;
         } else {
             $babysitterPercentage = 0.00;
@@ -155,6 +159,11 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         User::where('id', $id)->delete();
+        Post::where('babysitter_id', $id)->delete();
+        Reaction::where('user_id', $id)->delete();
+        Comment::where('user_id', $id)->delete();
+        Follow::where('following_user_id', $id);
+        Follow::where('follower_user_id', $id);
 
         return redirect()->route('dashboard');
     }
