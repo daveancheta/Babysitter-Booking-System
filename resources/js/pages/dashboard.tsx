@@ -109,7 +109,7 @@ export default function Dashboard() {
                                 
                             }
                             <span className='text-sm text-muted-foreground font-medium flex flex-row gap-1 items-center tracking-wide'>
-                                Total Revenue for this month
+                                Total new parents this month
                             </span>
                         </div>
                     </div>
