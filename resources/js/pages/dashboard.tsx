@@ -44,7 +44,15 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -57,6 +65,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface Users {
     id: number;
     account_id: number;
+    email: string;
     ip_address: number;
     name: string;
     is_babysitter: boolean;
@@ -288,7 +297,7 @@ export default function Dashboard() {
                                                                 <div className='rounded-sm px-2 py-1.5 text-sm  hover:bg-neutral-800 w-full gap-2"'>
                                                                     <button className="cursor-pointer w-full text-start flex justify-between">
                                                                         Edit
-                                                                        <DropdownMenuShortcut><Pen /></DropdownMenuShortcut>
+                                                                        <DropdownMenuShortcut><Pen size={15} /></DropdownMenuShortcut>
                                                                     </button>
                                                                 </div>
                                                             </DialogTrigger>
@@ -303,47 +312,66 @@ export default function Dashboard() {
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='account_id'>Account Id</Label>
-                                                                            <Input id='account_id' value={u.account_id} />
+                                                                            <Input id='account_id' placeholder={u.account_id} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='name'>Name</Label>
-                                                                            <Input id='name' value={u.name} />
+                                                                            <Input id='name' placeholder={u.name} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='ip_address'>IP Address</Label>
-                                                                            <Input id='ip_address' value={u.ip_address} />
+                                                                            <Input id='ip_address' placeholder={u.ip_address} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                 <div className="grid gap-4">
+                                                                <div className="grid gap-4">
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
+                                                                            <Label htmlFor='email_address'>Email Address</Label>
+                                                                            <Input id='email_address' placeholder={u.email || "NULL"} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
                                                                             <Label htmlFor='address'>Address</Label>
-                                                                            <Input id='address' value={u.address || "NULL"} />
+                                                                            <Input id='address' placeholder={u.address || "NULL"} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='contact_number'>Contact Number</Label>
-                                                                            <Input id='contact_number' value={u.contact_number || "NULL"} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='profile'>Profile</Label>
-                                                                            <Input id='profile' value={u.profile || "NULL"} />
+                                                                            <Input id='contact_number' placeholder={u.contact_number || "NULL"} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                                                                                 <div className="grid gap-4">
+                                                                <div className="grid gap-4">
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
+                                                                            <Label htmlFor='profile'>Profile</Label>
+                                                                            <Input type='file' id='profile' placeholder={u.profile} />
+                                                                        </div>
+                                                                        <div className='grid gap-3'>
                                                                             <Label htmlFor='balance'>Balance</Label>
-                                                                            <Input id='balance' value={u.balance} />
+                                                                            <Input id='balance' placeholder={u.balance || "NULL"} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='rate'>Rate</Label>
-                                                                            <Input id='rate' value={u.rate || "NULL"} />
+                                                                            <Input id='rate' placeholder={u.rate || 'NULL'} />
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="grid gap-4">
+                                                                    <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
-                                                                            <Label htmlFor='profile'>Book Status</Label>
-                                                                            <Input id='profile' value={u.book_status} />
+                                                                            <Label htmlFor='book_status'>Book Status</Label>
+                                                                            <Select>
+                                                                                <SelectTrigger className="w-[180px]">
+                                                                                    <SelectValue placeholder="Select a Book Status" />
+                                                                                </SelectTrigger>
+                                                                                <SelectContent>
+                                                                                    <SelectGroup>
+                                                                                        <SelectLabel>Book Status</SelectLabel>
+                                                                                        <SelectItem value="Booked">Booked</SelectItem>
+                                                                                        <SelectItem value="Available">Available</SelectItem>
+                                                                                    </SelectGroup>
+                                                                                </SelectContent>
+                                                                            </Select>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -359,13 +387,13 @@ export default function Dashboard() {
                                                         <DropdownMenuItem>
                                                             <button className='cursor-pointer w-full text-start flex justify-between'>
                                                                 Make a copy
-                                                                <DropdownMenuShortcut><Layers2 /></DropdownMenuShortcut>
+                                                                <DropdownMenuShortcut><Layers2 size={15} /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem>
                                                             <button className='cursor-pointer w-full text-start flex justify-between'>
                                                                 Favorite
-                                                                <DropdownMenuShortcut><Bookmark /></DropdownMenuShortcut>
+                                                                <DropdownMenuShortcut><Bookmark size={15} /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
@@ -373,7 +401,7 @@ export default function Dashboard() {
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem>
                                                             <button className='text-red-600 dark:text-red-400 cursor-pointer w-full text-start flex justify-between'>Delete
-                                                                <DropdownMenuShortcut><Trash2 /></DropdownMenuShortcut>
+                                                                <DropdownMenuShortcut><Trash2 size={15} /></DropdownMenuShortcut>
                                                             </button>
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
