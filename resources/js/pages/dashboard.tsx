@@ -99,12 +99,29 @@ export default function Dashboard() {
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
 
-        const { data, setData, delete: destroy, processing} = useForm([
+    const { delete: destroy, processing: deleteProcessing } = useForm({});
+    const { data, setData, put, processing, errors } = useForm({
+        id: 0,
+        account_id: '',
+        ip_address: '',
+        name: '',
+        email: '',
+        address: '',
+        contact_number: '',
+        profile: '',
+        balance: 0,
+        rate: 0,
+        book_status: '',
+    });
 
-        ])
-        const handleDeleteUser = (id: number) => {
-            destroy(route('delete.user', { id }))
-        }
+    const handleDeleteUser = (id: number) => {
+        destroy(route('delete.user', { id }))
+    }
+
+    const handleUpdateData = (e: React.FormEvent) => {
+        e.preventDefault();
+        put(route('update.user'));
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -313,73 +330,75 @@ export default function Dashboard() {
                                                                         Make changes to {u.name}&apos;s data here. Click <b>Save</b> when you&apos;re done.
                                                                     </DialogDescription>
                                                                 </DialogHeader>
-                                                                <div className="grid gap-4">
-                                                                    <div className='flex justify-between space-x-2'>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='account_id'>Account Id</Label>
-                                                                            <Input id='account_id' defaultValue={u.account_id} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='name'>Name</Label>
-                                                                            <Input id='name' defaultValue={u.name} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='ip_address'>IP Address</Label>
-                                                                            <Input id='ip_address' defaultValue={u.ip_address} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="grid gap-4">
-                                                                    <div className='flex justify-between space-x-2'>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='email_address'>Email Address</Label>
-                                                                            <Input id='email_address' defaultValue={u.email || "NULL"} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='address'>Address</Label>
-                                                                            <Input id='address' defaultValue={u.address || "NULL"} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='contact_number'>Contact Number</Label>
-                                                                            <Input id='contact_number' defaultValue={u.contact_number || "NULL"} />
+                                                                <form onSubmit={handleUpdateData} className="grid gap-4">
+                                                                    <div>
+                                                                        <div className='flex justify-between space-x-2'>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='account_id'>Account Id</Label>
+                                                                                <Input id='account_id' defaultValue={u.account_id} />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='name'>Name</Label>
+                                                                                <Input id='name' defaultValue={u.name} />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='ip_address'>IP Address</Label>
+                                                                                <Input id='ip_address' defaultValue={u.ip_address} />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="grid gap-4">
-                                                                    <div className='flex justify-between space-x-2'>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='profile'>Profile</Label>
-                                                                            <Input type='file' id='profile'/>
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='balance'>Balance</Label>
-                                                                            <Input id='balance' defaultValue={u.balance || "NULL"} />
-                                                                        </div>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='rate'>Rate</Label>
-                                                                            <Input id='rate' defaultValue={u.rate || 'NULL'} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="grid gap-4">
-                                                                    <div className='flex justify-between space-x-2'>
-                                                                        <div className='grid gap-3'>
-                                                                            <Label htmlFor='book_status'>Book Status</Label>
-                                                                            <Select>
-                                                                                <SelectTrigger className="w-[180px]">
-                                                                                    <SelectValue placeholder="Select a Book Status" />
-                                                                                </SelectTrigger>
-                                                                                <SelectContent>
-                                                                                    <SelectGroup>
-                                                                                        <SelectLabel>Book Status</SelectLabel>
-                                                                                        <SelectItem value="Booked">Booked</SelectItem>
-                                                                                        <SelectItem value="Available">Available</SelectItem>
-                                                                                    </SelectGroup>
-                                                                                </SelectContent>
-                                                                            </Select>
+                                                                    <div className="grid gap-4">
+                                                                        <div className='flex justify-between space-x-2'>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='email_address'>Email Address</Label>
+                                                                                <Input id='email_address' defaultValue={u.email || "NULL"} />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='address'>Address</Label>
+                                                                                <Input id='address' defaultValue={u.address || "NULL"} />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='contact_number'>Contact Number</Label>
+                                                                                <Input id='contact_number' defaultValue={u.contact_number || "NULL"} />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                    <div className="grid gap-4">
+                                                                        <div className='flex justify-between space-x-2'>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='profile'>Profile</Label>
+                                                                                <Input type='file' id='profile' />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='balance'>Balance</Label>
+                                                                                <Input id='balance' defaultValue={u.balance || "NULL"} />
+                                                                            </div>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='rate'>Rate</Label>
+                                                                                <Input id='rate' defaultValue={u.rate || 'NULL'} />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="grid gap-4">
+                                                                        <div className='flex justify-between space-x-2'>
+                                                                            <div className='grid gap-3'>
+                                                                                <Label htmlFor='book_status'>Book Status</Label>
+                                                                                <Select>
+                                                                                    <SelectTrigger className="w-[180px]">
+                                                                                        <SelectValue placeholder="Select a Book Status" />
+                                                                                    </SelectTrigger>
+                                                                                    <SelectContent>
+                                                                                        <SelectGroup>
+                                                                                            <SelectLabel>Book Status</SelectLabel>
+                                                                                            <SelectItem value="Booked">Booked</SelectItem>
+                                                                                            <SelectItem value="Available">Available</SelectItem>
+                                                                                        </SelectGroup>
+                                                                                    </SelectContent>
+                                                                                </Select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                                 <DialogFooter>
                                                                     <DialogClose asChild>
                                                                         <Button variant="outline">Cancel</Button>
