@@ -349,7 +349,7 @@ export default function Dashboard() {
                                                                             Make changes to {u.name}&apos;s data here. Click <b>Save</b> when you&apos;re done.
                                                                         </DialogDescription>
                                                                     </DialogHeader>
-                                                                    <div>
+                                                                    <div className='my-2'>
                                                                         {flash.message &&
                                                                             <Alert>
                                                                                 <CheckCircle2Icon />
@@ -374,6 +374,8 @@ export default function Dashboard() {
                                                                                 </Alert>
                                                                             </div>
                                                                         )}
+                                                                    </div>
+                                                                    <div>
                                                                         <div className='flex justify-between space-x-2'>
                                                                             <Input className='hidden' id='id' onChange={(e) => setData('id', u.id)} />
                                                                             <div className='grid gap-3'>
