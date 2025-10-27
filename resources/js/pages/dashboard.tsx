@@ -3,7 +3,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { Bookmark, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { Bookmark, CheckCircle2Icon, CircleAlert, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
     Table,
@@ -53,6 +53,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import {
+    Alert,
+    AlertDescription,
+    AlertTitle,
+} from "@/components/ui/alert"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -64,9 +69,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface Users {
     id: number;
-    account_id: number;
+    account_id: string;
     email: string;
-    ip_address: number;
+    ip_address: string;
     name: string;
     is_babysitter: boolean;
     formattedBalance: number;
@@ -75,13 +80,16 @@ interface Users {
     profile: string;
     rate: number;
     balance: number;
-    book_status: number;
+    book_status: string;
     email_verified_at: string;
     created_at: string;
     updated_at: string;
 }
 
 interface PageProps extends InertiaPageProps {
+    flash: {
+        message: string;
+    }
     currentRevenue: number;
     revenuePercentage: number;
     pastRevenue: number
@@ -95,7 +103,7 @@ interface PageProps extends InertiaPageProps {
 }
 
 export default function Dashboard() {
-    const { users, currentRevenue, pastRevenue, revenuePercentage,
+    const { flash, users, currentRevenue, pastRevenue, revenuePercentage,
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
 
@@ -118,9 +126,9 @@ export default function Dashboard() {
         destroy(route('delete.user', { id }))
     }
 
-    const handleUpdateData = (e: React.FormEvent) => {
+    const handleUpdateData = (e: React.FormEvent, id: number) => {
         e.preventDefault();
-        put(route('update.user'));
+        put(route('update.user', { id }));
     }
 
     return (
@@ -317,33 +325,68 @@ export default function Dashboard() {
                                                         <Dialog>
                                                             <DialogTrigger asChild>
                                                                 <div className='rounded-sm px-2 py-1.5 text-sm  hover:bg-neutral-800 w-full gap-2"'>
-                                                                    <button className="cursor-pointer w-full text-start flex justify-between">
+                                                                    <button className="cursor-pointer w-full text-start flex justify-between" onClick={() => {
+                                                                        setData('account_id', u.account_id);
+                                                                        setData('name', u.name);
+                                                                        setData('ip_address', u.ip_address);
+                                                                        setData('email', u.email);
+                                                                        setData('address', u.address);
+                                                                        setData('profile', u.profile);
+                                                                        setData('balance', u.balance);
+                                                                        setData('rate', u.rate)
+                                                                        setData('book_status', u.book_status)
+                                                                    }}>
                                                                         Edit
                                                                         <DropdownMenuShortcut><Pen size={15} /></DropdownMenuShortcut>
                                                                     </button>
                                                                 </div>
                                                             </DialogTrigger>
-                                                            <DialogContent className="sm:max-w-[600px]">
-                                                                <DialogHeader>
-                                                                    <DialogTitle>Edit Data - {u.name}</DialogTitle>
-                                                                    <DialogDescription>
-                                                                        Make changes to {u.name}&apos;s data here. Click <b>Save</b> when you&apos;re done.
-                                                                    </DialogDescription>
-                                                                </DialogHeader>
-                                                                <form onSubmit={handleUpdateData} className="grid gap-4">
+                                                            <DialogContent className="sm:max-w-[600px]" >
+                                                                <form onSubmit={(e) => handleUpdateData(e, u.id)} className="grid gap-4">
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>Edit Data - {u.name}</DialogTitle>
+                                                                        <DialogDescription>
+                                                                            Make changes to {u.name}&apos;s data here. Click <b>Save</b> when you&apos;re done.
+                                                                        </DialogDescription>
+                                                                    </DialogHeader>
                                                                     <div>
+                                                                        {flash.message &&
+                                                                            <Alert>
+                                                                                <CheckCircle2Icon />
+                                                                                <AlertTitle>Success! Your changes have been saved</AlertTitle>
+                                                                                <AlertDescription>
+                                                                                    {flash.message}
+                                                                                </AlertDescription>
+                                                                            </Alert>
+                                                                        }
+                                                                        {Object.keys(errors).length > 0 && (
+                                                                            <div className='mt-2'>
+                                                                                <Alert>
+                                                                                    <CircleAlert />
+                                                                                    <AlertTitle>Errors!</AlertTitle>
+                                                                                    <AlertDescription>
+                                                                                        <ul>
+                                                                                            {Object.entries(errors).map(([key, message]) => (
+                                                                                                <li key={key}>{message as string}</li>
+                                                                                            ))}
+                                                                                        </ul>
+                                                                                    </AlertDescription>
+                                                                                </Alert>
+                                                                            </div>
+                                                                        )}
                                                                         <div className='flex justify-between space-x-2'>
+                                                                            <Input className='hidden' id='id' onChange={(e) => setData('id', u.id)} />
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='account_id'>Account Id</Label>
-                                                                                <Input id='account_id' defaultValue={u.account_id} />
+                                                                                <Input id='account_id' onChange={(e) => setData('account_id', e.target.value)} value={data.account_id} placeholder={u.account_id} />
                                                                             </div>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='name'>Name</Label>
-                                                                                <Input id='name' defaultValue={u.name} />
+                                                                                <Input id='name' onChange={(e) => setData('name', e.target.value)} value={data.name} placeholder={u.name} />
                                                                             </div>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='ip_address'>IP Address</Label>
-                                                                                <Input id='ip_address' defaultValue={u.ip_address} />
+                                                                                <Input id='ip_address' onChange={(e) => setData('ip_address', e.target.value)} value={data.ip_address} placeholder={u.ip_address} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -351,15 +394,15 @@ export default function Dashboard() {
                                                                         <div className='flex justify-between space-x-2'>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='email_address'>Email Address</Label>
-                                                                                <Input id='email_address' defaultValue={u.email || "NULL"} />
+                                                                                <Input id='email_address' onChange={(e) => setData('email', e.target.value)} value={data.email} placeholder={u.email || "NULL"} />
                                                                             </div>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='address'>Address</Label>
-                                                                                <Input id='address' defaultValue={u.address || "NULL"} />
+                                                                                <Input id='address' onChange={(e) => setData('address', e.target.value)} value={data.address} placeholder={u.address || "NULL"} />
                                                                             </div>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='contact_number'>Contact Number</Label>
-                                                                                <Input id='contact_number' defaultValue={u.contact_number || "NULL"} />
+                                                                                <Input id='contact_number' onChange={(e) => setData('contact_number', e.target.value)} value={data.contact_number} placeholder={u.contact_number || "NULL"} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -367,23 +410,24 @@ export default function Dashboard() {
                                                                         <div className='flex justify-between space-x-2'>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='profile'>Profile</Label>
-                                                                                <Input type='file' id='profile' />
+                                                                                <Input type='file' id='profile' onChange={(e) => setData('profile', e.target.value)} />
                                                                             </div>
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='balance'>Balance</Label>
-                                                                                <Input id='balance' defaultValue={u.balance || "NULL"} />
+                                                                                <Input id='balance' onChange={(e) => setData('balance', parseInt(e.target.value))} value={data.balance} placeholder={u.balance || "NULL"} />
                                                                             </div>
-                                                                            <div className='grid gap-3'>
+                                                                            <div className={u.is_babysitter ? 'grid gap-3' : 'hidden'}>
                                                                                 <Label htmlFor='rate'>Rate</Label>
-                                                                                <Input id='rate' defaultValue={u.rate || 'NULL'} />
+                                                                                <Input id='rate' onChange={(e) => setData('rate', parseInt(e.target.value))} value={data.rate} placeholder={u.rate || 'NULL'} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div className="grid gap-4">
                                                                         <div className='flex justify-between space-x-2'>
-                                                                            <div className='grid gap-3'>
+                                                                            <div className={u.is_babysitter ? 'grid gap-3' : 'hidden'}>
                                                                                 <Label htmlFor='book_status'>Book Status</Label>
-                                                                                <Select>
+                                                                                <p className='text-sm'>Current status: {u.book_status === 'booked' ? 'Booked' : 'Available'}</p>
+                                                                                <Select onValueChange={(value) => setData('book_status', value)}>
                                                                                     <SelectTrigger className="w-[180px]">
                                                                                         <SelectValue placeholder="Select a Book Status" />
                                                                                     </SelectTrigger>
@@ -398,13 +442,14 @@ export default function Dashboard() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <DialogFooter>
+                                                                        <DialogClose asChild>
+                                                                            <Button variant="outline">Cancel</Button>
+                                                                        </DialogClose>
+                                                                        <Button type="submit">Save changes</Button>
+                                                                    </DialogFooter>
                                                                 </form>
-                                                                <DialogFooter>
-                                                                    <DialogClose asChild>
-                                                                        <Button variant="outline">Cancel</Button>
-                                                                    </DialogClose>
-                                                                    <Button type="submit">Save changes</Button>
-                                                                </DialogFooter>
                                                             </DialogContent>
                                                         </Dialog>
 

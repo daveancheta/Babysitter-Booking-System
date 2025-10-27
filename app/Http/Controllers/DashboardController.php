@@ -149,9 +149,36 @@ class DashboardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $id)
     {
-        //
+        $request->validate([
+            'id' => 'nullable',
+            'account_id' => 'nullable',
+            'ip_address' => 'nullable',
+            'name' => 'nullable',
+            'email' => 'nullable',
+            'address' => 'nullable',
+            'contact_number' => 'nullable',
+            'profile' => 'nullable',
+            'balance' => 'nullable',
+            'rate' => 'nullable',
+            'book_status' => 'nullable',
+        ]);
+      
+        $id->update([
+            'account_id' => $request->account_id,
+            'ip_address' => $request->ip_address,
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'profile' => $request->profile,
+            'balance' => $request->balance,
+            'rate' => $request->rate,
+            'book_status' => $request->book_status === 'Booked' ? 'booked' : NULL,
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Success');
     }
 
     /**
