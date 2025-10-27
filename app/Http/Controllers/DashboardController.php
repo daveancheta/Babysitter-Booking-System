@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Follow;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Reaction;
 use App\Models\User;
@@ -108,7 +109,7 @@ class DashboardController extends Controller
             $babysitterPercentage = 100.00;
         }
 
-        $users = User::whereNot('is_admin', true)
+        $users = User::oldest()->whereNot('is_admin', true)
             ->get();
 
         foreach ($users as $u) {
@@ -162,8 +163,9 @@ class DashboardController extends Controller
         Post::where('babysitter_id', $id)->delete();
         Reaction::where('user_id', $id)->delete();
         Comment::where('user_id', $id)->delete();
-        Follow::where('following_user_id', $id);
-        Follow::where('follower_user_id', $id);
+        Follow::where('following_user_id', $id)->delete();
+        Follow::where('follower_user_id', $id)->delete();
+        Notification::where('user_id', $id)->delete();
 
         return redirect()->route('dashboard');
     }
