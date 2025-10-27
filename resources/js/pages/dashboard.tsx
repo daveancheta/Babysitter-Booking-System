@@ -269,7 +269,7 @@ export default function Dashboard() {
                         {users.length > 0 ?
                             <tbody>
                                 {users.map((u) => (
-                                    <tr className="bg-background dark:bg-background border ">
+                                    <tr className="bg-background dark:bg-background border" key={u.id}>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {u.account_id}
                                         </th>
@@ -317,15 +317,15 @@ export default function Dashboard() {
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='account_id'>Account Id</Label>
-                                                                            <Input id='account_id' placeholder={u.account_id} />
+                                                                            <Input id='account_id' defaultValue={u.account_id} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='name'>Name</Label>
-                                                                            <Input id='name' placeholder={u.name} />
+                                                                            <Input id='name' defaultValue={u.name} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='ip_address'>IP Address</Label>
-                                                                            <Input id='ip_address' placeholder={u.ip_address} />
+                                                                            <Input id='ip_address' defaultValue={u.ip_address} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -333,15 +333,15 @@ export default function Dashboard() {
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='email_address'>Email Address</Label>
-                                                                            <Input id='email_address' placeholder={u.email || "NULL"} />
+                                                                            <Input id='email_address' defaultValue={u.email || "NULL"} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='address'>Address</Label>
-                                                                            <Input id='address' placeholder={u.address || "NULL"} />
+                                                                            <Input id='address' defaultValue={u.address || "NULL"} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='contact_number'>Contact Number</Label>
-                                                                            <Input id='contact_number' placeholder={u.contact_number || "NULL"} />
+                                                                            <Input id='contact_number' defaultValue={u.contact_number || "NULL"} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -349,15 +349,15 @@ export default function Dashboard() {
                                                                     <div className='flex justify-between space-x-2'>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='profile'>Profile</Label>
-                                                                            <Input type='file' id='profile' placeholder={u.profile} />
+                                                                            <Input type='file' id='profile'/>
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='balance'>Balance</Label>
-                                                                            <Input id='balance' placeholder={u.balance || "NULL"} />
+                                                                            <Input id='balance' defaultValue={u.balance || "NULL"} />
                                                                         </div>
                                                                         <div className='grid gap-3'>
                                                                             <Label htmlFor='rate'>Rate</Label>
-                                                                            <Input id='rate' placeholder={u.rate || 'NULL'} />
+                                                                            <Input id='rate' defaultValue={u.rate || 'NULL'} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
