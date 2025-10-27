@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Bell, Divide, History, Search, Trash2, X } from 'lucide-react';
 import { Input } from './ui/input';
@@ -28,12 +28,26 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const systemName = 'SitterLy';
     const [search, setSearch] = useState(String);
     const [savedSearch, setSavedSearch] = useState<String[]>([]);
+    const [prevCount, setPrevCount] = useState(Number);
 
     useEffect(() => {
+        const prevCount = { current: 0 };
+        const notificationSound = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1150-pristine.mp3");
+        let isFirstFetch = true;
+
         const fetchCountData = () => {
             axios.get(route('notification.count'), {})
                 .then(response => {
-                    setNewCount(response.data);
+                    const newCount = response.data
+
+                    if (!isFirstFetch && newCount > prevCount.current) {
+                        notificationSound.play();
+                    };
+
+                    prevCount.current = newCount;
+                    setNewCount(newCount);
+
+                    if (isFirstFetch) isFirstFetch = false;
                 })
         }
 
@@ -146,6 +160,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     const handleNotificationCount = () => {
         axios.post(route('notification.emptyCount'), {});
+        setPrevCount(0);
     }
 
     useEffect(() => {
