@@ -44,7 +44,7 @@ export default function Register() {
                     renderStepIndicator={''}
                 >
                     <Step>
-                        <h2 className='font-bold text-2xl'>Welcome to the (W. Name)!</h2>
+                        <h2 className='font-bold text-2xl'>Welcome to SitterLy!</h2>
                         <p className='text-md text-muted-foreground'>Click Next to proceed to the next step.</p>
                     </Step>
                     <Step>
