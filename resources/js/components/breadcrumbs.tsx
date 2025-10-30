@@ -3,7 +3,7 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
-import { Bell, Divide, History, Search, Trash2, X } from 'lucide-react';
+import { Bell, BotMessageSquare, Divide, History, Search, Trash2, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
@@ -77,6 +77,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         document.getElementById("searchIcon")?.classList.add("hidden");
         document.getElementById("BreadcrumbList")?.classList.add("hidden");
         document.getElementById("hideNotification")?.classList.add("hidden");
+        document.getElementById("hideBot")?.classList.add("hidden");
         setTimeout(() => {
             document.getElementById("search-input")?.classList.remove("scale-0", 'opacity-0');
             document.getElementById("search-input")?.classList.add("scale-100", 'opacity-190');
@@ -97,6 +98,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
             document.getElementById("BreadcrumbList")?.classList.remove("hidden");
             document.getElementById("linkMessage")?.classList.remove("hidden");
             document.getElementById("hideNotification")?.classList.remove("hidden");
+            document.getElementById("hideBot")?.classList.remove("hidden");
             displayContainer?.classList.add("hidden");
         }, 300)
 
@@ -284,6 +286,15 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
+                {isMobile ? 
+                <div id='hideBot'>
+                <Button  variant='outline' className='cursor-pointer'><BotMessageSquare/></Button> 
+                </div>
+                : 
+                <div>
+                <Button variant='outline' className='cursor-pointer'><BotMessageSquare/></Button>
+                </div>
+                }
                 {isMobile ?
                     <div id='hideNotification' className='relative'>
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
