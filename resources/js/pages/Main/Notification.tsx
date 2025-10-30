@@ -225,7 +225,7 @@ export default function Notification() {
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
+                                            <Badge variant={b.status === 'pending' ? "dayOff" : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
                                         </div>
                                         <div className='flex flex-col p-6'>
                                             <div className='flex justify-between items-center'>
@@ -291,7 +291,7 @@ export default function Notification() {
                                     <div className='dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col' key={b.id}>
                                         <div className='relative'>
                                             <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                            <Badge variant={b.status === 'pending' ? 'booked' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
+                                            <Badge variant={b.status === 'pending' ? 'dayOff' : (b.status === 'approved' ? 'available' : (b.status === 'done' ? 'available' : 'booked'))}><span className='uppercase'>{b.status}</span></Badge>
                                         </div>
 
                                         <div className='flex flex-col p-6'>
@@ -737,7 +737,7 @@ export default function Notification() {
                                             <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'pending' ? '' : 'hidden')} key={b.id}>
                                                 <div className='relative'>
                                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                                    <Badge variant='booked'><span className='uppercase'>Pending</span></Badge>
+                                                    <Badge variant='dayOff'><span className='uppercase'>Pending</span></Badge>
                                                 </div>
                                                 <div className='flex flex-col p-6'>
                                                     <div className='flex justify-between items-center'>
@@ -805,7 +805,7 @@ export default function Notification() {
                                             <div className={cn('dark:bg-neutral-900 bg-background rounded-lg border shadow-lg duration-200 min-h-[200px] flex flex-col', b.status === 'pending' ? '' : 'hidden')} key={b.id}>
                                                 <div className='relative'>
                                                     <img className='object-cover w-full h-100 rounded-t-lg' src={`${window.location.origin}/storage/${b.profile}`} alt="" />
-                                                    <Badge variant='booked'><span className='uppercase'>Pending</span></Badge>
+                                                    <Badge variant='dayOff'><span className='uppercase'>Pending</span></Badge>
                                                 </div>
 
                                                 <div className='flex flex-col p-6'>
