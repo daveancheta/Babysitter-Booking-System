@@ -2,8 +2,8 @@ import { Badge } from '@/components/ui/badge';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
-import { Bookmark, CheckCircle2Icon, CircleAlert, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Bookmark, CheckCircle2Icon, CircleAlert, Download, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
     Table,
@@ -15,7 +15,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from "@/components/ui/button"
 import {
@@ -108,7 +108,7 @@ export default function Dashboard() {
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
 
     const { delete: destroy, processing: deleteProcessing } = useForm({});
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, put, get, processing, errors } = useForm({
         id: 0,
         account_id: '',
         ip_address: '',
@@ -129,6 +129,11 @@ export default function Dashboard() {
     const handleUpdateData = (e: React.FormEvent, id: number) => {
         e.preventDefault();
         put(route('update.user', { id }));
+    }
+
+    const handleDownloadUsers = (e: React.FormEvent) => {
+        e.preventDefault();
+        window.location.href = route('download.users');
     }
 
     return (
@@ -264,7 +269,13 @@ export default function Dashboard() {
 
                 </div>
                 <div className="relative overflow-x-auto rounded-md scrollbar-hide">
-
+                    <div className="flex justify-end mb-2">
+                        <Button className='cursor-pointer' variant='outline'>
+                            <a href={route('download.users')} className='flex flex-row gap-2 items-center'>
+                                <Download size={16} /> Download CSV
+                            </a>
+                        </Button>
+                    </div>
                     <table className="w-full text-sm text-left rtl:text-right text-black dark:text-white">
                         <thead className="text-xs text-black background-bg uppercase bg-v-50 dark:bg-neutral-900 dark:text-white border">
                             <tr>
@@ -455,18 +466,7 @@ export default function Dashboard() {
                                                             </DialogContent>
                                                         </Dialog>
 
-                                                        <DropdownMenuItem>
-                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
-                                                                Make a copy
-                                                                <DropdownMenuShortcut><Layers2 size={15} /></DropdownMenuShortcut>
-                                                            </button>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem>
-                                                            <button className='cursor-pointer w-full text-start flex justify-between'>
-                                                                Favorite
-                                                                <DropdownMenuShortcut><Bookmark size={15} /></DropdownMenuShortcut>
-                                                            </button>
-                                                        </DropdownMenuItem>
+
                                                     </DropdownMenuGroup>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>

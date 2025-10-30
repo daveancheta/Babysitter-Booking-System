@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -141,9 +142,26 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function downloadUsersTable()
     {
-        //
+        $users = User::get();
+
+        $csvFileName = 'users.csv';
+        $path = public_path($csvFileName);
+
+        $csvFile = fopen($path, 'w');
+        $data = $users->toArray();
+
+        $headers = array_keys($data[0]);
+        fputcsv($csvFile, $headers);
+
+        foreach ($data as $row) {
+            fputcsv($csvFile, (array) $row);
+        }
+
+        fclose($csvFile);
+
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 
     /**
@@ -164,7 +182,7 @@ class DashboardController extends Controller
             'rate' => 'nullable',
             'book_status' => 'nullable',
         ]);
-      
+
         $id->update([
             'account_id' => $request->account_id,
             'ip_address' => $request->ip_address,
