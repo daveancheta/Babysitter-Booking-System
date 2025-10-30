@@ -3,7 +3,7 @@ import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
-import { Bell, BotMessageSquare, Divide, History, Search, Trash2, X } from 'lucide-react';
+import { Bell, BotMessageSquare, Divide, History, Search, Send, Trash2, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import axios from "axios";
@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { Skeleton } from "@/components/ui/skeleton"
+
 
 interface Notification {
     id: number;
@@ -286,15 +287,31 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 </div>
             }
             <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
-                {isMobile ? 
-                <div id='hideBot'>
-                <Button  variant='outline' className='cursor-pointer'><BotMessageSquare/></Button> 
-                </div>
-                : 
-                <div>
-                <Button variant='outline' className='cursor-pointer'><BotMessageSquare/></Button>
-                </div>
+                {isMobile ?
+                    <div id='hideBot'>
+                        <Button variant='outline' className='cursor-pointer'><BotMessageSquare /></Button>
+                    </div>
+                    :
+                    <div>
+                        <Button variant='outline' className='cursor-pointer'><BotMessageSquare /></Button>
+                    </div>
                 }
+                <div className='bg-background dark:bg-neutral-900 shadow-lg min-h-[500px] min-w-[400px] fixed bottom-0 right-10 rounded-tl-lg rounded-tr-lg border p-5 z-50 flex flex-col'>
+                    <div className='flex flex-row gap-3 items-center'>
+                    <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                        <AvatarImage />
+                        <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                            {getInitials('SitterLy Bot')}
+                        </AvatarFallback>
+                    </Avatar>
+                    <span className='font-bold'>SitterLy Bot</span>
+                    </div>
+                    <div className='flex-1'></div>
+                    <div className='flex justify-between space-x-2 mb-1'>
+                        <Input className='' placeholder={'Aa'}/>
+                        <Button variant='outline'><Send /></Button>
+                    </div>
+                </div>
                 {isMobile ?
                     <div id='hideNotification' className='relative'>
                         <span id='notificationCount' className={cn('absolute z-50 bg-red-500 rounded-full -top-1 -right-1 w-4 text-white  text-center text-xs', newCount === 0 ? 'hidden' : '')}>{newCount}</span>
@@ -394,8 +411,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                     className="pl-10 border-input file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm -mr-2"
                                     placeholder='Search...'
                                     onChange={(e) => { setData('search', e.target.value); setSearch(e.target.value) }} value={data.search}
-                                    onMouseOver={handleOpenSearchContainer} 
-                                    autoComplete='off'/>
+                                    onMouseOver={handleOpenSearchContainer}
+                                    autoComplete='off' />
                                 <div
                                     className={savedSearch.length === 0 ? 'hidden' : 'dark:bg-neutral-900 bg-background shadow-lg border rounded-lg min-w-[300px] min-h-[300px] absolute top-10 right-0 p-5 pr-3 hidden transition-all ease-in-out origin-top transform opacity-0 scale-0'}
                                     id='displaySavedSearch'
