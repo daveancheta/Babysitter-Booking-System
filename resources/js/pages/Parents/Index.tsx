@@ -234,7 +234,6 @@ export default function Index() {
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     <SelectLabel>Option</SelectLabel>
-                                                                    <SelectItem value="hour">Per Hour</SelectItem>
                                                                     <SelectItem value="week">Per Week</SelectItem>
                                                                     <SelectItem value="month">Per Month</SelectItem>
                                                                 </SelectGroup>
