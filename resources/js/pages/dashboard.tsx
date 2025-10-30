@@ -3,7 +3,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Ban, Bookmark, CheckCircle2Icon, CircleAlert, Download, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { Ban, Bookmark, CheckCircle2Icon, CircleAlert, CircleOff, Download, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
     Table,
@@ -84,6 +84,7 @@ interface Users {
     email_verified_at: string;
     created_at: string;
     updated_at: string;
+    isBanned: boolean;
 }
 
 interface PageProps extends InertiaPageProps {
@@ -134,6 +135,11 @@ export default function Dashboard() {
     const handleBanUSer = (e: React.FormEvent, ip_address: string) => {
         e.preventDefault();
         post(route('ban.user', { ip_address }));
+    }
+
+    const handleUnBannedUSer = (e: React.FormEvent, ip_address: string) => {
+        e.preventDefault();
+        post(route('unbanned.user', { ip_address }));
     }
 
     return (
@@ -465,13 +471,19 @@ export default function Dashboard() {
                                                                 </form>
                                                             </DialogContent>
                                                         </Dialog>
-                                                        
-                                                         <DropdownMenuItem>
-                                                            <button className='text-yellow-600 dark:text-yellow-400 cursor-pointer w-full text-start flex justify-between' onClick={(e) => handleBanUSer(e, u.ip_address)}>
-                                                            Ban
-                                                             <DropdownMenuShortcut><Ban size={15}/></DropdownMenuShortcut>
-                                                         </button>
-                                                         </DropdownMenuItem>
+
+                                                        <DropdownMenuItem>
+                                                            {u.isBanned ? <button className='text-yellow-600 dark:text-yellow-400 cursor-pointer w-full text-start flex justify-between' onClick={(e) => handleUnBannedUSer(e, u.ip_address)}>
+                                                                Unbanned
+                                                                <DropdownMenuShortcut><CircleOff size={15} /></DropdownMenuShortcut>
+                                                            </button>
+                                                                :
+                                                                <button className='text-yellow-600 dark:text-yellow-400 cursor-pointer w-full text-start flex justify-between' onClick={(e) => handleBanUSer(e, u.ip_address)}>
+                                                                    Ban
+                                                                    <DropdownMenuShortcut><Ban size={15} /></DropdownMenuShortcut>
+                                                                </button>}
+
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>

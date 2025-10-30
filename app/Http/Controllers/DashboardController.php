@@ -114,8 +114,10 @@ class DashboardController extends Controller
         $users = User::oldest()->whereNot('is_admin', true)
             ->get();
 
+        
         foreach ($users as $u) {
             $u->formattedBalance = number_format($u->balance, 2);
+            $u->isBanned = Banning::where('ip_address', $u->ip_address)->exists();
         }
 
         return Inertia::render('dashboard', compact(
@@ -140,6 +142,14 @@ class DashboardController extends Controller
         Banning::create([
             'ip_address' => $ip_address
         ]);
+
+        return redirect()->route('dashboard');
+    }
+
+    public function unbanned($ip_address)
+    {
+        
+        Banning::where('ip_address', $ip_address)->delete();
 
         return redirect()->route('dashboard');
     }
