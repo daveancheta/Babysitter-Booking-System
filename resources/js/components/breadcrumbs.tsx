@@ -227,6 +227,27 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         }, 300)
     }
 
+    const handleMessageBot = () => {
+        let messageContainer = document.getElementById("messageContainer");
+
+        if (messageContainer?.classList.contains('hidden')) {
+            messageContainer?.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageContainer?.classList.remove('opacity-0', 'scale-0');
+                messageContainer?.classList.add('opacity-100', 'scale-100')
+            }, 10)
+        } else {
+            messageContainer?.classList.add('opacity-0', 'scale-0');
+            messageContainer?.classList.remove('opacity-100', 'scale-100')
+
+            setTimeout(() => {
+                messageContainer?.classList.add('hidden');
+            }, 300)
+        }
+
+    }
+
     return (
         <>
             {isMobile ?
@@ -286,29 +307,29 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     )}
                 </div>
             }
-            <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2 ">
+            <div className="absolute right-5 cursor-pointer inline-flex items-center justify-center gap-2">
                 {isMobile ?
                     <div id='hideBot'>
                         <Button variant='outline' className='cursor-pointer'><BotMessageSquare /></Button>
                     </div>
                     :
                     <div>
-                        <Button variant='outline' className='cursor-pointer'><BotMessageSquare /></Button>
+                        <Button variant='outline' className='cursor-pointer' onClick={handleMessageBot}><BotMessageSquare /></Button>
                     </div>
                 }
-                <div className='bg-background dark:bg-neutral-900 shadow-lg min-h-[500px] min-w-[400px] fixed bottom-0 right-10 rounded-tl-lg rounded-tr-lg border p-5 z-50 flex flex-col'>
+                <div id='messageContainer' className='bg-background dark:bg-neutral-900 shadow-lg min-h-[500px] min-w-[400px] fixed bottom-0 right-10 rounded-tl-lg rounded-tr-lg border p-5 z-50 flex flex-col hidden transition-all transform origin-bottom scale-0 opacity-0'>
                     <div className='flex flex-row gap-3 items-center'>
-                    <Avatar className="h-15 w-15 overflow-hidden rounded-full">
-                        <AvatarImage />
-                        <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                            {getInitials('SitterLy Bot')}
-                        </AvatarFallback>
-                    </Avatar>
-                    <span className='font-bold'>SitterLy Bot</span>
+                        <Avatar className="h-15 w-15 overflow-hidden rounded-full">
+                            <AvatarImage />
+                            <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                                {getInitials('SitterLy Bot')}
+                            </AvatarFallback>
+                        </Avatar>
+                        <span className='font-bold'>SitterLy Bot</span>
                     </div>
                     <div className='flex-1'></div>
                     <div className='flex justify-between space-x-2 mb-1'>
-                        <Input className='' placeholder={'Aa'}/>
+                        <Input className='' placeholder={'Aa'} />
                         <Button variant='outline'><Send /></Button>
                     </div>
                 </div>
