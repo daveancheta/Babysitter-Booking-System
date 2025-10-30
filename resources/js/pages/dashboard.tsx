@@ -322,7 +322,16 @@ export default function Dashboard() {
                                             {u.name}
                                         </th>
                                         <td className="px-6 py-4">
-                                            Active
+                                            {u.isBanned ? 
+                                            <Badge variant='secondary' className='flex flex-row items-center gap-1 border truncate'>
+                                                <div className='min-h-[6px] min-w-[6px] bg-red-600 dark:bg-red-400 rounded-full'></div>
+                                                <span>Banned</span>
+                                            </Badge>
+                                                :
+                                                 <Badge variant='secondary' className='flex flex-row items-center gap-1 border truncate'>
+                                                <div className='min-h-[6px] min-w-[6px] bg-green-600 dark:bg-green-400 rounded-full'></div>
+                                                <span>Active</span>
+                                            </Badge>}
                                         </td>
                                         <td className="px-6 py-4">
                                             ₱{u.formattedBalance}
@@ -482,7 +491,6 @@ export default function Dashboard() {
                                                                     Ban
                                                                     <DropdownMenuShortcut><Ban size={15} /></DropdownMenuShortcut>
                                                                 </button>}
-
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                     <DropdownMenuSeparator />
