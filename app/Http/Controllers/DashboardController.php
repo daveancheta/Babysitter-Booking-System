@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banning;
 use App\Models\Comment;
 use App\Models\Follow;
 use App\Models\Notification;
@@ -134,9 +135,13 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function ban($ip_address)
     {
-        //
+        Banning::create([
+            'ip_address' => $ip_address
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     /**

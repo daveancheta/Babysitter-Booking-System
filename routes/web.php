@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('dashboard/{id}', [DashboardController::class, 'destroy'])->name('delete.user');
     Route::put('dashboard/update/{id}', [DashboardController::class, 'update'])->name('update.user');
     Route::get('users/download', [DashboardController::class, 'downloadUsersTable'])->name('download.users');
-
+    Route::post('users/{ip_address}', [DashboardController::class, 'ban'])->name('ban.user');
 
     // Babysitter/Index.tsx
     Route::get('/babysitter', [BabysitterController::class, 'index'])->name('babysitter.index');

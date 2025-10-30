@@ -3,7 +3,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { Bookmark, CheckCircle2Icon, CircleAlert, Download, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
+import { Ban, Bookmark, CheckCircle2Icon, CircleAlert, Download, EllipsisVertical, Layers2, Minus, Pen, Trash2, TrendingDown, TrendingUp } from 'lucide-react';
 import { PageProps as InertiaPageProps } from '@inertiajs/core'
 import {
     Table,
@@ -108,7 +108,7 @@ export default function Dashboard() {
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
 
     const { delete: destroy, processing: deleteProcessing } = useForm({});
-    const { data, setData, put, get, processing, errors } = useForm({
+    const { data, setData, put, post, processing, errors } = useForm({
         id: 0,
         account_id: '',
         ip_address: '',
@@ -131,9 +131,9 @@ export default function Dashboard() {
         put(route('update.user', { id }));
     }
 
-    const handleDownloadUsers = (e: React.FormEvent) => {
+    const handleBanUSer = (e: React.FormEvent, ip_address: string) => {
         e.preventDefault();
-        window.location.href = route('download.users');
+        post(route('ban.user', { ip_address }));
     }
 
     return (
@@ -465,8 +465,13 @@ export default function Dashboard() {
                                                                 </form>
                                                             </DialogContent>
                                                         </Dialog>
-
-
+                                                        
+                                                         <DropdownMenuItem>
+                                                            <button className='text-yellow-600 dark:text-yellow-400 cursor-pointer w-full text-start flex justify-between' onClick={(e) => handleBanUSer(e, u.ip_address)}>
+                                                            Ban
+                                                             <DropdownMenuShortcut><Ban size={15}/></DropdownMenuShortcut>
+                                                         </button>
+                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
