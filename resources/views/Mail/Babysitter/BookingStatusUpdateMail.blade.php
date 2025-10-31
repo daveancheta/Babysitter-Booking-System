@@ -28,6 +28,10 @@ $parent = DB::table('bookings')
 ->first();
 
 $total = $booking->rate * $duration;
+$vat = $total * 0.14;
+$systemCut = $total * 0.10;
+$vat_cut = $vat + $systemCut;
+$grandTotal = $total - $vat_cut;
 @endphp
 
 <body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, sans-serif; color:#333;">
@@ -129,7 +133,7 @@ $total = $booking->rate * $duration;
                                     <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">Total</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
-                                        ₱{{ number_format($total, 2) }}</td>
+                                        ₱{{ number_format($grandTotal, 2) }}</td>
                                 </tr>
                             </table>
                         </td>
