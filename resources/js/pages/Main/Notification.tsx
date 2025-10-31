@@ -324,6 +324,43 @@ export default function Notification() {
                                                     Cancel
                                                 </Button>
                                             </form>
+                                            <Dialog>
+                                                <form>
+                                                    <DialogTrigger asChild>
+                                                        <Button variant='secondary' className={b.status !== 'done' ? 'hidden' : 'cursor-pointer'} onClick={() => {
+                                                            setData('parent_id', auth?.user.id);
+                                                            setData('babysitter_id', b.babysitter_id);
+                                                            setData('booking_id', b.id);
+                                                        }}
+                                                            disabled={processing || b.ratings > 0}>Rate</Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent className="sm:max-w-[425px]">
+                                                        <form onSubmit={handleSubmitRating}>
+                                                            <DialogHeader>
+                                                                <DialogTitle>Rate</DialogTitle>
+                                                                <DialogDescription>
+                                                                    Give a rating for {b.name}, his/her wonderful work nicely done.
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+                                                            <div className="grid gap-4">
+                                                                <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                </div>
+                                                            </div>
+                                                            <DialogFooter>
+                                                                <DialogClose asChild>
+                                                                    <Button variant="outline" disabled={processing}>Cancel</Button>
+                                                                </DialogClose>
+                                                                <Button type="submit" disabled={processing || b.ratings > 0}>Submit Rating</Button>
+                                                            </DialogFooter>
+                                                        </form>
+                                                    </DialogContent>
+                                                </form>
+                                            </Dialog>
                                         </div>
 
                                     </div>
