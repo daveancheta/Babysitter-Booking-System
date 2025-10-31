@@ -144,21 +144,21 @@ export default function Index() {
         }, 10)
     }
 
-     const handleOnMouseOverProfile2 = (id: number) => {
+    const handleOnMouseOverProfile2 = (id: number) => {
         document.getElementById(`profileContainer${id}`)?.classList.remove("hidden")
         document.getElementById(`profileContainer${id}`)?.classList.remove("scale-0", "opacity-0")
     }
 
     const handleOnMouseOutProfile = (id: number) => {
-         document.getElementById(`profileContainer${id}`)?.classList.add("scale-0", "opacity-0")
-            document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
+        document.getElementById(`profileContainer${id}`)?.classList.add("scale-0", "opacity-0")
+        document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
     }
 
     const closeOnMouseOverProfile = (id: number) => {
         document.getElementById(`profileContainer${id}`)?.classList.add("scale-0", "opacity-0")
-            document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
-         setTimeout(() => {
-        document.getElementById(`profileContainer${id}`)?.classList.add("hidden");
+        document.getElementById(`profileContainer${id}`)?.classList.remove("scale-100", "opacity-100")
+        setTimeout(() => {
+            document.getElementById(`profileContainer${id}`)?.classList.add("hidden");
         }, 300)
     }
 
@@ -384,14 +384,17 @@ export default function Index() {
                                 <ContextMenuContent className={p.user_id === auth.user.id ? 'w-52' : 'hidden'}>
                                     <ContextMenuItem inset>
                                         <button onClick={() => deletePost(p.id)} className='flex flex-row items-center gap-2'>
-                                            <Trash size={15}/>Delete
+                                            <Trash size={15} />Delete
                                         </button>
                                         <ContextMenuShortcut>⌘</ContextMenuShortcut>
                                     </ContextMenuItem>
                                     <Dialog>
                                         <form>
                                             <DialogTrigger asChild>
-                                                <button className="relative items-center flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 hover:bg-neutral-800 w-full gap-2"><Pen size={15}/>Edit</button>
+                                                <button onClick={() => setData('post', p.post)} 
+                                                    className="relative items-center flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 pl-8 hover:bg-neutral-800 w-full gap-2">
+                                                    <Pen size={15} />Edit
+                                                </button>
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[425px]">
                                                 <form onSubmit={() => editPost(p.id)}>
@@ -417,10 +420,10 @@ export default function Index() {
                                             </DialogContent>
                                         </form>
                                     </Dialog>
-                                    <ContextMenuSeparator/>
+                                    <ContextMenuSeparator />
                                     <ContextMenuItem inset>
                                         <div className='flex flex-row gap-2 items-center'>
-                                        <EyeOff size={15}/> Hide post</div>
+                                            <EyeOff size={15} /> Hide post</div>
                                         <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                                     </ContextMenuItem>
                                 </ContextMenuContent>
@@ -430,10 +433,10 @@ export default function Index() {
                     </div>
                     : <div className='mt-5 text-center text-muted-foreground flex flex-col items-center'>
                         <div className='mb-5 animate-bounce'>
-                        <InboxIcon size={80}/>
+                            <InboxIcon size={80} />
                         </div>
                         <span>No babysitter posts available right now — check back later</span>
-                        </div>}
+                    </div>}
             </div>
         </AppLayout >
     );
