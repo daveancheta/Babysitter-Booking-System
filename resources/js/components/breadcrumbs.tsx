@@ -30,6 +30,19 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const [search, setSearch] = useState(String);
     const [savedSearch, setSavedSearch] = useState<String[]>([]);
     const [prevCount, setPrevCount] = useState(Number);
+    const [question, setQuestion] = useState(String);
+
+    const askBot = () => {
+        let userQuestion = question.toLowerCase();
+
+        if (userQuestion.includes('balance') && userQuestion.includes('how')) {
+            console.log('Please send the payment to our GCash number 0998-645-7281 and forward the receipt afterward. Thank you.');
+            setQuestion('');
+        } else {
+            console.log("Sorry, I don't have an answer for that right now. You may try asking something else.")
+            setQuestion('');
+        }
+    }
 
     useEffect(() => {
         const prevCount = { current: 0 };
@@ -329,8 +342,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     <div className='flex-1'></div>
                     <div className='flex justify-between space-x-2 mb-1'>
-                        <Input className='' placeholder={'Aa'} />
-                        <Button variant='outline'><Send /></Button>
+                        <Input className='' placeholder={'Aa'} onChange={(e: any) => setQuestion(e.target.value)} value={question} />
+                        <Button variant='outline' onClick={askBot}><Send /></Button>
                     </div>
                 </div>
                 {isMobile ?
