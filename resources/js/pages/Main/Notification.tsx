@@ -232,7 +232,7 @@ export default function Notification() {
                                                 <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                 <div className={cn('flex flex-row gap-1 item-center', b.status === 'done' ? '' : 'hidden')}>
                                                     <Star className='dark:fill-yellow-500 dark:text-yellow-500 fill-yellow-400 text-yellow-400' />
-                                                    <span>{b.ratings}/5</span>
+                                                    <span>{b.ratings || '0'}/5</span>
                                                 </div>
                                             </div>
                                             <div className=''>
