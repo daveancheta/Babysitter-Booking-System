@@ -269,6 +269,16 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     }
 
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (question.length > 0) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById('sendButton')?.click();
+            }
+        } else {
+        }
+    };
+
     return (
         <>
             {isMobile ?
@@ -350,8 +360,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     <div className='flex-1'></div>
                     <div className='flex justify-between space-x-2 mb-1'>
-                        <Input className='' placeholder={'Aa'} onChange={(e: any) => setQuestion(e.target.value)} value={question} />
-                        <Button variant='outline' onClick={askBot} hidden={question.length === 0}><Send /></Button>
+                        <Input className='' placeholder={'Aa'} onChange={(e: any) => setQuestion(e.target.value)} value={question} onKeyDown={handleKeyPress} />
+                        <Button variant='outline' onClick={askBot} hidden={question.length === 0} id='sendButton'><Send /></Button>
                         <Button variant='outline' onClick={askBot} hidden={question.length !== 0}>😀</Button>
                     </div>
                 </div>
