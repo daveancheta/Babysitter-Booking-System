@@ -343,7 +343,8 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     <div className='flex-1'></div>
                     <div className='flex justify-between space-x-2 mb-1'>
                         <Input className='' placeholder={'Aa'} onChange={(e: any) => setQuestion(e.target.value)} value={question} />
-                        <Button variant='outline' onClick={askBot}><Send /></Button>
+                        <Button variant='outline' onClick={askBot} hidden={question.length === 0}><Send /></Button>
+                        <Button variant='outline' onClick={askBot} hidden={question.length !== 0}>😀</Button>
                     </div>
                 </div>
                 {isMobile ?
