@@ -576,12 +576,7 @@ export default function Notification() {
                                                 </div>
                                                 <div className='m-6 flex flex-row gap-2'>
                                                     <form onSubmit={handleCancelStatus}>
-                                                        <Button type='submit' onClick={() => {
-                                                            setData('status', 'cancelled');
-                                                            setData('booking_id', b.id)
-                                                            setData('babysitter_id', b.babysitter_id)
-                                                        }
-                                                        } className="mt-auto w-20 bg-gray-600 hover:bg-gray-700 text-white dark:bg-gray-700 dark:hover:bg-gray-800 cursor-pointer" disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
+                                                        <Button variant='secondary' disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
                                                             Cancel
                                                         </Button>
                                                     </form>
