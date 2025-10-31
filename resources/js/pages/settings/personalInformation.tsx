@@ -77,37 +77,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         <div className='flex flex-col items-center gap-2'>
                             <div className='relative'>
                                 <UserProfileDisplay />
-                                <form onSubmit={statusSubmit}>
-                                    <div className='absolute -bottom-0 left-1 rounded-full cursor-pointer bg-white dark:bg-black p-1 border border-2 border-gray-900 dark:border-white'>
-                                        <Dialog>
-
-                                            <DialogTrigger asChild>
-                                                {auth.user.status === 'Idle' ? <Moon className='w-5 h-5 fill-yellow-600 text-yellow-600' /> : (auth.user.status === 'Do Not Disturb' ? <CircleMinus className='w-5 h-5 text-red-600' /> : <Circle className='w-5 h-5 text-grey-600' />)}
-                                            </DialogTrigger>
-                                            <DialogContent className="sm:max-w-[425px]">
-                                                <DialogHeader>
-                                                    <DialogTitle>Set Status</DialogTitle>
-
-                                                </DialogHeader>
-                                                <form onSubmit={statusSubmit}>
-                                                    <div className="grid gap-4">
-                                                        <div className="grid gap-3">
-                                                            <button className='hover:bg-muted p-2 cursor-pointer transition duration-100 text-start rounded-sm flex flex-row gap-2 items-center text-md' type='submit' onClick={() => {setData('status', 'Idle')}}><Moon className='w-5 h-5 text-yellow-500 fill-yellow-500' />Idle</button>
-                                                        </div>
-                                                        <div className="grid gap-3">
-                                                            <button className='hover:bg-muted p-2 cursor-pointer transition duration-100 text-start rounded-sm flex flex-row gap-2 items-center text-md' type='submit' onClick={() => setData('status', 'Do Not Disturb')}><CircleMinus className='w-5 h-5 text-red-500 ' />Do Not Disturb</button>                                                        </div>
-                                                        <div className="grid gap-3">
-                                                            <button className='hover:bg-muted p-2 cursor-pointer transition duration-100 text-start rounded-sm flex flex-row gap-2 items-center text-md' type='submit' onClick={() => setData('status', 'Invisible')}><Circle className='w-5 h-5 text-gray-500' />Invisible</button>                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </DialogContent>
-
-                                        </Dialog>
-
-                                    </div>
-
-
-                                </form>
                             </div>
                             <Dialog>
                                 <DialogTrigger asChild>
