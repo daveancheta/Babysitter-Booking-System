@@ -35,8 +35,16 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const askBot = () => {
         let userQuestion = question.toLowerCase();
 
-        if (userQuestion.includes('balance') && userQuestion.includes('how')) {
+        if (userQuestion.includes('balance')
+            && userQuestion.includes('how')) {
             console.log('Please send the payment to our GCash number 0998-645-7281 and forward the receipt afterward. Thank you.');
+            setQuestion('');
+        } else if (userQuestion.includes('hi')
+            || userQuestion.includes('hello')
+            || userQuestion.includes('good morning')
+            || userQuestion.includes('good evening')
+            || userQuestion.includes('good afternoon')) {
+            console.log(`Hello ${auth?.user.name.split(" ")[0]}, how can i assist you?`);
             setQuestion('');
         } else {
             console.log("Sorry, I don't have an answer for that right now. You may try asking something else.")
