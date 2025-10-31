@@ -58,13 +58,19 @@ $grandTotal = $total - $vat_cut;
                             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
 
                                 <tr>
+                                    <td style="padding:8px; font-weight:bold;">Parent Name:</td>
+                                    <td style="padding:8px; text-align:right;">{{ $username }}</td>
+                                </tr>
+
+                                <tr>
                                     <td style="padding:8px; font-weight:bold;">Book Date:</td>
                                     <td style="padding:8px; text-align:right;">{{ $bookings->created_at->format('F d,
                                         Y') }}</td>
                                 </tr>
-                                  <tr>
+                                <tr>
                                     <td style="padding:8px; font-weight:bold;">Status:</td>
-                                    <td style="padding:8px; text-align:right; color: #ff0000; font-weight: bold;">Cancelled</td>
+                                    <td style="padding:8px; text-align:right; color: #ff0000; font-weight: bold;">
+                                        Cancelled</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:8px; font-weight:bold;">Booking Period:</td>
@@ -91,24 +97,38 @@ $grandTotal = $total - $vat_cut;
                         </td>
                     </tr>
 
-                    <!-- Items / Charges -->
-                    <tr>
+                   <tr>
                         <td style="padding:0 20px 20px;">
                             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
                                 <tr style="background-color:#f9f9f9;">
-                                    <th style="padding:10px; text-align:left; border-bottom:1px solid #ddd;">Parent
-                                        Name
+                                    <th style="padding:10px; text-align:left; border-bottom:1px solid #ddd;">Description
                                     </th>
-                                    <th style="padding:10px; text-align:right; border-bottom:1px solid #ddd;">Salary Amount
+                                    <th style="padding:10px; text-align:right; border-bottom:1px solid #ddd;">Amount
                                     </th>
                                 </tr>
 
                                 <tr>
-                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">{{
-                                        $parentName }}</td>
+                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">Babysitter
+                                        Fee (₱{{ number_format($booking->rate) }} x {{ $duration}})</td>
                                     <td
                                         style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
-                                        ₱{{ number_format($booking->rate, 2) }} per day</td>
+                                        ₱{{ number_format($booking->rate * $duration, 2) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">VAT (14%)
+                                    </td>
+                                    <td
+                                        style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
+                                        ₱{{ number_format($vat, 2) }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:10px; font-weight:bold; border-top:1px solid #ddd;">System Cut
+                                        (10%)</td>
+                                    <td
+                                        style="padding:10px; text-align:right; font-weight:bold; border-top:1px solid #ddd;">
+                                        ₱{{ number_format($systemCut, 2) }}</td>
                                 </tr>
 
                                 <tr>
