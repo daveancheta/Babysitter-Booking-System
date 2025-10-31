@@ -159,7 +159,7 @@ export default function Index() {
                                     <div className='flex justify-between'>
                                         <div>
                                             <h1 className='font-bold'>Name: <span className='font-normal'>{u.name}</span></h1>
-                                            <span className='font-bold'>Hourly Rate:</span>
+                                            <span className='font-bold'>Daily Rate:</span>
                                             <span className='text-green-700 font-bold dark:text-green-500'> ₱{u.rate}</span>
                                         </div>
                                         <div>

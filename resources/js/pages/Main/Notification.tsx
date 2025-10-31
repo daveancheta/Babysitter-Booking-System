@@ -236,7 +236,7 @@ export default function Notification() {
                                                 </div>
                                             </div>
                                             <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
+                                                <span className='font-bold'>Daily Rate:</span>
                                                 <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                             </div>
                                             <div>
@@ -303,7 +303,7 @@ export default function Notification() {
                                                 </div>
                                             </div>
                                             <div className=''>
-                                                <span className='font-bold'>Hourly Rate:</span>
+                                                <span className='font-bold'>Daily Rate:</span>
                                                 <span className='text-green-700 font-bold dark:text-green-500'> ₱{b.rate}</span>
                                             </div>
                                             <div>
@@ -401,7 +401,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -451,7 +451,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -509,7 +509,7 @@ export default function Notification() {
                                                         </div>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -564,7 +564,7 @@ export default function Notification() {
                                                         </div>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
                                                     </div>
                                                     <div>
@@ -661,7 +661,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -712,7 +712,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
                                                     </div>
                                                     <div>
@@ -776,7 +776,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -845,7 +845,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
                                                     </div>
                                                     <div>
@@ -910,7 +910,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Parent Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${auth.user.rate}</span>
                                                     </div>
                                                     <div>
@@ -967,7 +967,7 @@ export default function Notification() {
                                                         <h1 className='font-bold'>Babysitter Name: <span className='font-normal'>{b.name}</span></h1>
                                                     </div>
                                                     <div className=''>
-                                                        <span className='font-bold'>Hourly Rate:</span>
+                                                        <span className='font-bold'>Daily Rate:</span>
                                                         <span className='text-green-700 font-bold dark:text-green-500'> ${b.rate}</span>
                                                     </div>
                                                     <div>
