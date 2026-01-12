@@ -33,15 +33,14 @@ class RegisteredUserController extends Controller
         $request->validate([
             'is_babysitter' => 'required|max:255',
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
         $isBabysitter = $request->input('is_babysitter');
-        
-        if($isBabysitter) 
-        {
-            if($isBabysitter === 'babysitter') {
+
+        if ($isBabysitter) {
+            if ($isBabysitter === 'babysitter') {
                 $babysitter = 1;
             } else {
                 $babysitter = 0;
@@ -50,6 +49,7 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'account_id' => fake()->regexify('[A-Za-z0-9]{10}'),
             'is_babysitter' => $babysitter,
+            'rate' =>   $babysitter === 1 ? 100.00 : 0.00,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

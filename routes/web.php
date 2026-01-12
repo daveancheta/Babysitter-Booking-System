@@ -13,6 +13,7 @@ use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -82,7 +83,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/countJson', [NotificationController::class, 'notificationCount'])->name('notification.count');
     Route::get('/notificationJson', [NotificationController::class, 'notification'])->name('notification');
     Route::post('/emptyCount', [NotificationController::class, 'update'])->name('notification.emptyCount');
+
+    Route::get('/paymongo-test', function () {
+
+        $response = Http::withBasicAuth(
+            config('services.paymongo.secret'),
+            ''
+        )->post('https://api.paymongo.com/v1/links', [
+            'data' => [
+                'attributes' => [
+                    'amount' => 20000,
+                    'description' => 'PayMongo Test Payment',
+                    'remarks' => 'TEST ONLY'
+                ]
+            ]
+        ]);
+
+        return redirect(
+            $response['data']['attributes']['checkout_url']
+        );
+    });
 });
+
 
 Route::get('/ban', BanningController::class)->name('ban.index');
 require __DIR__ . '/settings.php';
