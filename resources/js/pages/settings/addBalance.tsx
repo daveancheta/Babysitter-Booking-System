@@ -33,14 +33,14 @@ export default function Profile() {
                         <Input
                             type="number"
                             step="0.01"
-                            placeholder="100.00"
+                            placeholder="Enter Amount (min: ₱100 max: ₱20,000)"
                             onChange={(e) => setBalance(Number(e.target.value))}
                         />
 
                     </div>
 
-                    <Button asChild>
-                        <a href={`/paymongo-test/${balance}`} target='_blank'>
+                    <Button disabled={!balance}>
+                        <a href={`/paymongo-test/${balance}`} target='_blank' className='flex items-center gap-2'>
                             <Wallet />Cash In
                         </a>
                     </Button>
