@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
+use App\Http\Controllers\PayMongoController;
 use App\Http\Controllers\RatingsController;
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\SearchController;
@@ -84,25 +85,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notificationJson', [NotificationController::class, 'notification'])->name('notification');
     Route::post('/emptyCount', [NotificationController::class, 'update'])->name('notification.emptyCount');
 
-    Route::get('/paymongo-test', function () {
-
-        $response = Http::withBasicAuth(
-            config('services.paymongo.secret'),
-            ''
-        )->post('https://api.paymongo.com/v1/links', [
-            'data' => [
-                'attributes' => [
-                    'amount' => 20000,
-                    'description' => 'PayMongo Test Payment',
-                    'remarks' => 'TEST ONLY'
-                ]
-            ]
-        ]);
-
-        return redirect(
-            $response['data']['attributes']['checkout_url']
-        );
-    });
+    Route::get('/paymongo-test/{payment}', [PayMongoController::class, 'PayMongoPayment'])->name("payment");
+    Route::get('/paymongo/callback', [PayMongoController::class, 'callback'])->name('paymongo.callback');
 });
 
 

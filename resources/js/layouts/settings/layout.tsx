@@ -39,12 +39,13 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             href: '/settings/appearance',
             icon: null,
         },
-        ...(auth?.user.is_admin ? [{
-            title: 'Add Balance',
-            href: '/addBalance',
-            icon: null,
-        },
-        ] : []),
+        ...(!auth?.user.is_admin || !auth?.user.is_babysitter ? [
+            {
+                title: 'Add Balance',
+                href: '/addBalance',
+                icon: null,
+            },
+        ] : [])
     ];
 
     return (
