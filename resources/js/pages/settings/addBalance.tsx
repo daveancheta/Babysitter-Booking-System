@@ -29,9 +29,8 @@ interface PageProps extends InertiaPageProps {
         message?: string;
     }
 }
-export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+export default function Profile() {
     const { flash } = usePage<PageProps>().props;
-    const { auth } = usePage<SharedData>().props;
 
     const { data, setData, post, processing, errors } = useForm({
         account_id: '',

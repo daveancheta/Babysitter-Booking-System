@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select"
 
 export default function Register() {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, errors } = useForm({
         name: "",
         email: "",
         password: "",

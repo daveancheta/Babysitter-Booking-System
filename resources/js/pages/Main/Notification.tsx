@@ -92,7 +92,7 @@ export default function Notification() {
     const { auth } = usePage<SharedData>().props;
     const [category, setCategory] = useState(String);
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { setData, post, processing } = useForm({
         booking_id: 0,
         action: '',
         user_id: 0,
@@ -250,22 +250,22 @@ export default function Notification() {
                                             <form onSubmit={handleStatusUpdate}>
                                                 <Button disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing} variant='secondary' onClick={() => {
                                                     setData('status', 'approved');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
+                                                    setData('booking_id', b.id);
+                                                    setData('babysitter_id', b.babysitter_id);
                                                 }}>Approve</Button>
                                             </form>
                                             <form onSubmit={handleStatusUpdate}>
                                                 <Button variant='secondary' onClick={() => {
                                                     setData('status', 'declined');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
+                                                    setData('booking_id', b.id);
+                                                    setData('babysitter_id', b.babysitter_id);
                                                 }} disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Decline</Button>
                                             </form>
                                             <form onSubmit={handleStatusUpdate}>
                                                 <Button variant='secondary' onClick={() => {
                                                     setData('status', 'done');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
+                                                    setData('booking_id', b.id);
+                                                    setData('babysitter_id', b.babysitter_id);
                                                 }} disabled={b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Done</Button>
                                             </form>
                                         </div>
@@ -317,8 +317,8 @@ export default function Notification() {
                                             <form onSubmit={handleCancelStatus}>
                                                 <Button type='submit' onClick={() => {
                                                     setData('status', 'cancelled');
-                                                    setData('booking_id', b.id)
-                                                    setData('babysitter_id', b.babysitter_id)
+                                                    setData('booking_id', b.id);
+                                                    setData('babysitter_id', b.babysitter_id);
                                                 }
                                                 } variant='secondary' disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>
                                                     Cancel
@@ -344,11 +344,11 @@ export default function Notification() {
                                                             </DialogHeader>
                                                             <div className="grid gap-4">
                                                                 <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
-                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(); setData('ratings', 1); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(); setData('ratings', 2); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(); setData('ratings', 3); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(); setData('ratings', 4); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                    <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(); setData('ratings', 5); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
                                                                 </div>
                                                             </div>
                                                             <DialogFooter>
@@ -477,7 +477,7 @@ export default function Notification() {
                                             </div>
                                         </div>
                                     </div>
-                                );
+                                )
                             })()
                         )}
                     </div>
@@ -600,11 +600,11 @@ export default function Notification() {
                                                                     </DialogHeader>
                                                                     <div className="grid gap-4">
                                                                         <div className="flex flex-row justify-center gap-2 mb-4 mt-4">
-                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(), setData('ratings', 1) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
-                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(), setData('ratings', 2) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
-                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(), setData('ratings', 3) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
-                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(), setData('ratings', 4) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
-                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(), setData('ratings', 5) }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starOne(); setData('ratings', 1); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-one' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starTwo(); setData('ratings', 2); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-two' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starThree(); setData('ratings', 3); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-three' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFour(); setData('ratings', 4); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-four' /></button>
+                                                                            <button disabled={processing || b.ratings > 0} type='button' onClick={() => { starFive(); setData('ratings', 5); }} className='cursor-pointer'><Star className='h-8 w-8 fill-gray-600 text-gray-600' id='star-five' /></button>
                                                                         </div>
                                                                     </div>
                                                                     <DialogFooter>
@@ -790,22 +790,22 @@ export default function Notification() {
                                                     <form onSubmit={handleStatusUpdate}>
                                                         <Button disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing} variant='secondary' onClick={() => {
                                                             setData('status', 'approved');
-                                                            setData('booking_id', b.id)
-                                                            setData('babysitter_id', b.babysitter_id)
+                                                            setData('booking_id', b.id);
+                                                            setData('babysitter_id', b.babysitter_id);
                                                         }}>Approve</Button>
                                                     </form>
                                                     <form onSubmit={handleStatusUpdate}>
                                                         <Button variant='secondary' onClick={() => {
                                                             setData('status', 'declined');
-                                                            setData('booking_id', b.id)
-                                                            setData('babysitter_id', b.babysitter_id)
+                                                            setData('booking_id', b.id);
+                                                            setData('babysitter_id', b.babysitter_id);
                                                         }} disabled={b.status === 'approved' || b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Decline</Button>
                                                     </form>
                                                     <form onSubmit={handleStatusUpdate}>
                                                         <Button variant='secondary' onClick={() => {
                                                             setData('status', 'done');
-                                                            setData('booking_id', b.id)
-                                                            setData('babysitter_id', b.babysitter_id)
+                                                            setData('booking_id', b.id);
+                                                            setData('babysitter_id', b.babysitter_id);
                                                         }} disabled={b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Done</Button>
                                                     </form>
                                                 </div>
@@ -926,8 +926,8 @@ export default function Notification() {
                                                     <form onSubmit={handleStatusUpdate}>
                                                         <Button variant='secondary' onClick={() => {
                                                             setData('status', 'done');
-                                                            setData('booking_id', b.id)
-                                                            setData('babysitter_id', b.babysitter_id)
+                                                            setData('booking_id', b.id);
+                                                            setData('babysitter_id', b.babysitter_id);
                                                         }} disabled={b.status === 'declined' || b.status === 'cancelled' || b.status === "done" || processing}>Done</Button>
                                                     </form>
                                                 </div>

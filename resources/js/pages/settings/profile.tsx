@@ -71,7 +71,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
     const { delete: destroy, processing: processingDelete } = useForm({});
 
-    const { data, setData, post, processing, errors } = useForm({
+    const { setData, post, processing } = useForm({
         following_user_id: 0,
         follower_user_id: 0,
     });

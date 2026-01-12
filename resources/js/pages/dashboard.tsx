@@ -108,8 +108,8 @@ export default function Dashboard() {
         newParents, parentPercentage, previousParents, babysitterPercentage,
         newBabysitters, previousBabysitters } = usePage<PageProps>().props;
 
-    const { delete: destroy, processing: deleteProcessing } = useForm({});
-    const { data, setData, put, post, processing, errors } = useForm({
+    const { delete: destroy } = useForm({});
+    const { data, setData, put, post, errors } = useForm({
         id: 0,
         account_id: '',
         ip_address: '',
@@ -403,7 +403,7 @@ export default function Dashboard() {
                                                                     </div>
                                                                     <div>
                                                                         <div className='flex justify-between space-x-2'>
-                                                                            <Input className='hidden' id='id' onChange={(e) => setData('id', u.id)} />
+                                                                            <Input className='hidden' id='id' onChange={() => setData('id', u.id)} />
                                                                             <div className='grid gap-3'>
                                                                                 <Label htmlFor='account_id'>Account Id</Label>
                                                                                 <Input id='account_id' onChange={(e) => setData('account_id', e.target.value)} value={data.account_id} placeholder={u.account_id} />

@@ -50,19 +50,9 @@ interface PageProps extends InertiaPageProps {
     }
 }
 
-export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+export default function Profile() {
     const { flash } = usePage<PageProps>().props;
     const { auth } = usePage<SharedData>().props;
-
-    const { data, setData, post, processing, errors } = useForm({
-        id: auth.user.id,
-        status: '',
-    })
-
-    const statusSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        post(route('status.update'));
-    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -90,7 +80,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                             preserveScroll: true,
                                         }}
                                         className="space-y-6" encType='multipart/form-data'>
-                                        {({ processing, recentlySuccessful, errors }) => (
+                                        {({ errors }) => (
                                             <>
                                                 <DialogHeader>
                                                     <DialogTitle>Edit Profile Picture</DialogTitle>

@@ -3,7 +3,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { SharedData, type User } from '@/types';
 import { usePage } from '@inertiajs/react';
 
-export function UserProfileInfo({ user, showEmail = false }: { user: User; showEmail?: boolean }) {
+export function UserProfileInfo({ user }: { user: User; showEmail?: boolean }) {
     const { auth } = usePage<SharedData>().props;
     const getInitials = useInitials();
 

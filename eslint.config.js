@@ -40,5 +40,17 @@ export default [
     {
         ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'tailwind.config.js'],
     },
+    {
+        files: ['**/tailwind.config.js'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+        rules: {
+            '@typescript-eslint/no-require-imports': 'off',
+            'no-undef': 'off',
+        },
+    },
     prettier, // Turn off all rules that might conflict with Prettier
 ];

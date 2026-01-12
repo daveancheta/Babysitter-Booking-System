@@ -28,12 +28,12 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     const getInitials = useInitials();
     const systemName = 'SitterLy';
     const [search, setSearch] = useState(String);
-    const [savedSearch, setSavedSearch] = useState<String[]>([]);
-    const [prevCount, setPrevCount] = useState(Number);
+    const [savedSearch, setSavedSearch] = useState<string[]>([]);
+    const [, setPrevCount] = useState(Number);
     const [question, setQuestion] = useState(String);
 
     const askBot = () => {
-        let userQuestion = question.toLowerCase();
+        const userQuestion = question.toLowerCase();
 
         if (userQuestion.includes('balance')
             && userQuestion.includes('how')) {
@@ -81,7 +81,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     useEffect(() => {
         const fetchNotificationData = () => {
             axios.get(route('notification'), {})
-                .then((response: any) => {
+                .then((response: { data: Notification[] }) => {
                     setNotification(response.data);
                 })
         }
@@ -108,7 +108,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleSearchInput = () => {
-        let displayContainer = document.getElementById("displaySavedSearch");
+        const displayContainer = document.getElementById("displaySavedSearch");
         displayContainer?.classList.add("opacity-0", "scale-0")
         displayContainer?.classList.remove("opacity-100", "scale-100")
 
@@ -127,7 +127,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
 
     }
 
-    const { data, setData, get, processing, errors } = useForm({
+    const { data, setData, get } = useForm({
         search: '',
     })
 
@@ -135,7 +135,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
         e.preventDefault();
         get(route('result.search'));
 
-        let savedSearch = JSON.parse(localStorage.getItem("search") || "[]");
+        const savedSearch = JSON.parse(localStorage.getItem("search") || "[]");
 
         savedSearch.push(search);
 
@@ -143,11 +143,11 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleShowNotification = () => {
-        let notificationContainer = document.getElementById('notificationContainer');
+        const notificationContainer = document.getElementById('notificationContainer');
         document.getElementById('notificationCount')?.classList.add('hidden')
-        let skeleton = document.getElementById("skeletonNotification")
-        let notification = document.getElementById("notification");
-        let emptyStateNotification = document.getElementById("emptyStateNotification");
+        const skeleton = document.getElementById("skeletonNotification")
+        const notification = document.getElementById("notification");
+        const emptyStateNotification = document.getElementById("emptyStateNotification");
         skeleton?.classList.remove("hidden");
         emptyStateNotification?.classList.add("hidden")
         notification?.classList.add("hidden")
@@ -188,17 +188,17 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     useEffect(() => {
-        let stored = localStorage.getItem("search");
-        let displaySavedSearch: string[] = stored ? JSON.parse(stored) : [];
+        const stored = localStorage.getItem("search");
+        const displaySavedSearch: string[] = stored ? JSON.parse(stored) : [];
 
         setSavedSearch(displaySavedSearch);
 
     }, [])
 
     const handledDeleteSearch = (deleteSearch: string) => {
-        let savedSearch = JSON.parse(localStorage.getItem("search") || "[]");
+        const savedSearch = JSON.parse(localStorage.getItem("search") || "[]");
 
-        let updatedSearch = savedSearch.filter((item: string) => item !== deleteSearch);
+        const updatedSearch = savedSearch.filter((item: string) => item !== deleteSearch);
 
         localStorage.setItem("search", JSON.stringify(updatedSearch));
 
@@ -211,7 +211,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleOpenSearchContainer = () => {
-        let displayContainer = document.getElementById("displaySavedSearch");
+        const displayContainer = document.getElementById("displaySavedSearch");
 
 
         if (savedSearch.length === 0) {
@@ -233,13 +233,13 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleOpenSearchContainer2 = () => {
-        let displayContainer = document.getElementById("displaySavedSearch");
+        const displayContainer = document.getElementById("displaySavedSearch");
         displayContainer?.classList.remove("hidden");
         displayContainer?.classList.remove("opacity-0", "scale-0")
     }
 
     const handleCloseSearchContainer = () => {
-        let displayContainer = document.getElementById("displaySavedSearch");
+        const displayContainer = document.getElementById("displaySavedSearch");
         displayContainer?.classList.add("opacity-0", "scale-0")
         displayContainer?.classList.remove("opacity-100", "scale-100")
 
@@ -249,7 +249,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
     }
 
     const handleMessageBot = () => {
-        let messageContainer = document.getElementById("messageContainer");
+        const messageContainer = document.getElementById("messageContainer");
 
         if (messageContainer?.classList.contains('hidden')) {
             messageContainer?.classList.remove('hidden');
@@ -275,7 +275,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                 event.preventDefault();
                 document.getElementById('sendButton')?.click();
             }
-        } else {
         }
     };
 
@@ -360,7 +359,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     <div className='flex-1'></div>
                     <div className='flex justify-between space-x-2 mb-1'>
-                        <Input className='' placeholder={'Aa'} onChange={(e: any) => setQuestion(e.target.value)} value={question} onKeyDown={handleKeyPress} />
+                        <Input className='' placeholder={'Aa'} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuestion(e.target.value)} value={question} onKeyDown={handleKeyPress} />
                         <Button variant='outline' onClick={askBot} hidden={question.length === 0} id='sendButton'><Send /></Button>
                         <Button variant='outline' onClick={askBot} hidden={question.length !== 0}>😀</Button>
                     </div>
@@ -481,7 +480,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                                         </div>
                                         <hr />
                                         <div className='flex flex-wrap gap-2' id='searchItems'>
-                                            {savedSearch.map((item: any, index) => (
+                                            {savedSearch.map((item: string, index) => (
                                                 <span key={index} className='dark:bg-neutral-800 bg-neutral-200 px-3 py-1 text-sm rounded-md text-sm relative' id={`search${item}`}>
                                                     <div className='text-black dark:text-white'>{item}</div>
                                                     <button type='button' className='absolute -top-2 -right-2 bg-neutral-500 rounded-full cursor-pointer p-1' onClick={() => { handledDeleteSearch(item); }}>

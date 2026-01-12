@@ -8,8 +8,6 @@ import { usePage } from '@inertiajs/react';
 
 export function UserDisplay() {
     const { auth } = usePage<SharedData>().props;
-    const { state } = useSidebar();
-    const isMobile = useIsMobile();
 
     return (
 

@@ -123,13 +123,13 @@ export default function Index() {
     const getInitials = useInitials();
 
     useEffect(() => {
-        let postInput = document.getElementById('postInput') as HTMLInputElement;
+        const postInput = document.getElementById('postInput') as HTMLInputElement;
 
         if (postInput) {
             postInput.addEventListener('input', () => {
-                let lengthContainer = document.getElementById("lengthContainer") as HTMLDivElement;
-                let postValue = postInput.value;
-                let postLength = postValue.length;
+                const lengthContainer = document.getElementById("lengthContainer") as HTMLDivElement;
+                const postValue = postInput.value;
+                const postLength = postValue.length;
                 lengthContainer.textContent = `${postLength}`;
             });
         }

@@ -8,8 +8,6 @@ import { UserProfileInfo } from './user-profile-info';
 
 export function UserProfileDisplay() {
     const { auth } = usePage<SharedData>().props;
-    const { state } = useSidebar();
-    const isMobile = useIsMobile();
 
     return (
 
