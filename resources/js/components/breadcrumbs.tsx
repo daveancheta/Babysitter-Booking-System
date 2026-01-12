@@ -415,12 +415,16 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                             <div id='notificationContainer' className='hidden absolute z-50 -right-0 top-10 rounded-md border bg-background shadow-lg dark:bg-neutral-900 min-w-[400px] max-h-[500px] p-5 overflow-y-auto scrollbar-hide transition-all duration-300 origin-top-right ease-in-out transform scale-0 opacity-0'>
                                 <span className='text-lg font-medium'>Notification</span>
                                 <hr className='mt-4 mb-4' />
-                                <div className="flex items-center space-x-4" id='skeletonNotification'>
-                                    <Skeleton className="h-15 w-15 rounded-full" />
-                                    <div className="space-y-2">
-                                        <Skeleton className="h-4 w-[240px]" />
-                                        <Skeleton className="h-4 w-[80px]" />
-                                    </div>
+                                <div className='space-y-2' id='skeletonNotification'>
+                                    {Array.from({ length: 5 }).map((__, index) => (
+                                        <div className="flex items-center space-x-4" key={index}>
+                                            <Skeleton className="h-15 w-15 rounded-full" />
+                                            <div className="space-y-2">
+                                                <Skeleton className="h-4 w-[240px]" />
+                                                <Skeleton className="h-4 w-[80px]" />
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                                 {notification.length > 0 ?
                                     <div className='hidden' id='notification'>
@@ -494,7 +498,7 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
                     </div>
                     <button onClick={handleSearchInput} className='cursor-pointer'><X size={18} className='cursor-pointer' /></button>
                 </div>
-            </div>
+            </div >
         </>
     );
 }
