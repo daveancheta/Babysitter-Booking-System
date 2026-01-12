@@ -1,18 +1,5 @@
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
-import { Form, Head, Link } from '@inertiajs/react';
-import { Expand, LoaderCircle, Lock, Minimize } from 'lucide-react';
-import Stepper, { Step } from '@/components/Stepper';
-
-interface LoginProps {
-    status?: string;
-    canResetPassword: boolean;
-}
+import { Head, Link } from '@inertiajs/react';
 
 export default function Welcome() {
     return (
