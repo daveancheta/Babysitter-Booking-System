@@ -48,7 +48,7 @@ class ProfileController extends Controller
                 'users.id as users_id'
             )
             ->selectRaw(
-                '(SELECT COUNT(*) FROM follows WHERE follows.following_user_id = users_id AND follows.follower_user_id = ?) as ifFollows',
+                '(SELECT COUNT(*) FROM follows AS f WHERE f.following_user_id = users.id AND f.follower_user_id = ?) as ifFollows',
                 [$userId]
             )
             ->orderBy('created_at', 'desc')
